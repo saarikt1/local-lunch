@@ -1,0 +1,6 @@
+{
+  "name": "local-lunch",
+  "devDependencies": {
+    "webpack": "^3.8.1"
+  }
+}
