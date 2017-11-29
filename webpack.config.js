@@ -16,11 +16,27 @@ module.exports = {
   entry: path.join(paths.JS, 'app.js'),
   output: {
     path: paths.DIST,
-    filename: 'app.bundle.js'
+    filename: 'app.bundle.js',
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.join(paths.SRC, 'index.html')
-    })
-  ]
+      template: path.join(paths.SRC, 'index.html'),
+    }),
+  ],
+
+  module: {
+    rules: [
+      {
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: [
+          'babel-loader',
+        ],
+      },
+    ],
+  },
+
+  resolve: {
+    extensions: ['.js', '.jsx'],
+  },
 };
