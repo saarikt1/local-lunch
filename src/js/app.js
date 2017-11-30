@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
+import RestaurantDetail from './components/restaurant_detail'
 
 import '../css/style.css'
-import keenImage from '../assets/keen.png'
 
 export default class Hello extends Component {
   render() {
     return (
       <div>
-        Hello from react
-
-        <img src={ keenImage } alt='Commander Keen' />
+        <RestaurantDetail />
       </div>
     );
   }

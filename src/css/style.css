@@ -5,3 +5,7 @@ body {
   margin: 0;
   padding: 30px;
 }
+
+.details-form h1 {
+  font-size: 36px;
+}
