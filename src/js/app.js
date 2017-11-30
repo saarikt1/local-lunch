@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import RestaurantDetail from './components/restaurant_detail'
+import Purecss from 'purecss'
 
 import '../css/style.css'
 

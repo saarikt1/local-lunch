@@ -15,7 +15,7 @@ class RestaurantDetail extends Component {
     return (
       <div className="details-form">
         <h1>{this.state.name}</h1>
-        
+      <form className="pure-form pure-form-stacked">
         <label>
           Name:
           <input
@@ -39,6 +39,7 @@ class RestaurantDetail extends Component {
             value={this.state.address}
             onChange={event => this.setState({address: event.target.value})} />
         </label>
+        </form>
       </div>
     )
   }
