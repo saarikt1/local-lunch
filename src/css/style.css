@@ -9,3 +9,7 @@ body {
 .details-form h1 {
   font-size: 36px;
 }
+
+input, textarea {
+  width: 200px;
+}
