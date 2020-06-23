@@ -2,15 +2,16 @@
   "name": "local-lunch-server",
   "version": "1.0.0",
   "description": "A web app to give recommendations on lunch places",
-  "type": "commonjs",
+  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/saarikt1/local-lunch"
   },
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "dev": "nodemon src/app.js"
   },
   "author": "Tommi Saarikangas",
   "license": "ISC",
