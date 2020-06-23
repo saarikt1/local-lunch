@@ -1,5 +1,5 @@
 import express from "express";
-import restaurantService from "../services/restaurantService.js";
+import restaurantService from "../controllers/restaurantController.js";
 
 const router = express.Router();
 
@@ -8,5 +8,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/restaurants", restaurantService.getRestaurants);
+
+router.get("/restaurants/:id", restaurantService.findRestaurantById);
 
 export default router;
