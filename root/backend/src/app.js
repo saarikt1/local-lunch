@@ -6,7 +6,6 @@ import router from "./routes/routes.js";
 dotenv.config();
 
 const app = express();
-
 const { PORT } = process.env;
 
 app.use(cors());
