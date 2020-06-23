@@ -1,26 +1,18 @@
 import db from "../db/index.js";
 
-const getRestaurants = (req, res) => {
+const getRestaurants = async (req, res) => {
   const query = "SELECT * FROM restaurants ORDER BY id";
+  const { rows } = await db.query(query, null);
 
-  db.query(query, null, (err, results) => {
-    if (err) {
-      throw err;
-    }
-    res.status(200).json(results.rows);
-  });
+  res.status(200).json(rows);
 };
 
-const findRestaurantById = (req, res) => {
+const findRestaurantById = async (req, res) => {
   const query = "SELECT * FROM restaurants WHERE id = $1";
   const parameters = [req.params.id];
+  const { rows } = await db.query(query, parameters);
 
-  db.query(query, parameters, (err, results) => {
-    if (err) {
-      throw err;
-    }
-    res.status(200).json(results.rows);
-  });
+  res.status(200).json(rows);
 };
 
 export default { getRestaurants, findRestaurantById };

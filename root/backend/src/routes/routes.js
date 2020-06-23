@@ -1,14 +1,13 @@
-import express from "express";
+import Router from "express-promise-router";
 import restaurantService from "../controllers/restaurantController.js";
 
-const router = express.Router();
+const router = new Router();
 
 router.get("/", (req, res) => {
   res.send("Welcome to Local Lunch!");
 });
 
 router.get("/restaurants", restaurantService.getRestaurants);
-
 router.get("/restaurants/:id", restaurantService.findRestaurantById);
 
 export default router;
