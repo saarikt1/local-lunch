@@ -13,6 +13,28 @@ const App = () => {
     setRestaurants(response.data);
   };
 
+  function geoFindMe() {
+    const status = document.querySelector("#status");
+
+    function success(position) {
+      const lat = position.coords.latitude;
+      const long = position.coords.longitude;
+
+      status.textContent = `Your position: ${lat}, ${long}`;
+    }
+
+    function error() {
+      status.textContent = "Unable to retrieve your location";
+    }
+
+    if (!navigator.geolocation) {
+      status.textContent = "Geolocation is not supported by your browser";
+    } else {
+      status.textContent = "Locating…";
+      navigator.geolocation.getCurrentPosition(success, error);
+    }
+  }
+
   return (
     <div>
       {/* {console.log(restaurants)} */}
@@ -24,6 +46,11 @@ const App = () => {
           <p>{r.web_page}</p>
         </div>
       ))}
+      <button id="find-me" onClick={geoFindMe}>
+        Show my location
+      </button>
+      <br />
+      <p id="status"></p>
     </div>
   );
 };
