@@ -3,39 +3,58 @@ import axios from "axios";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState([]);
+  const [userLocation, setUserLocation] = useState({ lat: null, lon: null });
 
   useEffect(() => {
     initRestaurants();
   }, []);
+
+  useEffect(() => {
+    addDistanceToRestaurants();
+  }, [userLocation]);
 
   const initRestaurants = async () => {
     const response = await axios.get("/restaurants");
     setRestaurants(response.data);
   };
 
-  function geoFindMe() {
-    const status = document.querySelector("#status");
-
+  const getUserLocation = async () => {
     function success(position) {
       const lat = position.coords.latitude;
-      const long = position.coords.longitude;
+      const lon = position.coords.longitude;
 
-      status.textContent = `Your position: ${lat}, ${long}`;
-      return position;
+      console.log(`Your position: ${lat}, ${lon}`);
+      setUserLocation({
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+      });
     }
 
     function error() {
-      status.textContent = "Unable to retrieve your location";
-      return null;
+      console.log("Unable to retrieve your location");
     }
 
     if (!navigator.geolocation) {
-      status.textContent = "Geolocation is not supported by your browser";
+      console.log("Geolocation is not supported by your browser");
     } else {
-      status.textContent = "Locating…";
+      console.log("Locating…");
       navigator.geolocation.getCurrentPosition(success, error);
     }
-  }
+  };
+
+  const addDistanceToRestaurants = () => {
+    const restaurantsWithDistances = restaurants.map((r) => {
+      r.distance = calculateDistanceBetweenPoints(
+        userLocation.lat,
+        userLocation.lon,
+        r.latlon.x,
+        r.latlon.y
+      );
+      return r;
+    });
+
+    setRestaurants(restaurantsWithDistances);
+  };
 
   function calculateDistanceBetweenPoints(lat1, lon1, lat2, lon2) {
     var earthRadius = 6371;
@@ -48,7 +67,7 @@ const App = () => {
         Math.sin(dLon / 2) *
         Math.sin(dLon / 2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var distance = earthRadius * c;
+    var distance = (earthRadius * c).toFixed(2);
     return distance;
   }
 
@@ -58,33 +77,23 @@ const App = () => {
 
   return (
     <div>
-      {/* {console.log(restaurants)} */}
       <h1>This is where you should go for lunch now</h1>
-      {/* <button id="find-me" onClick={geoFindMe}>
-        Show my location
-      </button> */}
-      <p id="status"></p>
-      {restaurants.map((r) => (
-        <div key={r.id}>
-          <h3>{r.name}</h3>
-          <p>{r.address}</p>
-          <p>{r.web_page}</p>
-          <p>
-            {r.latlon.x}, {r.latlon.y}
-          </p>
-          <p>
-            Distance:&nbsp;
-            {calculateDistanceBetweenPoints(
-              48.1979175,
-              16.3692964,
-              r.latlon.x,
-              r.latlon.y
-            )}
-            &nbsp;km
-          </p>
-          {geoFindMe()}
-        </div>
-      ))}
+      <button type="button" onClick={getUserLocation}>
+        Locate me
+      </button>
+      <div>
+        {restaurants.map((r) => (
+          <div key={r.id}>
+            <h3>{r.name}</h3>
+            <p>{r.address}</p>
+            <p>{r.web_page}</p>
+            <p>
+              {r.latlon.x}, {r.latlon.y}
+            </p>
+            {r.distance && <p>Distance:&nbsp;{r.distance}&nbsp;km</p>}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import db from "../db/index.js";
 
 const getRestaurants = async (req, res) => {
-  const query = "SELECT * FROM restaurants ORDER BY id";
+  const query = "SELECT * FROM restaurants ORDER BY id DESC";
   const { rows } = await db.query(query, null);
 
   res.status(200).json(rows);
