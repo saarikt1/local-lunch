@@ -17,7 +17,8 @@ function RestaurantSuggestions({ restaurants, setRestaurants, userLocation }) {
           );
           return r;
         })
-        .sort((a, b) => a.distance - b.distance);
+        .sort((a, b) => a.distance - b.distance)
+        .slice(0, 3);
 
       setRestaurants(sortedRestaurants);
       setIsSorted(true);
