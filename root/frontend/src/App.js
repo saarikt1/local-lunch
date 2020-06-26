@@ -1,45 +1,20 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { calculateDistanceBetweenPoints } from "./utils";
 import RestaurantSuggestions from "./components/RestaurantSuggestions";
 import Map from "./components/Map";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
-  const [isSorted, setIsSorted] = useState(false);
 
   useEffect(() => {
-    initRestaurants();
-  }, []);
-
-  useEffect(() => {
-    const sortRestaurantsByDistance = () => {
-      const sortedRestaurants = restaurants
-        .map((r) => {
-          r.distance = calculateDistanceBetweenPoints(
-            userLocation.lat,
-            userLocation.lon,
-            r.latlon.x,
-            r.latlon.y
-          );
-          return r;
-        })
-        .sort((a, b) => a.distance - b.distance);
-
-      setRestaurants(sortedRestaurants);
-      setIsSorted(true);
+    const initRestaurants = async () => {
+      const response = await axios.get("/restaurants");
+      setRestaurants(response.data);
     };
 
-    if (userLocation && !isSorted) {
-      sortRestaurantsByDistance();
-    }
-  }, [restaurants, userLocation, isSorted]);
-
-  const initRestaurants = async () => {
-    const response = await axios.get("/restaurants");
-    setRestaurants(response.data);
-  };
+    initRestaurants();
+  }, []);
 
   const getUserLocation = async () => {
     function success(position) {
@@ -74,6 +49,7 @@ const App = () => {
       <RestaurantSuggestions
         restaurants={restaurants}
         setRestaurants={setRestaurants}
+        userLocation={userLocation}
       />
       <Map />
     </div>
