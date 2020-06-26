@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import { calculateDistanceBetweenPoints } from "../utils";
+import { Box } from "@material-ui/core";
 
 function RestaurantSuggestions({ restaurants, setRestaurants, userLocation }) {
   const [isSorted, setIsSorted] = useState(false);
@@ -30,13 +31,13 @@ function RestaurantSuggestions({ restaurants, setRestaurants, userLocation }) {
   }, [restaurants, setRestaurants, userLocation, isSorted]);
 
   return (
-    <div>
+    <Box display="flex" flexWrap="wrap" justifyContent="center">
       {restaurants.map((r) => (
-        <div key={r.id}>
+        <Box flex="0 1 300px" key={r.id}>
           <RestaurantDetails restaurant={r} />
-        </div>
+        </Box>
       ))}
-    </div>
+    </Box>
   );
 }
 

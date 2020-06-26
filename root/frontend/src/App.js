@@ -3,7 +3,7 @@ import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/RestaurantSuggestions";
 import Map from "./components/Map";
-import { Button, Container } from "@material-ui/core";
+import { Button, Container, Typography, Box } from "@material-ui/core";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -45,16 +45,21 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md">
-        <h1>Here are your lunch choices for today</h1>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={getUserLocation}
-        >
-          Locate me
-        </Button>
+      <Container maxWidth="md" style={{ border: "1px solid red" }}>
+        <Typography variant="h3" align="center" gutterBottom>
+          Here are your lunch choices for today
+        </Typography>
+        <Box display="flex" flexDirection="row" justifyContent="center">
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            type="button"
+            onClick={getUserLocation}
+          >
+            Locate me
+          </Button>
+        </Box>
         <RestaurantSuggestions
           restaurants={restaurants}
           setRestaurants={setRestaurants}
