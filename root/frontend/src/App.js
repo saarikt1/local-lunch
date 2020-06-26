@@ -1,17 +1,47 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { calculateDistanceBetweenPoints } from "./utils";
+import RestaurantSuggestions from "./components/RestaurantSuggestions";
+import Map from "./components/Map";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState([]);
   const [userLocation, setUserLocation] = useState({ lat: null, lon: null });
+  const [isSorted, setIsSorted] = useState(false);
 
   useEffect(() => {
     initRestaurants();
   }, []);
 
   useEffect(() => {
-    addDistanceToRestaurants();
-  }, [userLocation]);
+    console.log("useEffect triggers");
+    const addDistanceToRestaurants = () => {
+      console.log("Adding distance to restaurants");
+      const restaurantsWithDistances = restaurants.map((r) => {
+        r.distance = calculateDistanceBetweenPoints(
+          userLocation.lat,
+          userLocation.lon,
+          r.latlon.x,
+          r.latlon.y
+        );
+        return r;
+      });
+
+      setRestaurants(restaurantsWithDistances);
+    };
+
+    const sortRestaurantsByDistance = () => {
+      console.log("Sorting restaurants...");
+      setRestaurants([...restaurants].sort((a, b) => a.distance - b.distance));
+      setIsSorted(true);
+    };
+
+    if (userLocation.lat && !isSorted) {
+      console.log("User location: ", userLocation);
+      addDistanceToRestaurants();
+      sortRestaurantsByDistance();
+    }
+  }, [restaurants, userLocation, isSorted]);
 
   const initRestaurants = async () => {
     const response = await axios.get("/restaurants");
@@ -28,6 +58,7 @@ const App = () => {
         lat: position.coords.latitude,
         lon: position.coords.longitude,
       });
+      // setIsUserLocated(true);
     }
 
     function error() {
@@ -42,58 +73,17 @@ const App = () => {
     }
   };
 
-  const addDistanceToRestaurants = () => {
-    const restaurantsWithDistances = restaurants.map((r) => {
-      r.distance = calculateDistanceBetweenPoints(
-        userLocation.lat,
-        userLocation.lon,
-        r.latlon.x,
-        r.latlon.y
-      );
-      return r;
-    });
-
-    setRestaurants(restaurantsWithDistances);
-  };
-
-  function calculateDistanceBetweenPoints(lat1, lon1, lat2, lon2) {
-    var earthRadius = 6371;
-    var dLat = deg2rad(lat2 - lat1);
-    var dLon = deg2rad(lon2 - lon1);
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var distance = (earthRadius * c).toFixed(2);
-    return distance;
-  }
-
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
-
   return (
     <div>
-      <h1>This is where you should go for lunch now</h1>
+      <h1>Here are your lunch choices for today</h1>
       <button type="button" onClick={getUserLocation}>
         Locate me
       </button>
-      <div>
-        {restaurants.map((r) => (
-          <div key={r.id}>
-            <h3>{r.name}</h3>
-            <p>{r.address}</p>
-            <p>{r.web_page}</p>
-            <p>
-              {r.latlon.x}, {r.latlon.y}
-            </p>
-            {r.distance && <p>Distance:&nbsp;{r.distance}&nbsp;km</p>}
-          </div>
-        ))}
-      </div>
+      <RestaurantSuggestions
+        restaurants={restaurants}
+        setRestaurants={setRestaurants}
+      />
+      <Map />
     </div>
   );
 };
