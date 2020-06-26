@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/RestaurantSuggestions";
 import Map from "./components/Map";
+import { Button, Container } from "@material-ui/core";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState([]);
@@ -41,18 +43,26 @@ const App = () => {
   };
 
   return (
-    <div>
-      <h1>Here are your lunch choices for today</h1>
-      <button type="button" onClick={getUserLocation}>
-        Locate me
-      </button>
-      <RestaurantSuggestions
-        restaurants={restaurants}
-        setRestaurants={setRestaurants}
-        userLocation={userLocation}
-      />
-      <Map />
-    </div>
+    <React.Fragment>
+      <CssBaseline />
+      <Container maxWidth="md">
+        <h1>Here are your lunch choices for today</h1>
+        <Button
+          variant="contained"
+          color="primary"
+          type="button"
+          onClick={getUserLocation}
+        >
+          Locate me
+        </Button>
+        <RestaurantSuggestions
+          restaurants={restaurants}
+          setRestaurants={setRestaurants}
+          userLocation={userLocation}
+        />
+        <Map />
+      </Container>
+    </React.Fragment>
   );
 };
 
