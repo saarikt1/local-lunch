@@ -60,11 +60,13 @@ const App = () => {
             Locate me
           </Button>
         </Box>
-        <RestaurantSuggestions
-          restaurants={restaurants}
-          setRestaurants={setRestaurants}
-          userLocation={userLocation}
-        />
+        {userLocation && (
+          <RestaurantSuggestions
+            restaurants={restaurants}
+            setRestaurants={setRestaurants}
+            userLocation={userLocation}
+          />
+        )}
         <Map />
       </Container>
     </React.Fragment>
