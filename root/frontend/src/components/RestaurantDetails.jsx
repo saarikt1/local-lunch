@@ -15,6 +15,7 @@ function RestaurantDetails({ restaurant }) {
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="h5">{restaurant.name}</Typography>
+        <Typography variant="subtitle2">{restaurant.subtitle}</Typography>
         <Link href={restaurant.web_page}>{restaurant.web_page}</Link>
         {restaurant.distance && (
           <p>{restaurant.distance}&nbsp;km from your position</p>

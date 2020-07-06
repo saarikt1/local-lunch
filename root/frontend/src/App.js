@@ -20,10 +20,6 @@ const App = () => {
 
   const getUserLocation = async () => {
     function success(position) {
-      const lat = position.coords.latitude;
-      const lon = position.coords.longitude;
-
-      console.log(`Your position: ${lat}, ${lon}`);
       setUserLocation({
         lat: position.coords.latitude,
         lon: position.coords.longitude,
@@ -46,8 +42,11 @@ const App = () => {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md" style={{ border: "1px solid red" }}>
-        <Typography variant="h3" align="center" gutterBottom>
-          Here are your lunch choices for today
+        <Typography variant="h4" align="center" gutterBottom>
+          Local lunch
+        </Typography>
+        <Typography variant="subtitle1" align="center" gutterBottom>
+          Here's the help you need to choose where to go for lunch today.
         </Typography>
         <Box display="flex" flexDirection="row" justifyContent="center">
           <Button
@@ -57,22 +56,22 @@ const App = () => {
             type="button"
             onClick={getUserLocation}
           >
-            Locate me
+            Show me my options
           </Button>
         </Box>
         {userLocation && (
-          <RestaurantSuggestions
-            restaurants={restaurants}
-            setRestaurants={setRestaurants}
-            userLocation={userLocation}
-          />
+          <Box style={{ border: "1px solid blue" }}>
+            <RestaurantSuggestions
+              restaurants={restaurants}
+              setRestaurants={setRestaurants}
+              userLocation={userLocation}
+            />
+            <RestaurantMap
+              userLocation={userLocation}
+              restaurants={restaurants}
+            />
+          </Box>
         )}
-        <Box style={{ border: "1px solid blue" }}>
-          <RestaurantMap
-            userLocation={userLocation}
-            restaurants={restaurants}
-          />
-        </Box>
       </Container>
     </React.Fragment>
   );
