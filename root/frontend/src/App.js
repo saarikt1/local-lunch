@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/RestaurantSuggestions";
-import Map from "./components/Map";
+import RestaurantMap from "./components/Map";
 import { Button, Container, Typography, Box } from "@material-ui/core";
 
 const App = () => {
@@ -45,7 +45,7 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md" style={{ border: "1px solid red" }}>
+      <Container maxWidth="sm" style={{ border: "1px solid red" }}>
         <Typography variant="h3" align="center" gutterBottom>
           Here are your lunch choices for today
         </Typography>
@@ -67,7 +67,9 @@ const App = () => {
             userLocation={userLocation}
           />
         )}
-        <Map />
+        <Box style={{ border: "1px solid blue" }}>
+          <RestaurantMap />
+        </Box>
       </Container>
     </React.Fragment>
   );
