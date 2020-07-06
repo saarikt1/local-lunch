@@ -68,7 +68,7 @@ const App = () => {
           />
         )}
         <Box style={{ border: "1px solid blue" }}>
-          <RestaurantMap />
+          <RestaurantMap userLocation={userLocation} />
         </Box>
       </Container>
     </React.Fragment>
