@@ -1,7 +1,8 @@
 import React from "react";
-import { Map, TileLayer, Marker } from "react-leaflet";
+import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { Link, Typography } from "@material-ui/core";
 
-function RestaurantMap({ userLocation }) {
+function RestaurantMap({ userLocation, restaurants }) {
   return (
     <React.Fragment>
       <div>
@@ -15,6 +16,15 @@ function RestaurantMap({ userLocation }) {
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
           />
           {userLocation && <Marker position={userLocation}></Marker>}
+          {restaurants &&
+            restaurants.map((r) => (
+              <Marker position={[r.latlon.x, r.latlon.y]}>
+                <Popup>
+                  <Typography variant="h6">{r.name}</Typography>
+                  <Link href={r.web_page}>{r.web_page}</Link>
+                </Popup>
+              </Marker>
+            ))}
         </Map>
       </div>
     </React.Fragment>

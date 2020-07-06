@@ -2,11 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/RestaurantSuggestions";
-import RestaurantMap from "./components/Map";
+import RestaurantMap from "./components/RestaurantMap";
 import { Button, Container, Typography, Box } from "@material-ui/core";
 
 const App = () => {
-  const [restaurants, setRestaurants] = useState([]);
+  const [restaurants, setRestaurants] = useState();
   const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
@@ -68,7 +68,10 @@ const App = () => {
           />
         )}
         <Box style={{ border: "1px solid blue" }}>
-          <RestaurantMap userLocation={userLocation} />
+          <RestaurantMap
+            userLocation={userLocation}
+            restaurants={restaurants}
+          />
         </Box>
       </Container>
     </React.Fragment>
