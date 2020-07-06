@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, TileLayer, Marker, Popup } from "react-leaflet";
+import { Map, TileLayer, Marker, Popup, Tooltip } from "react-leaflet";
 import { Link, Typography } from "@material-ui/core";
 
 function RestaurantMap({ userLocation, restaurants }) {
@@ -19,6 +19,7 @@ function RestaurantMap({ userLocation, restaurants }) {
           {restaurants &&
             restaurants.map((r) => (
               <Marker position={[r.latlon.x, r.latlon.y]}>
+                <Tooltip permanent>{r.name}</Tooltip>
                 <Popup>
                   <Typography variant="h6">{r.name}</Typography>
                   <Link href={r.web_page}>{r.web_page}</Link>
