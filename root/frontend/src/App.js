@@ -45,7 +45,7 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="sm" style={{ border: "1px solid red" }}>
+      <Container maxWidth="md" style={{ border: "1px solid red" }}>
         <Typography variant="h3" align="center" gutterBottom>
           Here are your lunch choices for today
         </Typography>
