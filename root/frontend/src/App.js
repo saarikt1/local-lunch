@@ -56,6 +56,7 @@ const App = () => {
         </Typography>
         <Box display="flex" flexDirection="row" justifyContent="center">
           <Button
+            id="locate-button"
             variant="contained"
             color="primary"
             disableElevation
