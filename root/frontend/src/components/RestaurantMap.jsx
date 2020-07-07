@@ -24,8 +24,6 @@ const RestaurantMap = ({ userLocation, restaurants }) => {
       userLocation.lon
     );
 
-    // console.log(northBound, eastBound, southBound, westBound);
-
     return [
       [northBound, eastBound],
       [southBound, westBound],
@@ -34,12 +32,12 @@ const RestaurantMap = ({ userLocation, restaurants }) => {
 
   return (
     <React.Fragment>
-      <Box id="map" display="flex" justifyContent="center" margin="20px">
+      <Box id="map" flex="1" margin="20px">
         <Map
           bounds={calculateBoundingBox(restaurants, userLocation)}
           boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
-          style={{ width: "100%", height: "400px" }}
+          style={{ width: "100%", height: "500px" }}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX}`}

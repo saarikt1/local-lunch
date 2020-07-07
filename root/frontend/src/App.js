@@ -42,7 +42,10 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md" style={{ border: "1px solid red" }}>
+      <Container
+        maxWidth="md"
+        style={{ border: "1px solid red", padding: "30px" }}
+      >
         <Typography id="page-header" variant="h4" align="center" gutterBottom>
           Local Lunch
         </Typography>
@@ -62,12 +65,17 @@ const App = () => {
             disableElevation
             type="button"
             onClick={getUserLocation}
+            style={{ margin: "20px" }}
           >
             Show me my options
           </Button>
         </Box>
         {userLocation && (
-          <Box style={{ border: "1px solid blue" }}>
+          <Box
+            display="flex"
+            flexDirection="row"
+            style={{ border: "1px solid blue" }}
+          >
             <RestaurantSuggestions
               restaurants={restaurants}
               setRestaurants={setRestaurants}
