@@ -2,7 +2,7 @@ import React from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 
-function RestaurantMap({ userLocation, restaurants }) {
+const RestaurantMap = ({ userLocation, restaurants }) => {
   return (
     <React.Fragment>
       <Box display="flex" justifyContent="center" margin="20px">
@@ -19,7 +19,13 @@ function RestaurantMap({ userLocation, restaurants }) {
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX}`}
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
           />
-          {userLocation && <Circle center={userLocation} radius={20}></Circle>}
+          {userLocation && (
+            <Circle center={userLocation} radius={20}>
+              <Popup>
+                <Typography variant="subtitle1">Your location</Typography>
+              </Popup>
+            </Circle>
+          )}
           {restaurants &&
             restaurants.map((r) => (
               <Marker key={r.id} position={[r.latlon.x, r.latlon.y]}>
@@ -34,6 +40,6 @@ function RestaurantMap({ userLocation, restaurants }) {
       </Box>
     </React.Fragment>
   );
-}
+};
 
 export default RestaurantMap;

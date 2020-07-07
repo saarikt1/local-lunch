@@ -8,7 +8,7 @@ const useStyles = makeStyles({
   },
 });
 
-function RestaurantDetails({ restaurant }) {
+const RestaurantDetails = ({ restaurant }) => {
   const classes = useStyles();
 
   return (
@@ -23,6 +23,6 @@ function RestaurantDetails({ restaurant }) {
       </CardContent>
     </Card>
   );
-}
+};
 
 export default RestaurantDetails;

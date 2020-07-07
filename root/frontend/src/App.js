@@ -20,6 +20,7 @@ const App = () => {
 
   const getUserLocation = async () => {
     function success(position) {
+      console.log("User located");
       setUserLocation({
         lat: position.coords.latitude,
         lon: position.coords.longitude,

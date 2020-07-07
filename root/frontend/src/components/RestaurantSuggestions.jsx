@@ -3,7 +3,11 @@ import RestaurantDetails from "./RestaurantDetails";
 import { calculateDistanceBetweenPoints } from "../utils";
 import { Box } from "@material-ui/core";
 
-function RestaurantSuggestions({ restaurants, setRestaurants, userLocation }) {
+const RestaurantSuggestions = ({
+  restaurants,
+  setRestaurants,
+  userLocation,
+}) => {
   const [isSorted, setIsSorted] = useState(false);
 
   useEffect(() => {
@@ -39,6 +43,6 @@ function RestaurantSuggestions({ restaurants, setRestaurants, userLocation }) {
       ))}
     </Box>
   );
-}
+};
 
 export default RestaurantSuggestions;
