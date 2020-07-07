@@ -35,7 +35,12 @@ const RestaurantSuggestions = ({
   }, [restaurants, setRestaurants, userLocation, isSorted]);
 
   return (
-    <Box display="flex" flexWrap="wrap" justifyContent="center">
+    <Box
+      id="restaurant-suggestions"
+      display="flex"
+      flexWrap="wrap"
+      justifyContent="center"
+    >
       {restaurants.map((r) => (
         <Box flex="0 1 300px" key={r.id}>
           <RestaurantDetails restaurant={r} />

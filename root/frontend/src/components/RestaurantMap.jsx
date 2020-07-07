@@ -3,17 +3,43 @@ import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 
 const RestaurantMap = ({ userLocation, restaurants }) => {
+  const calculateBoundingBox = (restaurants, userLocation) => {
+    const northBound = restaurants.reduce(
+      (max, cur) => Math.max(max, cur.latlon.x),
+      userLocation.lat
+    );
+
+    const westBound = restaurants.reduce(
+      (min, cur) => Math.min(min, cur.latlon.y),
+      userLocation.lon
+    );
+
+    const southBound = restaurants.reduce(
+      (min, cur) => Math.min(min, cur.latlon.x),
+      userLocation.lat
+    );
+
+    const eastBound = restaurants.reduce(
+      (max, cur) => Math.max(max, cur.latlon.y),
+      userLocation.lon
+    );
+
+    // console.log(northBound, eastBound, southBound, westBound);
+
+    return [
+      [northBound, eastBound],
+      [southBound, westBound],
+    ];
+  };
+
   return (
     <React.Fragment>
-      <Box display="flex" justifyContent="center" margin="20px">
+      <Box id="map" display="flex" justifyContent="center" margin="20px">
         <Map
-          bounds={[
-            [48.2145267, 16.3623032],
-            [48.2121581, 16.3667853],
-          ]}
-          boundsOptions={{ padding: [50, 50] }}
+          bounds={calculateBoundingBox(restaurants, userLocation)}
+          boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
-          style={{ width: "90%", height: "400px" }}
+          style={{ width: "100%", height: "400px" }}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX}`}

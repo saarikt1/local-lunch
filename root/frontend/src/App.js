@@ -6,7 +6,7 @@ import RestaurantMap from "./components/RestaurantMap";
 import { Button, Container, Typography, Box } from "@material-ui/core";
 
 const App = () => {
-  const [restaurants, setRestaurants] = useState();
+  const [restaurants, setRestaurants] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
 
   useEffect(() => {
@@ -43,10 +43,15 @@ const App = () => {
     <React.Fragment>
       <CssBaseline />
       <Container maxWidth="md" style={{ border: "1px solid red" }}>
-        <Typography variant="h4" align="center" gutterBottom>
-          Local lunch
+        <Typography id="page-header" variant="h4" align="center" gutterBottom>
+          Local Lunch
         </Typography>
-        <Typography variant="subtitle1" align="center" gutterBottom>
+        <Typography
+          id="subtitle"
+          variant="subtitle1"
+          align="center"
+          gutterBottom
+        >
           Here's the help you need to choose where to go for lunch today.
         </Typography>
         <Box display="flex" flexDirection="row" justifyContent="center">
