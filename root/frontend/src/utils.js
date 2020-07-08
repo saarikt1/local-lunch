@@ -16,3 +16,18 @@ export const calculateDistanceBetweenPoints = (lat1, lon1, lat2, lon2) => {
 const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 };
+
+export const getUserLocation = () => {
+  if (!navigator.geolocation) {
+    console.log("Geolocation is not supported by your browser");
+  } else {
+    console.log("Locating…");
+    try {
+      return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+    } catch {
+      console.log("Unable to retrieve your location");
+    }
+  }
+};

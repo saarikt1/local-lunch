@@ -4,6 +4,9 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/RestaurantSuggestions";
 import RestaurantMap from "./components/RestaurantMap";
 import { Button, Container, Typography, Box } from "@material-ui/core";
+import RestaurantForm from "./components/RestaurantForm";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { getUserLocation } from "./utils";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState(null);
@@ -18,25 +21,15 @@ const App = () => {
     initRestaurants();
   }, []);
 
-  const getUserLocation = async () => {
-    function success(position) {
-      console.log("User located");
-      setUserLocation({
-        lat: position.coords.latitude,
-        lon: position.coords.longitude,
-      });
-    }
+  const initUserLocation = async () => {
+    const position = await getUserLocation();
 
-    function error() {
-      console.log("Unable to retrieve your location");
-    }
-
-    if (!navigator.geolocation) {
-      console.log("Geolocation is not supported by your browser");
-    } else {
-      console.log("Locating…");
-      navigator.geolocation.getCurrentPosition(success, error);
-    }
+    const coordinates = {
+      lat: position.coords.latitude,
+      lon: position.coords.longitude,
+    };
+    console.log("User location: ", coordinates);
+    setUserLocation(coordinates);
   };
 
   return (
@@ -57,6 +50,7 @@ const App = () => {
         >
           Here's the help you need to choose where to go for lunch today.
         </Typography>
+        <RestaurantForm />
         <Box display="flex" flexDirection="row" justifyContent="center">
           <Button
             id="locate-button"
@@ -64,10 +58,21 @@ const App = () => {
             color="primary"
             disableElevation
             type="button"
-            onClick={getUserLocation}
+            onClick={initUserLocation}
             style={{ margin: "20px" }}
           >
             Show me my options
+          </Button>
+          <Button
+            id="add-restaurant-button"
+            variant="contained"
+            color="secondary"
+            disableElevation
+            type="button"
+            onClick={initUserLocation}
+            style={{ margin: "20px" }}
+          >
+            Add a new restaurant
           </Button>
         </Box>
         {userLocation && (
