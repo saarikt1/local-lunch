@@ -6,7 +6,7 @@ import RestaurantMap from "./components/RestaurantMap";
 import { Button, Container, Typography, Box } from "@material-ui/core";
 import RestaurantForm from "./components/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { getUserLocation } from "./utils";
+import { locateUser } from "./utils";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState(null);
@@ -20,17 +20,6 @@ const App = () => {
 
     initRestaurants();
   }, []);
-
-  const initUserLocation = async () => {
-    const position = await getUserLocation();
-
-    const coordinates = {
-      lat: position.coords.latitude,
-      lon: position.coords.longitude,
-    };
-    console.log("User location: ", coordinates);
-    setUserLocation(coordinates);
-  };
 
   return (
     <React.Fragment>
@@ -58,7 +47,7 @@ const App = () => {
             color="primary"
             disableElevation
             type="button"
-            onClick={initUserLocation}
+            onClick={() => locateUser(setUserLocation)}
             style={{ margin: "20px" }}
           >
             Show me my options
@@ -69,7 +58,7 @@ const App = () => {
             color="secondary"
             disableElevation
             type="button"
-            onClick={initUserLocation}
+            // onClick={initUserLocation}
             style={{ margin: "20px" }}
           >
             Add a new restaurant

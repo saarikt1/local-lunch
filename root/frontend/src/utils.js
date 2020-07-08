@@ -17,17 +17,25 @@ const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 };
 
-export const getUserLocation = () => {
+export const locateUser = (setUserLocation) => {
+  function success(position) {
+    const coordinates = {
+      lat: position.coords.latitude,
+      lon: position.coords.longitude,
+    };
+
+    console.log("User location: ", coordinates);
+    setUserLocation(coordinates);
+  }
+
+  function error() {
+    console.log("Unable to retrieve your location");
+  }
+
   if (!navigator.geolocation) {
     console.log("Geolocation is not supported by your browser");
   } else {
     console.log("Locating…");
-    try {
-      return new Promise(function (resolve, reject) {
-        navigator.geolocation.getCurrentPosition(resolve, reject);
-      });
-    } catch {
-      console.log("Unable to retrieve your location");
-    }
+    navigator.geolocation.getCurrentPosition(success, error);
   }
 };
