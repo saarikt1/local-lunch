@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/RestaurantSuggestions";
+import Header from "./components/Header";
 import RestaurantMap from "./components/RestaurantMap";
-import { Button, Container, Typography, Box } from "@material-ui/core";
+import { Button, Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { locateUser } from "./utils";
@@ -21,6 +22,14 @@ const App = () => {
     initRestaurants();
   }, []);
 
+  {
+    /* <Switch>
+    <Route path="/add-restaurant">{}</Route>
+    <Route path="/">
+      <Home />
+    </Route>
+  </Switch> */
+  }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -28,18 +37,7 @@ const App = () => {
         maxWidth="md"
         style={{ border: "1px solid red", padding: "30px" }}
       >
-        <Typography id="page-header" variant="h4" align="center" gutterBottom>
-          Local Lunch
-        </Typography>
-        <Typography
-          id="subtitle"
-          variant="subtitle1"
-          align="center"
-          gutterBottom
-        >
-          Here's the help you need to choose where to go for lunch today.
-        </Typography>
-        <RestaurantForm />
+        <Header />
         <Box display="flex" flexDirection="row" justifyContent="center">
           <Button
             id="locate-button"
@@ -64,26 +62,33 @@ const App = () => {
             Add a new restaurant
           </Button>
         </Box>
-        {userLocation && (
-          <Box
-            display="flex"
-            flexDirection="row"
-            style={{ border: "1px solid blue" }}
-          >
-            <RestaurantSuggestions
-              restaurants={restaurants}
-              setRestaurants={setRestaurants}
-              userLocation={userLocation}
-            />
-            <RestaurantMap
-              userLocation={userLocation}
-              restaurants={restaurants}
-            />
-          </Box>
-        )}
+        <Router>
+          <RestaurantForm />
+          {userLocation && (
+            <Box
+              display="flex"
+              flexDirection="row"
+              style={{ border: "1px solid blue" }}
+            >
+              <RestaurantSuggestions
+                restaurants={restaurants}
+                setRestaurants={setRestaurants}
+                userLocation={userLocation}
+              />
+              <RestaurantMap
+                userLocation={userLocation}
+                restaurants={restaurants}
+              />
+            </Box>
+          )}
+        </Router>
       </Container>
     </React.Fragment>
   );
 };
+
+function Home() {
+  // return <h2>Home</h2>;
+}
 
 export default App;
