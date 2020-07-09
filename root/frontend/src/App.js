@@ -22,14 +22,6 @@ const App = () => {
     initRestaurants();
   }, []);
 
-  {
-    /* <Switch>
-    <Route path="/add-restaurant">{}</Route>
-    <Route path="/">
-      <Home />
-    </Route>
-  </Switch> */
-  }
   return (
     <React.Fragment>
       <CssBaseline />
@@ -37,58 +29,63 @@ const App = () => {
         maxWidth="md"
         style={{ border: "1px solid red", padding: "30px" }}
       >
-        <Header />
-        <Box display="flex" flexDirection="row" justifyContent="center">
-          <Button
-            id="locate-button"
-            variant="contained"
-            color="primary"
-            disableElevation
-            type="button"
-            onClick={() => locateUser(setUserLocation)}
-            style={{ margin: "20px" }}
-          >
-            Show me my options
-          </Button>
-          <Button
-            id="add-restaurant-button"
-            variant="contained"
-            color="secondary"
-            disableElevation
-            type="button"
-            // onClick={initUserLocation}
-            style={{ margin: "20px" }}
-          >
-            Add a new restaurant
-          </Button>
-        </Box>
         <Router>
-          <RestaurantForm />
-          {userLocation && (
-            <Box
-              display="flex"
-              flexDirection="row"
-              style={{ border: "1px solid blue" }}
-            >
-              <RestaurantSuggestions
-                restaurants={restaurants}
-                setRestaurants={setRestaurants}
-                userLocation={userLocation}
-              />
-              <RestaurantMap
-                userLocation={userLocation}
-                restaurants={restaurants}
-              />
-            </Box>
-          )}
+          <Header />
+          <Box display="flex" flexDirection="row" justifyContent="center">
+            <Link to="/" style={{ textDecoration: "none" }}>
+              <Button
+                id="locate-button"
+                variant="contained"
+                color="primary"
+                disableElevation
+                type="button"
+                onClick={() => locateUser(setUserLocation)}
+                style={{ margin: "20px" }}
+              >
+                Show me my options
+              </Button>
+            </Link>
+            <Link to="/addRestaurant" style={{ textDecoration: "none" }}>
+              <Button
+                id="add-restaurant-button"
+                variant="contained"
+                color="secondary"
+                disableElevation
+                type="button"
+                style={{ margin: "20px" }}
+              >
+                Add a new restaurant
+              </Button>
+            </Link>
+          </Box>
+          <Switch>
+            <Route path="/addRestaurant">
+              <RestaurantForm />
+            </Route>
+            <Route path="/">
+              {userLocation && (
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  style={{ border: "1px solid blue" }}
+                >
+                  <RestaurantSuggestions
+                    restaurants={restaurants}
+                    setRestaurants={setRestaurants}
+                    userLocation={userLocation}
+                  />
+                  <RestaurantMap
+                    userLocation={userLocation}
+                    restaurants={restaurants}
+                  />
+                </Box>
+              )}
+            </Route>
+          </Switch>
         </Router>
       </Container>
     </React.Fragment>
   );
 };
-
-function Home() {
-  // return <h2>Home</h2>;
-}
 
 export default App;
