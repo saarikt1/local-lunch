@@ -12,7 +12,6 @@ const RestaurantForm = () => {
     );
     let data = await response.json();
     if (data.length) {
-      // alert(data[0].display_name);
       console.log(data);
       setSearchResults(data);
     } else {
@@ -43,7 +42,7 @@ const RestaurantForm = () => {
         />
         <button type="submit">Search</button>
       </form>
-      <SearchResults />
+      <SearchResults searchResults={searchResults} />
     </Box>
   );
 };

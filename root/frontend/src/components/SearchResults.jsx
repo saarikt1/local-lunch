@@ -1,7 +1,8 @@
 import React from "react";
 import { Box } from "@material-ui/core";
+import SearchResultDetails from "./SearchResultDetails";
 
-const SearchResults = () => {
+const SearchResults = ({ searchResults }) => {
   return (
     <Box
       id="search-results"
@@ -9,7 +10,9 @@ const SearchResults = () => {
       flexDirection="row"
       justifyContent="center"
     >
-      <div>SearchResults</div>
+      {searchResults.map((r) => (
+        <SearchResultDetails key={r.place_id} searchResult={r} />
+      ))}
     </Box>
   );
 };
