@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
-import { Box } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import SearchResults from "./SearchResults";
 import { calculateBoundingBoxAroundLocation } from "../utils";
 
@@ -23,7 +23,7 @@ const RestaurantForm = ({ userLocation }) => {
     }
   };
 
-  const formikSearch = useFormik({
+  const formikSearchForm = useFormik({
     initialValues: {
       search: "",
     },
@@ -32,19 +32,80 @@ const RestaurantForm = ({ userLocation }) => {
     },
   });
 
+  const formikAddRestaurant = useFormik({
+    initialValues: {
+      name: "",
+      subtitle: "",
+      website: "",
+      latlon: "",
+    },
+    onSubmit: (values) => {
+      console.log(
+        JSON.stringify([
+          values.name,
+          values.subtitle,
+          values.website,
+          values.latlon,
+        ])
+      );
+    },
+  });
+
   return (
     <Box>
-      <h3>Add a new restaurant</h3>
-      <form onSubmit={formikSearch.handleSubmit}>
+      <Typography variant="h5">Add a new restaurant</Typography>
+      <form onSubmit={formikSearchForm.handleSubmit}>
         <label htmlFor="search">Search for a restaurant to add</label>
         <input
           id="search"
           name="search"
           type="text"
-          onChange={formikSearch.handleChange}
-          value={formikSearch.values.search}
+          onChange={formikSearchForm.handleChange}
+          value={formikSearchForm.values.search}
         />
         <button type="submit">Search</button>
+      </form>
+      <SearchResults searchResults={searchResults} />
+
+      <Typography variant="h6">Add manually</Typography>
+      <form onSubmit={formikAddRestaurant.handleSubmit}>
+        <label htmlFor="name">Name</label>
+        <input
+          id="name"
+          name="name"
+          type="text"
+          onChange={formikAddRestaurant.handleChange}
+          value={formikAddRestaurant.values.name}
+        />
+        <br />
+        <label htmlFor="subtitle">Subtitle</label>
+        <input
+          id="subtitle"
+          name="subtitle"
+          type="text"
+          onChange={formikAddRestaurant.handleChange}
+          value={formikAddRestaurant.values.subtitle}
+        />
+        <br />
+        <label htmlFor="website">Website</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          onChange={formikAddRestaurant.handleChange}
+          value={formikAddRestaurant.values.website}
+        />
+        <br />
+        <label htmlFor="latlon">Coordinates (lat, lon)</label>
+        <input
+          id="latlon"
+          name="latlon"
+          type="text"
+          onChange={formikAddRestaurant.handleChange}
+          value={formikAddRestaurant.values.latlon}
+        />
+        <br />
+        <button type="submit">Add to database</button>
       </form>
       <SearchResults searchResults={searchResults} />
     </Box>

@@ -13,30 +13,30 @@ const SearchResultDetails = ({ searchResult }) => {
 
   const name = searchResult.address.amenity;
   const website = searchResult.extratags.website;
-  const addressLine1 = [
-    searchResult.address.road,
-    " ",
-    searchResult.address.house_number,
-  ].join("");
+  // const addressLine1 = [
+  //   searchResult.address.road,
+  //   " ",
+  //   searchResult.address.house_number,
+  // ].join("");
 
-  const addressLine2 = [
-    searchResult.address.postcode,
-    " ",
-    searchResult.address.city || searchResult.address.town,
-    ", ",
-    searchResult.address.country,
-  ].join("");
+  // const addressLine2 = [
+  //   searchResult.address.postcode,
+  //   " ",
+  //   searchResult.address.city || searchResult.address.town,
+  //   ", ",
+  //   searchResult.address.country,
+  // ].join("");
 
   return (
     <Card className={classes.root}>
       <CardContent>
         <Typography variant="h5">{name}</Typography>
         <Link href={website}>{website}</Link>
-        <Typography variant="body1">
+        {/* <Typography variant="body1">
           {addressLine1}
           <br />
           {addressLine2}
-        </Typography>
+        </Typography> */}
       </CardContent>
     </Card>
   );
