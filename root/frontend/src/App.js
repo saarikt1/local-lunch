@@ -53,6 +53,7 @@ const App = () => {
                 disableElevation
                 type="button"
                 style={{ margin: "20px" }}
+                onClick={() => locateUser(setUserLocation)}
               >
                 Add a new restaurant
               </Button>
@@ -60,7 +61,7 @@ const App = () => {
           </Box>
           <Switch>
             <Route path="/addRestaurant">
-              <RestaurantForm />
+              <RestaurantForm userLocation={userLocation} />
             </Route>
             <Route path="/">
               {userLocation && (

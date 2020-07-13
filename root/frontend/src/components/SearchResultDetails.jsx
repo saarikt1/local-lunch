@@ -22,7 +22,7 @@ const SearchResultDetails = ({ searchResult }) => {
   const addressLine2 = [
     searchResult.address.postcode,
     " ",
-    searchResult.address.city,
+    searchResult.address.city || searchResult.address.town,
     ", ",
     searchResult.address.country,
   ].join("");

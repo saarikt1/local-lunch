@@ -39,3 +39,13 @@ export const locateUser = (setUserLocation) => {
     navigator.geolocation.getCurrentPosition(success, error);
   }
 };
+
+export const calculateBoundingBoxAroundLocation = (userLocation) => {
+  // Roughly 50 km difference to the original location for each variable
+  let x1 = userLocation.lon - 0.45;
+  let y1 = userLocation.lat - 0.45;
+  let x2 = userLocation.lon + 0.45;
+  let y2 = userLocation.lat + 0.45;
+
+  return { x1, y1, x2, y2 };
+};
