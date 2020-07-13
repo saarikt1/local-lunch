@@ -2,7 +2,7 @@ import React from "react";
 import { Box } from "@material-ui/core";
 import SearchResultDetails from "./SearchResultDetails";
 
-const SearchResults = ({ searchResults }) => {
+const SearchResults = ({ searchResults, fillFormWithData }) => {
   return (
     <Box
       id="search-results"
@@ -11,7 +11,11 @@ const SearchResults = ({ searchResults }) => {
       justifyContent="center"
     >
       {searchResults.map((r) => (
-        <SearchResultDetails key={r.place_id} searchResult={r} />
+        <SearchResultDetails
+          key={r.place_id}
+          searchResult={r}
+          fillFormWithData={fillFormWithData}
+        />
       ))}
     </Box>
   );

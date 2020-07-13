@@ -24,6 +24,13 @@ const RestaurantForm = ({ userLocation }) => {
     }
   };
 
+  const fillFormWithData = (name, subtitle, website, latlon) => {
+    formikAddRestaurant.setFieldValue("name", name);
+    formikAddRestaurant.setFieldValue("subtitle", subtitle);
+    formikAddRestaurant.setFieldValue("website", website);
+    formikAddRestaurant.setFieldValue("latlon", latlon);
+  };
+
   const formikSearchForm = useFormik({
     initialValues: {
       search: "",
@@ -66,7 +73,10 @@ const RestaurantForm = ({ userLocation }) => {
         />
         <button type="submit">Search</button>
       </form>
-      <SearchResults searchResults={searchResults} />
+      <SearchResults
+        searchResults={searchResults}
+        fillFormWithData={fillFormWithData}
+      />
 
       <Typography variant="h6">Add manually</Typography>
       <form onSubmit={formikAddRestaurant.handleSubmit}>
@@ -79,7 +89,7 @@ const RestaurantForm = ({ userLocation }) => {
           value={formikAddRestaurant.values.name}
         />
         <br />
-        <label htmlFor="subtitle">Subtitle</label>
+        <label htmlFor="subtitle">Specifier</label>
         <input
           id="subtitle"
           name="subtitle"
@@ -108,7 +118,6 @@ const RestaurantForm = ({ userLocation }) => {
         <br />
         <button type="submit">Add to database</button>
       </form>
-      <SearchResults searchResults={searchResults} />
     </Box>
   );
 };
