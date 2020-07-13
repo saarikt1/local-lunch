@@ -44,7 +44,7 @@ const RestaurantMap = ({ userLocation, restaurants }) => {
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
           />
           {userLocation && (
-            <Circle center={userLocation} radius={20}>
+            <Circle center={userLocation} radius={15}>
               <Popup>
                 <Typography variant="subtitle1">Your location</Typography>
               </Popup>
