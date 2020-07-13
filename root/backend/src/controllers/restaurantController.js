@@ -15,4 +15,16 @@ const findRestaurantById = async (req, res) => {
   res.status(200).json(rows);
 };
 
-export default { getRestaurants, findRestaurantById };
+const createRestaurant = async (req, res) => {
+  const query =
+    "INSERT INTO restaurants (name, subtitle, web_page, latlon) VALUES ($1, $2, $3, $4)";
+  const { name, subtitle, website, latlon } = req.body;
+  try {
+    await db.query(query, [name, subtitle, website, latlon]);
+    res.status(201).send(`Restaurant ${name} added to db`);
+  } catch (err) {
+    throw err;
+  }
+};
+
+export default { getRestaurants, findRestaurantById, createRestaurant };

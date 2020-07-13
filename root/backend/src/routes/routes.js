@@ -9,5 +9,6 @@ router.get("/", (req, res) => {
 
 router.get("/restaurants", restaurantService.getRestaurants);
 router.get("/restaurants/:id", restaurantService.findRestaurantById);
+router.post("/restaurants", restaurantService.createRestaurant);
 
 export default router;
