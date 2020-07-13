@@ -56,7 +56,7 @@ const RestaurantMap = ({ userLocation, restaurants }) => {
                 <Tooltip permanent>{r.name}</Tooltip>
                 <Popup>
                   <Typography variant="h6">{r.name}</Typography>
-                  <Link href={r.web_page}>{r.web_page}</Link>
+                  <Link href={r.website}>{r.website}</Link>
                 </Popup>
               </Marker>
             ))}

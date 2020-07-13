@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import { Box, Typography } from "@material-ui/core";
 import SearchResults from "./SearchResults";
 import { calculateBoundingBoxAroundLocation } from "../utils";
+import axios from "axios";
 
 const RestaurantForm = ({ userLocation }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -39,15 +40,15 @@ const RestaurantForm = ({ userLocation }) => {
       website: "",
       latlon: "",
     },
-    onSubmit: (values) => {
-      console.log(
-        JSON.stringify([
-          values.name,
-          values.subtitle,
-          values.website,
-          values.latlon,
-        ])
-      );
+    onSubmit: async (values) => {
+      const params = {
+        name: values.name,
+        subtitle: values.subtitle,
+        website: values.website,
+        latlon: `(${values.latlon})`,
+      };
+      const res = await axios.post("/restaurants", params);
+      console.log("res.data: ", res.data);
     },
   });
 
@@ -96,7 +97,7 @@ const RestaurantForm = ({ userLocation }) => {
           value={formikAddRestaurant.values.website}
         />
         <br />
-        <label htmlFor="latlon">Coordinates (lat, lon)</label>
+        <label htmlFor="latlon">Coordinates lat, lon</label>
         <input
           id="latlon"
           name="latlon"

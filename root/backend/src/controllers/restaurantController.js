@@ -17,7 +17,7 @@ const findRestaurantById = async (req, res) => {
 
 const createRestaurant = async (req, res) => {
   const query =
-    "INSERT INTO restaurants (name, subtitle, web_page, latlon) VALUES ($1, $2, $3, $4)";
+    "INSERT INTO restaurants (name, subtitle, website, latlon) VALUES ($1, $2, $3, $4)";
   const { name, subtitle, website, latlon } = req.body;
   try {
     await db.query(query, [name, subtitle, website, latlon]);

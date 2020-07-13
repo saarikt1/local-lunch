@@ -16,7 +16,7 @@ const RestaurantDetails = ({ restaurant }) => {
       <CardContent>
         <Typography variant="h5">{restaurant.name}</Typography>
         <Typography variant="subtitle2">{restaurant.subtitle}</Typography>
-        <Link href={restaurant.web_page}>{restaurant.web_page}</Link>
+        <Link href={restaurant.website}>{restaurant.website}</Link>
         {restaurant.distance && (
           <p>{restaurant.distance}&nbsp;km from your position</p>
         )}
