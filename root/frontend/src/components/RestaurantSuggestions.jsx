@@ -13,8 +13,24 @@ const RestaurantSuggestions = ({
   // const showRandomOptions = (number) => {};
 
   useEffect(() => {
-    const sortRestaurantsByDistance = () => {
-      const sortedRestaurants = restaurants.map((r) => {
+    // const sortRestaurantsByDistance = () => {
+    //   const sortedRestaurants = restaurants.map((r) => {
+    //     r.distance = calculateDistanceBetweenPoints(
+    //       userLocation.lat,
+    //       userLocation.lon,
+    //       r.latlon.x,
+    //       r.latlon.y
+    //     );
+    //     return r;
+    //   });
+    //   // .sort((a, b) => a.distance - b.distance);
+    //   // .slice(0, 3);
+
+    //   setRestaurants(sortedRestaurants);
+    //   setIsSorted(true);
+
+    const addDistanceToRestaurants = () => {
+      const restaurantsWithDistances = restaurants.map((r) => {
         r.distance = calculateDistanceBetweenPoints(
           userLocation.lat,
           userLocation.lon,
@@ -23,15 +39,12 @@ const RestaurantSuggestions = ({
         );
         return r;
       });
-      // .sort((a, b) => a.distance - b.distance);
-      // .slice(0, 3);
-
-      setRestaurants(sortedRestaurants);
+      setRestaurants(restaurantsWithDistances);
       setIsSorted(true);
     };
 
     if (userLocation && !isSorted) {
-      sortRestaurantsByDistance();
+      addDistanceToRestaurants();
     }
   }, [restaurants, setRestaurants, userLocation, isSorted]);
 
