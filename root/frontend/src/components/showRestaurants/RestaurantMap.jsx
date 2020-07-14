@@ -27,10 +27,6 @@ const RestaurantMap = ({ userLocation, filteredRestaurants, isFiltered }) => {
       userLocation.lon
     );
 
-    filteredRestaurants.map((r) => console.log(r.latlon));
-
-    console.log("Bounding box: ", northBound, eastBound, southBound, westBound);
-
     return [
       [northBound, eastBound],
       [southBound, westBound],

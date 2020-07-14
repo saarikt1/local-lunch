@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import RestaurantDetails from "./RestaurantDetails";
-import { calculateDistanceBetweenPoints } from "../utils";
+import { calculateDistanceBetweenPoints } from "../../utils";
 import { Box } from "@material-ui/core";
 
 const RestaurantSuggestions = ({

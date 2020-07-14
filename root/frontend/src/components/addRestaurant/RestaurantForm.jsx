@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import { Box, Typography } from "@material-ui/core";
 import SearchResults from "./SearchResults";
-import { calculateBoundingBoxAroundLocation } from "../utils";
+import { calculateBoundingBoxAroundLocation } from "../../utils";
 import axios from "axios";
 
 const RestaurantForm = ({ userLocation }) => {

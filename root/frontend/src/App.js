@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
-import RestaurantSuggestions from "./components/RestaurantSuggestions";
+import RestaurantSuggestions from "./components/showRestaurants/RestaurantSuggestions";
 import Header from "./components/Header";
-import RestaurantMap from "./components/RestaurantMap";
+import RestaurantMap from "./components/showRestaurants/RestaurantMap";
 import { Button, Container, Box } from "@material-ui/core";
-import RestaurantForm from "./components/RestaurantForm";
+import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { locateUser } from "./utils";
 import Notification from "./components/Notification";
