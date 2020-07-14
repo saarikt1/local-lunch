@@ -12,6 +12,7 @@ import Notification from "./components/Notification";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState(null);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [notification, setNotification] = useState(null);
 
@@ -76,11 +77,13 @@ const App = () => {
                   <RestaurantSuggestions
                     restaurants={restaurants}
                     setRestaurants={setRestaurants}
+                    filteredRestaurants={filteredRestaurants}
+                    setFilteredRestaurants={setFilteredRestaurants}
                     userLocation={userLocation}
                   />
                   <RestaurantMap
                     userLocation={userLocation}
-                    restaurants={restaurants}
+                    filteredRestaurants={filteredRestaurants}
                   />
                 </Box>
               )}

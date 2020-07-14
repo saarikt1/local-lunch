@@ -6,11 +6,12 @@ import { Box } from "@material-ui/core";
 const RestaurantSuggestions = ({
   restaurants,
   setRestaurants,
+  filteredRestaurants,
+  setFilteredRestaurants,
   userLocation,
 }) => {
-  const [isSorted, setIsSorted] = useState(false);
-
-  // const showRandomOptions = (number) => {};
+  const [isWithDistance, setIsWithDistance] = useState(false);
+  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {
     // const sortRestaurantsByDistance = () => {
@@ -27,7 +28,7 @@ const RestaurantSuggestions = ({
     //   // .slice(0, 3);
 
     //   setRestaurants(sortedRestaurants);
-    //   setIsSorted(true);
+    //   setIsWithDistance(true);
 
     const addDistanceToRestaurants = () => {
       const restaurantsWithDistances = restaurants.map((r) => {
@@ -39,14 +40,31 @@ const RestaurantSuggestions = ({
         );
         return r;
       });
+
       setRestaurants(restaurantsWithDistances);
-      setIsSorted(true);
+      setIsWithDistance(true);
     };
 
-    if (userLocation && !isSorted) {
+    const filterByDistance = (distance) => {
+      const filteredRestaurants = restaurants.filter(
+        (r) => r.distance < distance / 1000
+      );
+      setFilteredRestaurants(filteredRestaurants);
+      setIsFiltered(true);
+    };
+
+    if (userLocation && !isWithDistance && !isFiltered) {
       addDistanceToRestaurants();
+      filterByDistance(700);
     }
-  }, [restaurants, setRestaurants, userLocation, isSorted]);
+  }, [
+    restaurants,
+    setRestaurants,
+    userLocation,
+    isWithDistance,
+    isFiltered,
+    setFilteredRestaurants,
+  ]);
 
   return (
     <Box
@@ -55,7 +73,7 @@ const RestaurantSuggestions = ({
       flexDirection="column"
       justifyContent="flex-start"
     >
-      {restaurants.map((r) => (
+      {filteredRestaurants.map((r) => (
         <Box key={r.id}>
           <RestaurantDetails restaurant={r} />
         </Box>

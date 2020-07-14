@@ -2,24 +2,24 @@ import React from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 
-const RestaurantMap = ({ userLocation, restaurants }) => {
-  const calculateBoundingBox = (restaurants, userLocation) => {
-    const northBound = restaurants.reduce(
+const RestaurantMap = ({ userLocation, filteredRestaurants }) => {
+  const calculateBoundingBox = (filteredRestaurants, userLocation) => {
+    const northBound = filteredRestaurants.reduce(
       (max, cur) => Math.max(max, cur.latlon.x),
       userLocation.lat
     );
 
-    const westBound = restaurants.reduce(
+    const westBound = filteredRestaurants.reduce(
       (min, cur) => Math.min(min, cur.latlon.y),
       userLocation.lon
     );
 
-    const southBound = restaurants.reduce(
+    const southBound = filteredRestaurants.reduce(
       (min, cur) => Math.min(min, cur.latlon.x),
       userLocation.lat
     );
 
-    const eastBound = restaurants.reduce(
+    const eastBound = filteredRestaurants.reduce(
       (max, cur) => Math.max(max, cur.latlon.y),
       userLocation.lon
     );
@@ -34,7 +34,7 @@ const RestaurantMap = ({ userLocation, restaurants }) => {
     <React.Fragment>
       <Box id="map" flex="1" margin="20px">
         <Map
-          bounds={calculateBoundingBox(restaurants, userLocation)}
+          bounds={calculateBoundingBox(filteredRestaurants, userLocation)}
           boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
           style={{ width: "100%", height: "500px" }}
@@ -50,8 +50,8 @@ const RestaurantMap = ({ userLocation, restaurants }) => {
               </Popup>
             </Circle>
           )}
-          {restaurants &&
-            restaurants.map((r) => (
+          {filteredRestaurants &&
+            filteredRestaurants.map((r) => (
               <Marker key={r.id} position={[r.latlon.x, r.latlon.y]}>
                 <Tooltip permanent>{r.name}</Tooltip>
                 <Popup>
