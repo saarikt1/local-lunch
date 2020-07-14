@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import { calculateDistanceBetweenPoints } from "../../utils";
 import { Box } from "@material-ui/core";
+import RestaurantMap from "./RestaurantMap";
 
 const RestaurantSuggestions = ({
   restaurants,
   setRestaurants,
-  filteredRestaurants,
-  setFilteredRestaurants,
-  isFiltered,
-  setIsFiltered,
   userLocation,
 }) => {
   const [isWithDistance, setIsWithDistance] = useState(false);
+  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {
     const addDistanceToRestaurants = () => {
@@ -35,7 +34,6 @@ const RestaurantSuggestions = ({
         (r) => r.distance < distance / 1000
       );
       setFilteredRestaurants(filteredRestaurants);
-      console.log("Restaurants are now filtered");
       setIsFiltered(true);
     };
 
@@ -57,14 +55,22 @@ const RestaurantSuggestions = ({
     <Box
       id="restaurant-suggestions"
       display="flex"
-      flexDirection="column"
+      flexDirection="row"
       justifyContent="flex-start"
+      style={{ border: "1px solid blue" }}
     >
-      {filteredRestaurants.map((r) => (
-        <Box key={r.id}>
-          <RestaurantDetails restaurant={r} />
-        </Box>
-      ))}
+      <Box display="flex" flexDirection="column">
+        {filteredRestaurants.map((r) => (
+          <Box key={r.id}>
+            <RestaurantDetails restaurant={r} />
+          </Box>
+        ))}
+      </Box>
+      <RestaurantMap
+        userLocation={userLocation}
+        filteredRestaurants={filteredRestaurants}
+        isFiltered={isFiltered}
+      />
     </Box>
   );
 };

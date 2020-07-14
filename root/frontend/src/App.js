@@ -3,7 +3,6 @@ import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/showRestaurants/RestaurantSuggestions";
 import Header from "./components/Header";
-import RestaurantMap from "./components/showRestaurants/RestaurantMap";
 import { Button, Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -12,10 +11,8 @@ import Notification from "./components/Notification";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState(null);
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [notification, setNotification] = useState(null);
-  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {
     const initRestaurants = async () => {
@@ -70,26 +67,11 @@ const App = () => {
             <Route path="/">
               <Notification notification={notification} />
               {userLocation && (
-                <Box
-                  display="flex"
-                  flexDirection="row"
-                  style={{ border: "1px solid blue" }}
-                >
-                  <RestaurantSuggestions
-                    restaurants={restaurants}
-                    setRestaurants={setRestaurants}
-                    filteredRestaurants={filteredRestaurants}
-                    setFilteredRestaurants={setFilteredRestaurants}
-                    isFiltered={isFiltered}
-                    setIsFiltered={setIsFiltered}
-                    userLocation={userLocation}
-                  />
-                  <RestaurantMap
-                    userLocation={userLocation}
-                    filteredRestaurants={filteredRestaurants}
-                    isFiltered={isFiltered}
-                  />
-                </Box>
+                <RestaurantSuggestions
+                  restaurants={restaurants}
+                  setRestaurants={setRestaurants}
+                  userLocation={userLocation}
+                />
               )}
             </Route>
           </Switch>
