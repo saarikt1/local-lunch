@@ -10,20 +10,21 @@ const RestaurantSuggestions = ({
 }) => {
   const [isSorted, setIsSorted] = useState(false);
 
+  // const showRandomOptions = (number) => {};
+
   useEffect(() => {
     const sortRestaurantsByDistance = () => {
-      const sortedRestaurants = restaurants
-        .map((r) => {
-          r.distance = calculateDistanceBetweenPoints(
-            userLocation.lat,
-            userLocation.lon,
-            r.latlon.x,
-            r.latlon.y
-          );
-          return r;
-        })
-        .sort((a, b) => a.distance - b.distance)
-        .slice(0, 3);
+      const sortedRestaurants = restaurants.map((r) => {
+        r.distance = calculateDistanceBetweenPoints(
+          userLocation.lat,
+          userLocation.lon,
+          r.latlon.x,
+          r.latlon.y
+        );
+        return r;
+      });
+      // .sort((a, b) => a.distance - b.distance);
+      // .slice(0, 3);
 
       setRestaurants(sortedRestaurants);
       setIsSorted(true);

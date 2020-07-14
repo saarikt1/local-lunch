@@ -8,10 +8,12 @@ import { Button, Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { locateUser } from "./utils";
+import Notification from "./components/Notification";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     const initRestaurants = async () => {
@@ -39,7 +41,7 @@ const App = () => {
                 color="primary"
                 disableElevation
                 type="button"
-                onClick={() => locateUser(setUserLocation)}
+                onClick={() => locateUser(setUserLocation, setNotification)}
                 style={{ margin: "20px" }}
               >
                 Show me my options
@@ -53,7 +55,7 @@ const App = () => {
                 disableElevation
                 type="button"
                 style={{ margin: "20px" }}
-                onClick={() => locateUser(setUserLocation)}
+                onClick={() => locateUser(setUserLocation, setNotification)}
               >
                 Add a new restaurant
               </Button>
@@ -64,6 +66,7 @@ const App = () => {
               <RestaurantForm userLocation={userLocation} />
             </Route>
             <Route path="/">
+              <Notification notification={notification} />
               {userLocation && (
                 <Box
                   display="flex"

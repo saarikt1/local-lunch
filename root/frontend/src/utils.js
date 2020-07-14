@@ -17,26 +17,33 @@ const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 };
 
-export const locateUser = (setUserLocation) => {
+export const locateUser = (setUserLocation, setNotification) => {
   function success(position) {
     const coordinates = {
       lat: position.coords.latitude,
       lon: position.coords.longitude,
     };
 
+    setNotification({ message: null, type: null });
     console.log("User location: ", coordinates);
     setUserLocation(coordinates);
   }
 
   function error() {
-    console.log("Unable to retrieve your location");
+    setNotification({
+      message: "Location is needed to show the restaurant suggestions.",
+      type: "error",
+    });
   }
 
   if (!navigator.geolocation) {
-    console.log("Geolocation is not supported by your browser");
+    setNotification({
+      message: "Geolocation is not supported by your browser",
+      type: "error",
+    });
   } else {
-    console.log("Locating…");
     navigator.geolocation.getCurrentPosition(success, error);
+    setNotification({ message: "Locating...", type: "spinner" });
   }
 };
 
