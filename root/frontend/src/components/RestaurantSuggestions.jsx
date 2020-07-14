@@ -8,28 +8,13 @@ const RestaurantSuggestions = ({
   setRestaurants,
   filteredRestaurants,
   setFilteredRestaurants,
+  isFiltered,
+  setIsFiltered,
   userLocation,
 }) => {
   const [isWithDistance, setIsWithDistance] = useState(false);
-  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {
-    // const sortRestaurantsByDistance = () => {
-    //   const sortedRestaurants = restaurants.map((r) => {
-    //     r.distance = calculateDistanceBetweenPoints(
-    //       userLocation.lat,
-    //       userLocation.lon,
-    //       r.latlon.x,
-    //       r.latlon.y
-    //     );
-    //     return r;
-    //   });
-    //   // .sort((a, b) => a.distance - b.distance);
-    //   // .slice(0, 3);
-
-    //   setRestaurants(sortedRestaurants);
-    //   setIsWithDistance(true);
-
     const addDistanceToRestaurants = () => {
       const restaurantsWithDistances = restaurants.map((r) => {
         r.distance = calculateDistanceBetweenPoints(
@@ -50,6 +35,7 @@ const RestaurantSuggestions = ({
         (r) => r.distance < distance / 1000
       );
       setFilteredRestaurants(filteredRestaurants);
+      console.log("Restaurants are now filtered");
       setIsFiltered(true);
     };
 
@@ -63,6 +49,7 @@ const RestaurantSuggestions = ({
     userLocation,
     isWithDistance,
     isFiltered,
+    setIsFiltered,
     setFilteredRestaurants,
   ]);
 

@@ -2,8 +2,11 @@ import React from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 
-const RestaurantMap = ({ userLocation, filteredRestaurants }) => {
+const RestaurantMap = ({ userLocation, filteredRestaurants, isFiltered }) => {
   const calculateBoundingBox = (filteredRestaurants, userLocation) => {
+    if (!isFiltered) {
+      return null;
+    }
     const northBound = filteredRestaurants.reduce(
       (max, cur) => Math.max(max, cur.latlon.x),
       userLocation.lat
@@ -23,6 +26,10 @@ const RestaurantMap = ({ userLocation, filteredRestaurants }) => {
       (max, cur) => Math.max(max, cur.latlon.y),
       userLocation.lon
     );
+
+    filteredRestaurants.map((r) => console.log(r.latlon));
+
+    console.log("Bounding box: ", northBound, eastBound, southBound, westBound);
 
     return [
       [northBound, eastBound],

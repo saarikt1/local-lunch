@@ -15,6 +15,7 @@ const App = () => {
   const [filteredRestaurants, setFilteredRestaurants] = useState([]);
   const [userLocation, setUserLocation] = useState(null);
   const [notification, setNotification] = useState(null);
+  const [isFiltered, setIsFiltered] = useState(false);
 
   useEffect(() => {
     const initRestaurants = async () => {
@@ -79,11 +80,14 @@ const App = () => {
                     setRestaurants={setRestaurants}
                     filteredRestaurants={filteredRestaurants}
                     setFilteredRestaurants={setFilteredRestaurants}
+                    isFiltered={isFiltered}
+                    setIsFiltered={setIsFiltered}
                     userLocation={userLocation}
                   />
                   <RestaurantMap
                     userLocation={userLocation}
                     filteredRestaurants={filteredRestaurants}
+                    isFiltered={isFiltered}
                   />
                 </Box>
               )}
