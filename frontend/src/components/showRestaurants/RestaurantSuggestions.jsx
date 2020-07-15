@@ -62,7 +62,8 @@ const RestaurantSuggestions = ({
 
     if (userLocation && !isWithDistance) {
       addDistanceToRestaurants();
-      limitToRandomSuggestions(filterByDistance(700), 3);
+      const filteredRestaurants = filterByDistance(700);
+      limitToRandomSuggestions(filteredRestaurants, 3);
     }
   }, [restaurants, setRestaurants, userLocation, isWithDistance]);
 
