@@ -10,8 +10,7 @@ const RestaurantSuggestions = ({
   userLocation,
 }) => {
   const [isWithDistance, setIsWithDistance] = useState(false);
-  const [filteredRestaurants, setFilteredRestaurants] = useState([]);
-  const [isFiltered, setIsFiltered] = useState(false);
+  const [restaurantSuggestions, setRestaurantSuggestions] = useState([]);
 
   useEffect(() => {
     const addDistanceToRestaurants = () => {
@@ -33,23 +32,39 @@ const RestaurantSuggestions = ({
       const filteredRestaurants = restaurants.filter(
         (r) => r.distance < distance / 1000
       );
-      setFilteredRestaurants(filteredRestaurants);
-      setIsFiltered(true);
+      return filteredRestaurants;
     };
 
-    if (userLocation && !isWithDistance && !isFiltered) {
-      addDistanceToRestaurants();
-      filterByDistance(700);
+    const limitToRandomSuggestions = (array, number) => {
+      const suffledArray = shuffle(array);
+      setRestaurantSuggestions(suffledArray.splice(0, number));
+    };
+
+    function shuffle(array) {
+      var currentIndex = array.length,
+        temporaryValue,
+        randomIndex;
+
+      // While there remain elements to shuffle...
+      while (0 !== currentIndex) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+      }
+
+      return array;
     }
-  }, [
-    restaurants,
-    setRestaurants,
-    userLocation,
-    isWithDistance,
-    isFiltered,
-    setIsFiltered,
-    setFilteredRestaurants,
-  ]);
+
+    if (userLocation && !isWithDistance) {
+      addDistanceToRestaurants();
+      limitToRandomSuggestions(filterByDistance(700), 3);
+    }
+  }, [restaurants, setRestaurants, userLocation, isWithDistance]);
 
   return (
     <Box
@@ -60,7 +75,7 @@ const RestaurantSuggestions = ({
       style={{ border: "1px solid blue" }}
     >
       <Box display="flex" flexDirection="column">
-        {filteredRestaurants.map((r) => (
+        {restaurantSuggestions.map((r) => (
           <Box key={r.id}>
             <RestaurantDetails restaurant={r} />
           </Box>
@@ -68,8 +83,7 @@ const RestaurantSuggestions = ({
       </Box>
       <RestaurantMap
         userLocation={userLocation}
-        filteredRestaurants={filteredRestaurants}
-        isFiltered={isFiltered}
+        restaurantSuggestions={restaurantSuggestions}
       />
     </Box>
   );

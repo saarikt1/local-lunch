@@ -2,27 +2,26 @@ import React from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 
-const RestaurantMap = ({ userLocation, filteredRestaurants, isFiltered }) => {
-  const calculateBoundingBox = (filteredRestaurants, userLocation) => {
-    if (!isFiltered) {
-      return null;
-    }
-    const northBound = filteredRestaurants.reduce(
+const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
+  const calculateBoundingBox = (restaurantSuggestions, userLocation) => {
+    console.log("restaurantSuggestions: ", restaurantSuggestions);
+
+    const northBound = restaurantSuggestions.reduce(
       (max, cur) => Math.max(max, cur.latlon.x),
       userLocation.lat
     );
 
-    const westBound = filteredRestaurants.reduce(
+    const westBound = restaurantSuggestions.reduce(
       (min, cur) => Math.min(min, cur.latlon.y),
       userLocation.lon
     );
 
-    const southBound = filteredRestaurants.reduce(
+    const southBound = restaurantSuggestions.reduce(
       (min, cur) => Math.min(min, cur.latlon.x),
       userLocation.lat
     );
 
-    const eastBound = filteredRestaurants.reduce(
+    const eastBound = restaurantSuggestions.reduce(
       (max, cur) => Math.max(max, cur.latlon.y),
       userLocation.lon
     );
@@ -37,7 +36,7 @@ const RestaurantMap = ({ userLocation, filteredRestaurants, isFiltered }) => {
     <React.Fragment>
       <Box id="map" flex="1" margin="20px">
         <Map
-          bounds={calculateBoundingBox(filteredRestaurants, userLocation)}
+          bounds={calculateBoundingBox(restaurantSuggestions, userLocation)}
           boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
           style={{ width: "100%", height: "500px" }}
@@ -53,8 +52,8 @@ const RestaurantMap = ({ userLocation, filteredRestaurants, isFiltered }) => {
               </Popup>
             </Circle>
           )}
-          {filteredRestaurants &&
-            filteredRestaurants.map((r) => (
+          {restaurantSuggestions &&
+            restaurantSuggestions.map((r) => (
               <Marker key={r.id} position={[r.latlon.x, r.latlon.y]}>
                 <Tooltip permanent>{r.name}</Tooltip>
                 <Popup>
