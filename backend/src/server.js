@@ -5,13 +5,13 @@ import router from "./routes/routes.js";
 
 dotenv.config();
 
-const app = express();
+const server = express();
 const { PORT } = process.env;
 
-app.use(express.json());
-app.use(cors());
-app.use("/", router);
+server.use(express.json());
+server.use(cors());
+server.use("/", router);
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
