@@ -10,7 +10,7 @@ const RestaurantSuggestions = ({
   userLocation,
 }) => {
   const [isWithDistance, setIsWithDistance] = useState(false);
-  const [restaurantSuggestions, setRestaurantSuggestions] = useState([]);
+  const [restaurantSuggestions, setRestaurantSuggestions] = useState(null);
 
   useEffect(() => {
     const addDistanceToRestaurants = () => {
@@ -67,25 +67,29 @@ const RestaurantSuggestions = ({
   }, [restaurants, setRestaurants, userLocation, isWithDistance]);
 
   return (
-    <Box
-      id="restaurant-suggestions"
-      display="flex"
-      flexDirection="row"
-      justifyContent="flex-start"
-      style={{ border: "1px solid blue" }}
-    >
-      <Box display="flex" flexDirection="column">
-        {restaurantSuggestions.map((r) => (
-          <Box key={r.id}>
-            <RestaurantDetails restaurant={r} />
+    <>
+      {restaurantSuggestions && (
+        <Box
+          id="restaurant-suggestions"
+          display="flex"
+          flexDirection="row"
+          justifyContent="flex-start"
+          style={{ border: "1px solid blue" }}
+        >
+          <Box display="flex" flexDirection="column">
+            {restaurantSuggestions.map((r) => (
+              <Box key={r.id}>
+                <RestaurantDetails restaurant={r} />
+              </Box>
+            ))}
           </Box>
-        ))}
-      </Box>
-      <RestaurantMap
-        userLocation={userLocation}
-        restaurantSuggestions={restaurantSuggestions}
-      />
-    </Box>
+          <RestaurantMap
+            userLocation={userLocation}
+            restaurantSuggestions={restaurantSuggestions}
+          />
+        </Box>
+      )}
+    </>
   );
 };
 
