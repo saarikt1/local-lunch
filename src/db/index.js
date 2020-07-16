@@ -3,8 +3,9 @@ import pg from "pg";
 
 dotenv.config();
 
-const client = pg.client;
-client = new Client({
+const { Client } = pg;
+
+const client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
     rejectUnauthorized: false,
