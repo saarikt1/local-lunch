@@ -3,7 +3,7 @@ import pg from "pg";
 
 dotenv.config();
 
-const { client } = pg;
+const client = pg.client;
 client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
