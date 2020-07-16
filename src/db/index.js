@@ -14,6 +14,10 @@ const client = new Client({
 
 client.connect();
 
+export default {
+  query: (text, params) => client.query(text, params),
+};
+
 // const { DB_USER, DB_HOST, DB_DATABASE, DB_PASSWORD, DB_PORT } = process.env;
 // const { Pool } = pg;
 
@@ -30,7 +34,3 @@ client.connect();
 // export default {
 //   query: (text, params) => pool.query(text, params),
 // };
-
-export default {
-  query: (text, params) => client.query(text, params),
-};

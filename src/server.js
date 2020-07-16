@@ -11,6 +11,7 @@ const { PORT } = process.env;
 server.use(express.json());
 server.use(cors());
 server.use("/", router);
+server.use(express.static("build"));
 
 server.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
