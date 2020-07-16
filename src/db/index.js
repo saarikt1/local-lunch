@@ -1,8 +1,9 @@
 import dotenv from "dotenv";
-import { client } from "pg";
+import pg from "pg";
 
 dotenv.config();
 
+const { client } = pg;
 client = new Client({
   connectionString: process.env.DATABASE_URL,
   ssl: {
