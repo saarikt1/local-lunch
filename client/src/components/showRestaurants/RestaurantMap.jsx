@@ -4,8 +4,6 @@ import { Link, Typography, Box } from "@material-ui/core";
 
 const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
   const calculateBoundingBox = (restaurantSuggestions, userLocation) => {
-    console.log("restaurantSuggestions: ", restaurantSuggestions);
-
     const northBound = restaurantSuggestions.reduce(
       (max, cur) => Math.max(max, cur.latlon.x),
       userLocation.lat

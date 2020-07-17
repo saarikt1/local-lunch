@@ -14,5 +14,7 @@ server.use("/", router);
 server.use(express.static("build"));
 
 server.listen(PORT, () => {
-  console.log(`Listening on port ${PORT}`);
+  console.log(
+    `Listening on port ${PORT} in ${process.env.NODE_ENV} environment`
+  );
 });
