@@ -5,6 +5,7 @@ dotenv.config();
 
 // const { Client } = pg;
 
+// console.log(process.env.DATABASE_URL);
 // const client = new Client({
 //   connectionString: process.env.DATABASE_URL,
 //   ssl: {
@@ -38,7 +39,9 @@ if (process.env.NODE_ENV === "development") {
 
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
-    ssl: true,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   });
 }
 
