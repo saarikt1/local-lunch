@@ -7,15 +7,15 @@ beforeAll(async () => {
 });
 
 describe("Application", () => {
-  it('should be titled "Local Lunch"', async () => {
-    await expect(page.title()).resolves.toMatch("Local Lunch");
+  it('should be titled "Lunch Near Me"', async () => {
+    await expect(page.title()).resolves.toMatch("Lunch Near Me");
   });
 });
 
 describe("Front page", () => {
-  it('should have a header "Local Lunch"', async () => {
+  it('should have a header "Lunch Near Me"', async () => {
     const header = await page.$eval("#page-header", (e) => e.innerHTML);
-    await expect(header).toBe("Local Lunch");
+    await expect(header).toBe("Lunch Near Me");
   });
 
   it("should have the correct subtitle", async () => {
