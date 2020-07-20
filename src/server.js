@@ -15,6 +15,23 @@ server.use(morgan("dev"));
 server.use("/", router);
 server.use(express.static("build"));
 
+server.use((req, res, next) => {
+  next(createError(404));
+});
+
+server.use((error, req, res, next) => {
+  console.log("Error status: ", error.status);
+  console.log("Message: ", error.message);
+
+  res.status(error.status || 500);
+
+  res.json({
+    status: error.status,
+    message: error.message,
+    stack: error.stack,
+  });
+});
+
 server.listen(PORT, () => {
   console.log(
     `Listening on port ${PORT} in ${process.env.NODE_ENV} environment`
