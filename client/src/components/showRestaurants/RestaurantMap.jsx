@@ -32,12 +32,17 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
 
   return (
     <React.Fragment>
-      <Box id="map" flex="1" margin="20px">
+      <Box
+        id="map"
+        flex="1"
+        padding="8px"
+        // style={{ border: "3px dashed olive" }}
+      >
         <Map
           bounds={calculateBoundingBox(restaurantSuggestions, userLocation)}
           boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
-          style={{ width: "100%", height: "500px" }}
+          style={{ width: "100%", height: "100%" }}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX}`}

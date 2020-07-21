@@ -26,56 +26,65 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container
-        maxWidth="md"
-        style={{ border: "1px solid red", padding: "30px" }}
-      >
-        <Router>
-          <Header />
-          <Box display="flex" flexDirection="row" justifyContent="center">
-            <Link to="/" style={{ textDecoration: "none" }}>
-              <Button
-                id="locate-button"
-                variant="contained"
-                color="primary"
-                disableElevation
-                type="button"
-                onClick={() => locateUser(setUserLocation, setNotification)}
-                style={{ margin: "20px" }}
-              >
-                Show me my options
-              </Button>
-            </Link>
-            <Link to="/addRestaurant" style={{ textDecoration: "none" }}>
-              <Button
-                id="add-restaurant-button"
-                variant="contained"
-                color="secondary"
-                disableElevation
-                type="button"
-                style={{ margin: "20px" }}
-                onClick={() => locateUser(setUserLocation, setNotification)}
-              >
-                Add a new restaurant
-              </Button>
-            </Link>
-          </Box>
-          <Switch>
-            <Route path="/addRestaurant">
-              <RestaurantForm userLocation={userLocation} />
-            </Route>
-            <Route path="/">
-              <Notification notification={notification} />
-              {userLocation && (
-                <RestaurantSuggestions
-                  restaurants={restaurants}
-                  setRestaurants={setRestaurants}
-                  userLocation={userLocation}
-                />
-              )}
-            </Route>
-          </Switch>
-        </Router>
+      <Container maxWidth="md" style={{ padding: "24px" }}>
+        <Box
+          display="flex"
+          flexDirection="column"
+          // alignItems="center"
+          // style={{ border: "1px solid cyan" }}
+        >
+          <Router>
+            <Header />
+            <Box
+              display="flex"
+              flexDirection="column"
+              alignItems="center"
+              style={{
+                // border: "1px solid olive",
+                padding: "10px",
+                margin: "10px",
+              }}
+            >
+              <Link to="/" style={{ textDecoration: "none" }}>
+                <Button
+                  id="locate-button"
+                  variant="contained"
+                  color="primary"
+                  disableElevation
+                  type="button"
+                  onClick={() => locateUser(setUserLocation, setNotification)}
+                  style={{ marginBottom: "10px" }}
+                >
+                  Show me my options
+                </Button>
+              </Link>
+              <Link to="/addRestaurant" style={{ textDecoration: "none" }}>
+                <Button
+                  id="add-restaurant-button"
+                  color="secondary"
+                  onClick={() => locateUser(setUserLocation, setNotification)}
+                >
+                  Add a new restaurant
+                </Button>
+              </Link>
+            </Box>
+            <Switch>
+              <Route path="/addRestaurant">
+                <RestaurantForm userLocation={userLocation} />
+              </Route>
+              <Route path="/">
+                <Notification notification={notification} />
+                {userLocation && (
+                  <RestaurantSuggestions
+                    restaurants={restaurants}
+                    setRestaurants={setRestaurants}
+                    userLocation={userLocation}
+                  />
+                )}
+              </Route>
+            </Switch>
+          </Router>
+        </Box>
       </Container>
     </React.Fragment>
   );

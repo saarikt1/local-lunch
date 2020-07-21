@@ -1,26 +1,48 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Link, Card, CardContent, Typography } from "@material-ui/core";
+import {
+  Link,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
+    maxWidth: 300,
     margin: "8px 16px",
+  },
+  media: {
+    height: 140,
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
   },
 });
 
 const RestaurantDetails = ({ restaurant }) => {
   const classes = useStyles();
+  const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.root}>
       <CardContent>
-        <Typography variant="h5">{restaurant.name}</Typography>
-        <Typography variant="subtitle2">{restaurant.subtitle}</Typography>
-        <Link href={restaurant.website}>{restaurant.website}</Link>
-        {restaurant.distance && (
-          <p>{restaurant.distance}&nbsp;km from your position</p>
-        )}
+        <Typography gutterBottom variant="h5" component="h2">
+          {restaurant.name}
+        </Typography>
+        <Typography variant="body2" color="textSecondary" component="p">
+          Takeaway{bull}Big groups{bull}Fast service{bull}Buffet
+        </Typography>
       </CardContent>
+      <CardActions>
+        <Button size="small" color="primary">
+          <Link href={restaurant.website}>Website</Link>
+        </Button>
+      </CardActions>
     </Card>
   );
 };

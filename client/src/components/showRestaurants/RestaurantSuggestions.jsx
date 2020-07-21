@@ -73,9 +73,10 @@ const RestaurantSuggestions = ({
         <Box
           id="restaurant-suggestions"
           display="flex"
+          flex="1 0 auto"
           flexDirection="row"
-          justifyContent="flex-start"
-          style={{ border: "1px solid blue" }}
+          flexWrap="wrap"
+          // style={{ border: "2px solid blue" }}
         >
           <Box display="flex" flexDirection="column">
             {restaurantSuggestions.map((r) => (
