@@ -19,8 +19,7 @@ const useStyles = makeStyles({
   },
   bullet: {
     display: "inline-block",
-    margin: "0 2px",
-    transform: "scale(0.8)",
+    margin: "0 4px",
   },
 });
 
