@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
 import RestaurantDetails from "./RestaurantDetails";
-import { calculateDistanceBetweenPoints } from "../../utils";
 import { Box } from "@material-ui/core";
 import RestaurantMap from "./RestaurantMap";
 
-const RestaurantSuggestions = ({
-  restaurants,
-  setRestaurants,
-  userLocation,
-}) => {
-  const [isWithDistance, setIsWithDistance] = useState(false);
-  const [restaurantSuggestions, setRestaurantSuggestions] = useState([]);
-  const [isSuggestions, setIsSuggestions] = useState(false);
+const RestaurantSuggestions = ({ restaurants, userLocation }) => {
+  const [restaurantSuggestions, setRestaurantSuggestions] = useState();
 
   useEffect(() => {
     const filterByDistance = (distance) => {
@@ -46,12 +39,11 @@ const RestaurantSuggestions = ({
       return array;
     }
 
-    if (restaurants && userLocation && !isWithDistance) {
-      // addDistanceToRestaurants();
-      const filteredRestaurants = filterByDistance(700);
+    if (restaurants && userLocation) {
+      const filteredRestaurants = filterByDistance(2000);
       limitToRandomSuggestions(filteredRestaurants, 3);
     }
-  }, [restaurants, setRestaurants, userLocation, isWithDistance]);
+  }, [restaurants, userLocation]);
 
   return (
     <>
@@ -64,15 +56,14 @@ const RestaurantSuggestions = ({
         // style={{ border: "2px solid blue" }}
       >
         <Box display="flex" flexDirection="column">
-          {restaurantSuggestions ? (
-            restaurantSuggestions.map((r, index) => (
-              <Box key={index}>
-                <RestaurantDetails restaurant={r} />
-              </Box>
-            ))
-          ) : (
-            <div>No restaurant suggestions yet.</div>
-          )}
+          {(restaurantSuggestions
+            ? restaurantSuggestions
+            : Array.from(new Array(3))
+          ).map((r, index) => (
+            <Box key={index}>
+              <RestaurantDetails restaurant={r} />
+            </Box>
+          ))}
         </Box>
         {/* <RestaurantMap
           userLocation={userLocation}

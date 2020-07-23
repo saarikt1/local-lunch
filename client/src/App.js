@@ -3,9 +3,9 @@ import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import RestaurantSuggestions from "./components/showRestaurants/RestaurantSuggestions";
 import Header from "./components/Header";
-import { Button, Container, Box } from "@material-ui/core";
+import { Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/addRestaurant/RestaurantForm";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
 import { calculateDistanceBetweenPoints } from "./utils";
 
@@ -131,7 +131,7 @@ const App = () => {
                 <RestaurantForm userLocation={userLocation} />
               </Route>
               <Route path="/">
-                <Notification notification={notification} />
+                {/* <Notification notification={notification} /> */}
                 <RestaurantSuggestions
                   restaurants={restaurants}
                   setRestaurants={setRestaurants}

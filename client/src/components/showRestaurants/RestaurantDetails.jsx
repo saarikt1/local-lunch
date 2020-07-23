@@ -8,10 +8,12 @@ import {
   CardActions,
   Button,
 } from "@material-ui/core";
+import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles({
   root: {
     maxWidth: 300,
+    minWidth: 300,
     margin: "8px 16px",
   },
   media: {
@@ -31,16 +33,33 @@ const RestaurantDetails = ({ restaurant }) => {
     <Card className={classes.root}>
       <CardContent>
         <Typography gutterBottom variant="h5" component="h2">
-          {restaurant.name}
+          {restaurant ? restaurant.name : <Skeleton />}
         </Typography>
         <Typography variant="body2" color="textSecondary" component="p">
-          Takeaway{bull}Big groups{bull}Fast service{bull}Buffet
+          {restaurant ? (
+            <>
+              Takeaway{bull}Big groups{bull}Fast service{bull}Buffet
+            </>
+          ) : (
+            <Skeleton width="60%" />
+          )}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small" color="primary">
-          <Link href={restaurant.website}>Website</Link>
-        </Button>
+        {restaurant ? (
+          <Button size="small" color="primary">
+            {restaurant.website && (
+              <Link href={restaurant.website}>Website</Link>
+            )}
+          </Button>
+        ) : (
+          <Skeleton
+            variant="rect"
+            width={56}
+            height={22}
+            style={{ marginLeft: "8px", marginBottom: "8px" }}
+          />
+        )}
       </CardActions>
     </Card>
   );
