@@ -17,36 +17,6 @@ const deg2rad = (deg) => {
   return deg * (Math.PI / 180);
 };
 
-export const locateUser = (setUserLocation, setNotification) => {
-  function success(position) {
-    const coordinates = {
-      lat: position.coords.latitude,
-      lon: position.coords.longitude,
-    };
-
-    setNotification({ message: null, type: null });
-    console.log("User location: ", coordinates);
-    setUserLocation(coordinates);
-  }
-
-  function error() {
-    setNotification({
-      message: "Location is needed to show the restaurant suggestions.",
-      type: "error",
-    });
-  }
-
-  if (!navigator.geolocation) {
-    setNotification({
-      message: "Geolocation is not supported by your browser",
-      type: "error",
-    });
-  } else {
-    navigator.geolocation.getCurrentPosition(success, error);
-    setNotification({ message: "Locating...", type: "spinner" });
-  }
-};
-
 export const calculateBoundingBoxAroundLocation = (userLocation) => {
   // Roughly 50 km difference to the original location for each variable
   let x1 = userLocation.lon - 0.45;

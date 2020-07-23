@@ -6,22 +6,80 @@ import Header from "./components/Header";
 import { Button, Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { locateUser } from "./utils";
 import Notification from "./components/Notification";
+import { calculateDistanceBetweenPoints } from "./utils";
 
 const App = () => {
   const [restaurants, setRestaurants] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
+  const [isWithDistance, setIsWithDistance] = useState(false);
   const [notification, setNotification] = useState(null);
 
   useEffect(() => {
     const initRestaurants = async () => {
       const response = await axios.get("/restaurants");
       setRestaurants(response.data);
+      console.log("Restaurants initialized");
     };
 
     initRestaurants();
   }, []);
+
+  useEffect(() => {
+    const locateUser = () => {
+      function success(position) {
+        const coordinates = {
+          lat: position.coords.latitude,
+          lon: position.coords.longitude,
+        };
+
+        setNotification({ message: null, type: null });
+        console.log("User location: ", coordinates);
+        setUserLocation(coordinates);
+        setIsWithDistance(false);
+      }
+
+      function error() {
+        setNotification({
+          message: "Location is needed to show the restaurant suggestions.",
+          type: "error",
+        });
+      }
+
+      if (!navigator.geolocation) {
+        setNotification({
+          message: "Geolocation is not supported by your browser",
+          type: "error",
+        });
+      } else {
+        navigator.geolocation.getCurrentPosition(success, error);
+        setNotification({ message: "Locating...", type: "spinner" });
+      }
+    };
+
+    locateUser();
+  }, []);
+
+  useEffect(() => {
+    const addDistanceToRestaurants = () => {
+      const restaurantsWithDistances = restaurants.map((r) => {
+        r.distance = calculateDistanceBetweenPoints(
+          userLocation.lat,
+          userLocation.lon,
+          r.latlon.x,
+          r.latlon.y
+        );
+        return r;
+      });
+      setRestaurants(restaurantsWithDistances);
+      setIsWithDistance(true);
+      console.log("Distances added to restaurants");
+    };
+
+    if (userLocation && restaurants && !isWithDistance) {
+      addDistanceToRestaurants();
+    }
+  }, [userLocation, restaurants, isWithDistance]);
 
   return (
     <React.Fragment>
@@ -35,7 +93,7 @@ const App = () => {
         >
           <Router>
             <Header />
-            <Box
+            {/* <Box
               display="flex"
               flexDirection="column"
               alignItems="center"
@@ -67,20 +125,18 @@ const App = () => {
                   Add a new restaurant
                 </Button>
               </Link>
-            </Box>
+            </Box> */}
             <Switch>
               <Route path="/addRestaurant">
                 <RestaurantForm userLocation={userLocation} />
               </Route>
               <Route path="/">
                 <Notification notification={notification} />
-                {userLocation && (
-                  <RestaurantSuggestions
-                    restaurants={restaurants}
-                    setRestaurants={setRestaurants}
-                    userLocation={userLocation}
-                  />
-                )}
+                <RestaurantSuggestions
+                  restaurants={restaurants}
+                  setRestaurants={setRestaurants}
+                  userLocation={userLocation}
+                />
               </Route>
             </Switch>
           </Router>

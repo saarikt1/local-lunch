@@ -10,24 +10,10 @@ const RestaurantSuggestions = ({
   userLocation,
 }) => {
   const [isWithDistance, setIsWithDistance] = useState(false);
-  const [restaurantSuggestions, setRestaurantSuggestions] = useState(null);
+  const [restaurantSuggestions, setRestaurantSuggestions] = useState([]);
+  const [isSuggestions, setIsSuggestions] = useState(false);
 
   useEffect(() => {
-    const addDistanceToRestaurants = () => {
-      const restaurantsWithDistances = restaurants.map((r) => {
-        r.distance = calculateDistanceBetweenPoints(
-          userLocation.lat,
-          userLocation.lon,
-          r.latlon.x,
-          r.latlon.y
-        );
-        return r;
-      });
-
-      setRestaurants(restaurantsWithDistances);
-      setIsWithDistance(true);
-    };
-
     const filterByDistance = (distance) => {
       const filteredRestaurants = restaurants.filter(
         (r) => r.distance < distance / 1000
@@ -60,8 +46,8 @@ const RestaurantSuggestions = ({
       return array;
     }
 
-    if (userLocation && !isWithDistance) {
-      addDistanceToRestaurants();
+    if (restaurants && userLocation && !isWithDistance) {
+      // addDistanceToRestaurants();
       const filteredRestaurants = filterByDistance(700);
       limitToRandomSuggestions(filteredRestaurants, 3);
     }
@@ -69,28 +55,30 @@ const RestaurantSuggestions = ({
 
   return (
     <>
-      {restaurantSuggestions && (
-        <Box
-          id="restaurant-suggestions"
-          display="flex"
-          flex="1 0 auto"
-          flexDirection="row"
-          flexWrap="wrap"
-          // style={{ border: "2px solid blue" }}
-        >
-          <Box display="flex" flexDirection="column">
-            {restaurantSuggestions.map((r) => (
-              <Box key={r.id}>
+      <Box
+        id="restaurant-suggestions"
+        display="flex"
+        flex="1 0 auto"
+        flexDirection="row"
+        flexWrap="wrap"
+        // style={{ border: "2px solid blue" }}
+      >
+        <Box display="flex" flexDirection="column">
+          {restaurantSuggestions ? (
+            restaurantSuggestions.map((r, index) => (
+              <Box key={index}>
                 <RestaurantDetails restaurant={r} />
               </Box>
-            ))}
-          </Box>
-          <RestaurantMap
-            userLocation={userLocation}
-            restaurantSuggestions={restaurantSuggestions}
-          />
+            ))
+          ) : (
+            <div>No restaurant suggestions yet.</div>
+          )}
         </Box>
-      )}
+        {/* <RestaurantMap
+          userLocation={userLocation}
+          restaurantSuggestions={restaurantSuggestions}
+        /> */}
+      </Box>
     </>
   );
 };
