@@ -65,10 +65,10 @@ const RestaurantSuggestions = ({ restaurants, userLocation }) => {
             </Box>
           ))}
         </Box>
-        {/* <RestaurantMap
+        <RestaurantMap
           userLocation={userLocation}
           restaurantSuggestions={restaurantSuggestions}
-        /> */}
+        />
       </Box>
     </>
   );
