@@ -3,7 +3,11 @@ import RestaurantDetails from "./RestaurantDetails";
 import { Box } from "@material-ui/core";
 import RestaurantMap from "./RestaurantMap";
 
-const RestaurantSuggestions = ({ restaurants, userLocation }) => {
+const RestaurantSuggestions = ({
+  restaurants,
+  userLocation,
+  isWithDistance,
+}) => {
   const [restaurantSuggestions, setRestaurantSuggestions] = useState();
 
   useEffect(() => {
@@ -39,11 +43,11 @@ const RestaurantSuggestions = ({ restaurants, userLocation }) => {
       return array;
     }
 
-    if (restaurants && userLocation) {
+    if (restaurants && userLocation && isWithDistance) {
       const filteredRestaurants = filterByDistance(2000);
       limitToRandomSuggestions(filteredRestaurants, 3);
     }
-  }, [restaurants, userLocation]);
+  }, [restaurants, userLocation, isWithDistance]);
 
   return (
     <>

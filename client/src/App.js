@@ -136,6 +136,7 @@ const App = () => {
                   restaurants={restaurants}
                   setRestaurants={setRestaurants}
                   userLocation={userLocation}
+                  isWithDistance={isWithDistance}
                 />
               </Route>
             </Switch>

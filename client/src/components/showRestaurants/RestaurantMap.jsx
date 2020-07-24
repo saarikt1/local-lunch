@@ -1,40 +1,45 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 
 const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
-  const calculateBoundingBox = (restaurantSuggestions, userLocation) => {
-    if (!userLocation || !restaurantSuggestions) {
-      return [
-        [62.9894714, 34.558059],
-        [38.1706012, -3.976497],
-      ];
+  const initialMapView = [
+    [62.9894714, 34.558059],
+    [38.1706012, -3.976497],
+  ];
+  const [boundingBox, setBoundingBox] = useState(initialMapView);
+
+  useEffect(() => {
+    const calculateBoundingBox = () => {
+      const northBound = restaurantSuggestions.reduce(
+        (max, cur) => Math.max(max, cur.latlon.x),
+        userLocation.lat
+      );
+
+      const westBound = restaurantSuggestions.reduce(
+        (min, cur) => Math.min(min, cur.latlon.y),
+        userLocation.lon
+      );
+
+      const southBound = restaurantSuggestions.reduce(
+        (min, cur) => Math.min(min, cur.latlon.x),
+        userLocation.lat
+      );
+
+      const eastBound = restaurantSuggestions.reduce(
+        (max, cur) => Math.max(max, cur.latlon.y),
+        userLocation.lon
+      );
+
+      setBoundingBox([
+        [northBound, eastBound],
+        [southBound, westBound],
+      ]);
+    };
+    if (userLocation && restaurantSuggestions) {
+      calculateBoundingBox();
     }
-    const northBound = restaurantSuggestions.reduce(
-      (max, cur) => Math.max(max, cur.latlon.x),
-      userLocation.lat
-    );
-
-    const westBound = restaurantSuggestions.reduce(
-      (min, cur) => Math.min(min, cur.latlon.y),
-      userLocation.lon
-    );
-
-    const southBound = restaurantSuggestions.reduce(
-      (min, cur) => Math.min(min, cur.latlon.x),
-      userLocation.lat
-    );
-
-    const eastBound = restaurantSuggestions.reduce(
-      (max, cur) => Math.max(max, cur.latlon.y),
-      userLocation.lon
-    );
-
-    return [
-      [northBound, eastBound],
-      [southBound, westBound],
-    ];
-  };
+  }, [restaurantSuggestions, setBoundingBox, userLocation]);
 
   return (
     <React.Fragment>
@@ -45,10 +50,11 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
         // style={{ border: "3px dashed olive" }}
       >
         <Map
-          bounds={calculateBoundingBox(restaurantSuggestions, userLocation)}
+          useFlyTo="true"
+          bounds={boundingBox}
           boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
-          style={{ width: "100%", height: "100%" }}
+          style={{ width: "100%", height: "500px" }}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX}`}
