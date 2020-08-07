@@ -7,8 +7,8 @@ import "fontsource-roboto/latin-500-normal.css";
 import "fontsource-roboto/latin-700-normal.css";
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  // <React.StrictMode>
+  <App />,
+  // </React.StrictMode>,
   document.getElementById("root")
 );

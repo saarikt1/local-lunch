@@ -19,7 +19,6 @@ const App = () => {
     const initRestaurants = async () => {
       const response = await axios.get("/restaurants");
       setRestaurants(response.data);
-      console.log("Restaurants initialized");
     };
 
     initRestaurants();
@@ -33,8 +32,7 @@ const App = () => {
           lon: position.coords.longitude,
         };
 
-        setNotification({ message: null, type: null });
-        console.log("User location: ", coordinates);
+        setNotification(null);
         setUserLocation(coordinates);
         setIsWithDistance(false);
       }
@@ -53,7 +51,6 @@ const App = () => {
         });
       } else {
         navigator.geolocation.getCurrentPosition(success, error);
-        setNotification({ message: "Locating...", type: "spinner" });
       }
     };
 
@@ -73,7 +70,6 @@ const App = () => {
       });
       setRestaurants(restaurantsWithDistances);
       setIsWithDistance(true);
-      console.log("Distances added to restaurants");
     };
 
     if (userLocation && restaurants && !isWithDistance) {
@@ -131,12 +127,13 @@ const App = () => {
                 <RestaurantForm userLocation={userLocation} />
               </Route>
               <Route path="/">
-                {/* <Notification notification={notification} /> */}
+                <Notification notification={notification} />
                 <RestaurantSuggestions
                   restaurants={restaurants}
                   setRestaurants={setRestaurants}
                   userLocation={userLocation}
                   isWithDistance={isWithDistance}
+                  setNotification={setNotification}
                 />
               </Route>
             </Switch>

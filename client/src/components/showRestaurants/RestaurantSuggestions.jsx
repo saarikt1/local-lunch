@@ -7,14 +7,29 @@ const RestaurantSuggestions = ({
   restaurants,
   userLocation,
   isWithDistance,
+  setNotification,
 }) => {
   const [restaurantSuggestions, setRestaurantSuggestions] = useState();
+  const [restaurantsFound, setRestaurantsFound] = useState(true);
+  const searchRadiusInMeters = 700;
+  const secondarySearchRadiusInMeters = 2000;
 
   useEffect(() => {
+    let isTooFewResults = false;
+
     const filterByDistance = (distance) => {
-      const filteredRestaurants = restaurants.filter(
+      let filteredRestaurants = restaurants.filter(
         (r) => r.distance < distance / 1000
       );
+
+      if (!isTooFewResults && filteredRestaurants.length < 2) {
+        isTooFewResults = true;
+        return filterByDistance(secondarySearchRadiusInMeters);
+      }
+
+      if (filteredRestaurants.length === 0) {
+        return null;
+      }
       return filteredRestaurants;
     };
 
@@ -44,36 +59,47 @@ const RestaurantSuggestions = ({
     }
 
     if (restaurants && userLocation && isWithDistance) {
-      const filteredRestaurants = filterByDistance(2000);
-      limitToRandomSuggestions(filteredRestaurants, 3);
+      const filteredRestaurants = filterByDistance(searchRadiusInMeters);
+      if (filteredRestaurants) {
+        limitToRandomSuggestions(filteredRestaurants, 3);
+      } else {
+        setNotification({
+          message:
+            "No restaurants found near your location. Try refreshing the page at a different location.",
+          type: "error",
+        });
+        setRestaurantsFound(false);
+      }
     }
-  }, [restaurants, userLocation, isWithDistance]);
+  }, [restaurants, userLocation, isWithDistance, setNotification]);
 
   return (
     <>
-      <Box
-        id="restaurant-suggestions"
-        display="flex"
-        flex="1 0 auto"
-        flexDirection="row"
-        flexWrap="wrap"
-        // style={{ border: "2px solid blue" }}
-      >
-        <Box display="flex" flexDirection="column">
-          {(restaurantSuggestions
-            ? restaurantSuggestions
-            : Array.from(new Array(3))
-          ).map((r, index) => (
-            <Box key={index}>
-              <RestaurantDetails restaurant={r} />
-            </Box>
-          ))}
+      {restaurantsFound && (
+        <Box
+          id="restaurant-suggestions"
+          display="flex"
+          flex="1 0 auto"
+          flexDirection="row"
+          flexWrap="wrap"
+          // style={{ border: "2px solid blue" }}
+        >
+          <Box display="flex" flexDirection="column">
+            {(restaurantSuggestions
+              ? restaurantSuggestions
+              : Array.from(new Array(3))
+            ).map((r, index) => (
+              <Box key={index}>
+                <RestaurantDetails restaurant={r} />
+              </Box>
+            ))}
+          </Box>
+          <RestaurantMap
+            userLocation={userLocation}
+            restaurantSuggestions={restaurantSuggestions}
+          />
         </Box>
-        <RestaurantMap
-          userLocation={userLocation}
-          restaurantSuggestions={restaurantSuggestions}
-        />
-      </Box>
+      )}
     </>
   );
 };
