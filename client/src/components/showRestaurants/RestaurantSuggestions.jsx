@@ -75,15 +75,15 @@ const RestaurantSuggestions = ({
 
   return (
     <>
-      {restaurantsFound && (
-        <Box
-          id="restaurant-suggestions"
-          display="flex"
-          flex="1 0 auto"
-          flexDirection="row"
-          flexWrap="wrap"
-          // style={{ border: "2px solid blue" }}
-        >
+      <Box
+        id="restaurant-suggestions"
+        display="flex"
+        flex="1 0 auto"
+        flexDirection="row"
+        flexWrap="wrap"
+        // style={{ border: "2px solid blue" }}
+      >
+        {restaurantsFound && (
           <Box display="flex" flexDirection="column">
             {(restaurantSuggestions
               ? restaurantSuggestions
@@ -94,12 +94,12 @@ const RestaurantSuggestions = ({
               </Box>
             ))}
           </Box>
-          <RestaurantMap
-            userLocation={userLocation}
-            restaurantSuggestions={restaurantSuggestions}
-          />
-        </Box>
-      )}
+        )}
+        <RestaurantMap
+          userLocation={userLocation}
+          restaurantSuggestions={restaurantSuggestions}
+        />
+      </Box>
     </>
   );
 };

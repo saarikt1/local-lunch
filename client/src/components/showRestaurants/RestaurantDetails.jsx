@@ -35,7 +35,7 @@ const RestaurantDetails = ({ restaurant }) => {
         <Typography gutterBottom variant="h5" component="h2">
           {restaurant ? restaurant.name : <Skeleton />}
         </Typography>
-        <Typography variant="body2" color="textSecondary" component="p">
+        {/* <Typography variant="body2" color="textSecondary" component="p">
           {restaurant ? (
             <>
               Takeaway{bull}Big groups{bull}Fast service{bull}Buffet
@@ -43,7 +43,7 @@ const RestaurantDetails = ({ restaurant }) => {
           ) : (
             <Skeleton width="60%" />
           )}
-        </Typography>
+        </Typography> */}
       </CardContent>
       <CardActions>
         {restaurant ? (

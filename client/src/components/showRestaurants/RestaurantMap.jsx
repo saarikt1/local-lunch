@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 
@@ -8,35 +8,47 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
     [38.1706012, -3.976497],
   ];
   const [boundingBox, setBoundingBox] = useState(initialMapView);
+  const map = useRef();
+
+  useEffect(() => {
+    map.current.leafletElement.invalidateSize();
+  });
 
   useEffect(() => {
     const calculateBoundingBox = () => {
-      const northBound = restaurantSuggestions.reduce(
-        (max, cur) => Math.max(max, cur.latlon.x),
-        userLocation.lat
-      );
+      if (!restaurantSuggestions) {
+        setBoundingBox([
+          [userLocation.lat, userLocation.lon],
+          [userLocation.lat, userLocation.lon],
+        ]);
+      } else {
+        const northBound = restaurantSuggestions.reduce(
+          (max, cur) => Math.max(max, cur.latlon.x),
+          userLocation.lat
+        );
 
-      const westBound = restaurantSuggestions.reduce(
-        (min, cur) => Math.min(min, cur.latlon.y),
-        userLocation.lon
-      );
+        const westBound = restaurantSuggestions.reduce(
+          (min, cur) => Math.min(min, cur.latlon.y),
+          userLocation.lon
+        );
 
-      const southBound = restaurantSuggestions.reduce(
-        (min, cur) => Math.min(min, cur.latlon.x),
-        userLocation.lat
-      );
+        const southBound = restaurantSuggestions.reduce(
+          (min, cur) => Math.min(min, cur.latlon.x),
+          userLocation.lat
+        );
 
-      const eastBound = restaurantSuggestions.reduce(
-        (max, cur) => Math.max(max, cur.latlon.y),
-        userLocation.lon
-      );
+        const eastBound = restaurantSuggestions.reduce(
+          (max, cur) => Math.max(max, cur.latlon.y),
+          userLocation.lon
+        );
 
-      setBoundingBox([
-        [northBound, eastBound],
-        [southBound, westBound],
-      ]);
+        setBoundingBox([
+          [northBound, eastBound],
+          [southBound, westBound],
+        ]);
+      }
     };
-    if (userLocation && restaurantSuggestions) {
+    if (userLocation) {
       calculateBoundingBox();
     }
   }, [restaurantSuggestions, setBoundingBox, userLocation]);
@@ -50,6 +62,7 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
         // style={{ border: "3px dashed olive" }}
       >
         <Map
+          ref={map}
           useFlyTo="true"
           bounds={boundingBox}
           boundsOptions={{ padding: [35, 35] }}
