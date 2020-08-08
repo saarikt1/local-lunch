@@ -80,7 +80,7 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="md" style={{ padding: "24px" }}>
+      <Container maxWidth="lg" style={{ padding: "24px" }}>
         <Box
           display="flex"
           flexDirection="column"

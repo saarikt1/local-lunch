@@ -58,8 +58,8 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
       <Box
         id="map"
         flex="1"
-        padding="8px"
-        // style={{ border: "3px dashed olive" }}
+        margin="8px"
+        style={{ border: "1px dashed olive" }}
       >
         <Map
           ref={map}
@@ -67,7 +67,11 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
           bounds={boundingBox}
           boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
-          style={{ width: "100%", height: "500px" }}
+          style={{
+            width: "100%",
+            minWidth: "250px",
+            paddingBottom: "min(75%, 80vh)",
+          }}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX}`}

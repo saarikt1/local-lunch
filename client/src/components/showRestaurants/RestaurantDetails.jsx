@@ -12,12 +12,9 @@ import Skeleton from "@material-ui/lab/Skeleton";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 300,
-    minWidth: 300,
-    margin: "8px 16px",
-  },
-  media: {
-    height: 140,
+    maxWidth: 296,
+    minWidth: 250,
+    margin: "8px 8px",
   },
   bullet: {
     display: "inline-block",
