@@ -20,11 +20,15 @@ const useStyles = makeStyles({
     display: "inline-block",
     margin: "0 4px",
   },
+  skeleton: {
+    marginLeft: "8px",
+    marginBottom: "8px",
+  },
 });
 
 const RestaurantDetails = ({ restaurant }) => {
   const classes = useStyles();
-  const bull = <span className={classes.bullet}>•</span>;
+  // const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.root}>
@@ -54,7 +58,7 @@ const RestaurantDetails = ({ restaurant }) => {
             variant="rect"
             width={56}
             height={22}
-            style={{ marginLeft: "8px", marginBottom: "8px" }}
+            className={classes.skeleton}
           />
         )}
       </CardActions>

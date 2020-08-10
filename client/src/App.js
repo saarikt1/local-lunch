@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
+import { makeStyles } from "@material-ui/core/styles";
 import RestaurantSuggestions from "./components/showRestaurants/RestaurantSuggestions";
 import Header from "./components/Header";
 import { Container, Box } from "@material-ui/core";
@@ -9,11 +10,19 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
 import { calculateDistanceBetweenPoints } from "./utils";
 
+const useStyles = makeStyles({
+  root: {
+    padding: "24px",
+  },
+});
+
 const App = () => {
   const [restaurants, setRestaurants] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [isWithDistance, setIsWithDistance] = useState(false);
   const [notification, setNotification] = useState(null);
+
+  const classes = useStyles();
 
   useEffect(() => {
     const initRestaurants = async () => {
@@ -80,7 +89,7 @@ const App = () => {
   return (
     <React.Fragment>
       <CssBaseline />
-      <Container maxWidth="lg" style={{ padding: "24px" }}>
+      <Container maxWidth="lg" className={classes.root}>
         <Box display="flex" flexDirection="column">
           <Router>
             <Header />

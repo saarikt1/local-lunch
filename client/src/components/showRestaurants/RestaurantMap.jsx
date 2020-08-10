@@ -1,6 +1,15 @@
 import React, { useEffect, useState, useRef } from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  map: {
+    width: "100%",
+    minWidth: "250px",
+    paddingBottom: "min(75%, 80vh)",
+  },
+});
 
 const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
   const initialMapView = [
@@ -9,6 +18,8 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
   ];
   const [boundingBox, setBoundingBox] = useState(initialMapView);
   const map = useRef();
+
+  const classes = useStyles();
 
   useEffect(() => {
     map.current.leafletElement.invalidateSize();
@@ -55,23 +66,14 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
 
   return (
     <React.Fragment>
-      <Box
-        id="map"
-        flex="1"
-        margin="8px"
-        // style={{ border: "1px dashed olive" }}
-      >
+      <Box id="map" flex="1" margin="8px">
         <Map
           ref={map}
           useFlyTo="true"
           bounds={boundingBox}
           boundsOptions={{ padding: [35, 35] }}
           scrollWheelZoom={false}
-          style={{
-            width: "100%",
-            minWidth: "250px",
-            paddingBottom: "min(75%, 80vh)",
-          }}
+          className={classes.map}
         >
           <TileLayer
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX}`}

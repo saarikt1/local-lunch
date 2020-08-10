@@ -82,14 +82,9 @@ const RestaurantSuggestions = ({
         justifyContent="center"
         flexDirection="row"
         flexWrap="wrap"
-        // style={{ border: "1px solid blue" }}
       >
         {restaurantsFound && (
-          <Box
-            display="flex"
-            flexDirection="column"
-            // style={{ border: "1px solid gold" }}
-          >
+          <Box display="flex" flexDirection="column">
             {(restaurantSuggestions
               ? restaurantSuggestions
               : Array.from(new Array(3))
