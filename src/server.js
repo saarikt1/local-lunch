@@ -2,8 +2,14 @@ import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
 import router from "./routes/routes.js";
+import path from "path";
 import morgan from "morgan";
 import createError from "http-errors";
+
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 dotenv.config();
 
@@ -14,7 +20,8 @@ server.use(express.json());
 server.use(cors());
 server.use(morgan("dev"));
 server.use("/", router);
-server.use(express.static("build"));
+// server.use(express.static("build"));
+server.use(express.static(path.join(__dirname, "build")));
 
 server.use((req, res, next) => {
   next(createError(404));
