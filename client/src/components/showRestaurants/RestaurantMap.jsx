@@ -59,7 +59,7 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
         id="map"
         flex="1"
         margin="8px"
-        style={{ border: "1px dashed olive" }}
+        // style={{ border: "1px dashed olive" }}
       >
         <Map
           ref={map}

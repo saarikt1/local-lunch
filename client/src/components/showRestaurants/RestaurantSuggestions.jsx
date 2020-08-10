@@ -82,13 +82,13 @@ const RestaurantSuggestions = ({
         justifyContent="center"
         flexDirection="row"
         flexWrap="wrap"
-        style={{ border: "1px solid blue" }}
+        // style={{ border: "1px solid blue" }}
       >
         {restaurantsFound && (
           <Box
             display="flex"
             flexDirection="column"
-            style={{ border: "1px solid gold" }}
+            // style={{ border: "1px solid gold" }}
           >
             {(restaurantSuggestions
               ? restaurantSuggestions
