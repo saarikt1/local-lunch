@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFormik } from "formik";
+import { useFormik, Formik, Field, Form, ErrorMessage } from "formik";
 import { Box, Typography } from "@material-ui/core";
 import SearchResults from "./SearchResults";
 import { calculateBoundingBoxAroundLocation } from "../../utils";
@@ -10,9 +10,8 @@ const RestaurantForm = ({ userLocation }) => {
 
   const fetchSearchResults = async (searchQuery) => {
     const { x1, y1, x2, y2 } = calculateBoundingBoxAroundLocation(userLocation);
-    console.log("Bounding box: ", x1, y1, x2, y2);
 
-    let response = await fetch(
+    const response = await fetch(
       `https://nominatim.openstreetmap.org/?addressdetails=1&q=${searchQuery}&format=json&limit=5&viewbox=${x1},${y1},${x2},${y2}&extratags=1&bounded=1`
     );
     let data = await response.json();
@@ -31,15 +30,6 @@ const RestaurantForm = ({ userLocation }) => {
     formikAddRestaurant.setFieldValue("latlon", latlon);
   };
 
-  const formikSearchForm = useFormik({
-    initialValues: {
-      search: "",
-    },
-    onSubmit: (values) => {
-      fetchSearchResults(JSON.stringify(values.search));
-    },
-  });
-
   const formikAddRestaurant = useFormik({
     initialValues: {
       name: "",
@@ -47,7 +37,7 @@ const RestaurantForm = ({ userLocation }) => {
       website: "",
       latlon: "",
     },
-    onSubmit: async (values) => {
+    onSubmit: async (values, { resetForm }) => {
       const params = {
         name: values.name,
         subtitle: values.subtitle,
@@ -56,23 +46,30 @@ const RestaurantForm = ({ userLocation }) => {
       };
       const res = await axios.post("/restaurants", params);
       console.log("res.data: ", res.data);
+      resetForm({ values: "" });
     },
   });
 
   return (
     <Box>
       <Typography variant="h5">Add a new restaurant</Typography>
-      <form onSubmit={formikSearchForm.handleSubmit}>
-        <label htmlFor="search">Search for a restaurant to add</label>
-        <input
-          id="search"
-          name="search"
-          type="text"
-          onChange={formikSearchForm.handleChange}
-          value={formikSearchForm.values.search}
-        />
-        <button type="submit">Search</button>
-      </form>
+      <Formik
+        initialValues={{
+          search: "",
+        }}
+        onSubmit={(values, { resetForm }) => {
+          fetchSearchResults(JSON.stringify(values.search));
+          resetForm({ values: "" });
+        }}
+      >
+        <Form>
+          <label htmlFor="search">
+            Search for a restaurant from Open Street Map data
+          </label>
+          <Field name="search" type="text" />
+          <button type="submit">Search</button>
+        </Form>
+      </Formik>
       <SearchResults
         searchResults={searchResults}
         fillFormWithData={fillFormWithData}
