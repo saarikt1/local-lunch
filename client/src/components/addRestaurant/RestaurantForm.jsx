@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { Formik, Field, Form, ErrorMessage } from "formik";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Typography, Button } from "@material-ui/core";
 import SearchResults from "./SearchResults";
 import { calculateBoundingBoxAroundLocation } from "../../utils";
+import { TextField } from "formik-material-ui";
 import axios from "axios";
 
 const RestaurantForm = ({ userLocation }) => {
@@ -54,8 +55,17 @@ const RestaurantForm = ({ userLocation }) => {
           <label htmlFor="search">
             Search for a restaurant from Open Street Map data
           </label>
-          <Field name="search" type="text" />
-          <button type="submit">Search</button>
+          <br />
+          <Field
+            component={TextField}
+            label="Restaurant name"
+            name="search"
+            type="text"
+          />
+          <br />
+          <Button color="primary" type="submit">
+            Search
+          </Button>
         </Form>
       </Formik>
       <SearchResults
@@ -79,18 +89,40 @@ const RestaurantForm = ({ userLocation }) => {
         }}
       >
         <Form>
-          <label htmlFor="name">Name</label>
-          <Field name="name" type="text" />
+          <Field component={TextField} label="Name" name="name" type="text" />
+          <br />
 
-          <label htmlFor="subtitle">Specifier</label>
-          <Field name="subtitle" type="text" />
+          <Field
+            component={TextField}
+            label="Specifier"
+            name="subtitle"
+            type="text"
+          />
+          <br />
 
-          <label htmlFor="website">Website</label>
-          <Field name="website" type="text" />
+          <Field
+            component={TextField}
+            label="Website"
+            name="website"
+            type="text"
+          />
+          <br />
 
-          <label htmlFor="latlon">Coordinates lat, lon</label>
-          <Field name="latlon" type="text" />
-          <button type="submit">Add restaurant</button>
+          <Field
+            component={TextField}
+            label="Coordinates lat, lon"
+            name="latlon"
+            type="text"
+          />
+          <br />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disableElevation
+          >
+            Add restaurant
+          </Button>
         </Form>
       </Formik>
     </Box>
