@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useFormik, Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form, ErrorMessage } from "formik";
 import { Box, Typography } from "@material-ui/core";
 import SearchResults from "./SearchResults";
 import { calculateBoundingBoxAroundLocation } from "../../utils";
@@ -7,6 +7,12 @@ import axios from "axios";
 
 const RestaurantForm = ({ userLocation }) => {
   const [searchResults, setSearchResults] = useState([]);
+  const [initialFormValues, setInitialFormValues] = useState({
+    name: "",
+    subtitle: "",
+    website: "",
+    latlon: "",
+  });
 
   const fetchSearchResults = async (searchQuery) => {
     const { x1, y1, x2, y2 } = calculateBoundingBoxAroundLocation(userLocation);
@@ -24,31 +30,13 @@ const RestaurantForm = ({ userLocation }) => {
   };
 
   const fillFormWithData = (name, subtitle, website, latlon) => {
-    formikAddRestaurant.setFieldValue("name", name);
-    formikAddRestaurant.setFieldValue("subtitle", subtitle);
-    formikAddRestaurant.setFieldValue("website", website);
-    formikAddRestaurant.setFieldValue("latlon", latlon);
+    setInitialFormValues({
+      name: name,
+      subtitle: subtitle,
+      website: website,
+      latlon: latlon,
+    });
   };
-
-  const formikAddRestaurant = useFormik({
-    initialValues: {
-      name: "",
-      subtitle: "",
-      website: "",
-      latlon: "",
-    },
-    onSubmit: async (values, { resetForm }) => {
-      const params = {
-        name: values.name,
-        subtitle: values.subtitle,
-        website: values.website,
-        latlon: `(${values.latlon})`,
-      };
-      const res = await axios.post("/restaurants", params);
-      console.log("res.data: ", res.data);
-      resetForm({ values: "" });
-    },
-  });
 
   return (
     <Box>
@@ -76,45 +64,35 @@ const RestaurantForm = ({ userLocation }) => {
       />
 
       <Typography variant="h6">Add manually</Typography>
-      <form onSubmit={formikAddRestaurant.handleSubmit}>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          name="name"
-          type="text"
-          onChange={formikAddRestaurant.handleChange}
-          value={formikAddRestaurant.values.name}
-        />
-        <br />
-        <label htmlFor="subtitle">Specifier</label>
-        <input
-          id="subtitle"
-          name="subtitle"
-          type="text"
-          onChange={formikAddRestaurant.handleChange}
-          value={formikAddRestaurant.values.subtitle}
-        />
-        <br />
-        <label htmlFor="website">Website</label>
-        <input
-          id="website"
-          name="website"
-          type="text"
-          onChange={formikAddRestaurant.handleChange}
-          value={formikAddRestaurant.values.website}
-        />
-        <br />
-        <label htmlFor="latlon">Coordinates lat, lon</label>
-        <input
-          id="latlon"
-          name="latlon"
-          type="text"
-          onChange={formikAddRestaurant.handleChange}
-          value={formikAddRestaurant.values.latlon}
-        />
-        <br />
-        <button type="submit">Add to database</button>
-      </form>
+      <Formik
+        enableReinitialize={true}
+        initialValues={initialFormValues}
+        onSubmit={async (values, { resetForm }) => {
+          const params = {
+            name: values.name,
+            subtitle: values.subtitle,
+            website: values.website,
+            latlon: `(${values.latlon})`,
+          };
+          await axios.post("/restaurants", params);
+          resetForm({ values: "" });
+        }}
+      >
+        <Form>
+          <label htmlFor="name">Name</label>
+          <Field name="name" type="text" />
+
+          <label htmlFor="subtitle">Specifier</label>
+          <Field name="subtitle" type="text" />
+
+          <label htmlFor="website">Website</label>
+          <Field name="website" type="text" />
+
+          <label htmlFor="latlon">Coordinates lat, lon</label>
+          <Field name="latlon" type="text" />
+          <button type="submit">Add restaurant</button>
+        </Form>
+      </Formik>
     </Box>
   );
 };
