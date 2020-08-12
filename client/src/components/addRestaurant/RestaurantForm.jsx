@@ -6,6 +6,13 @@ import { calculateBoundingBoxAroundLocation } from "../../utils";
 import { TextField } from "formik-material-ui";
 import axios from "axios";
 import * as Yup from "yup";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  textField: {
+    minWidth: "250px",
+  },
+});
 
 const RestaurantForm = ({ userLocation }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -15,6 +22,7 @@ const RestaurantForm = ({ userLocation }) => {
     website: "",
     latlon: "",
   });
+  const classes = useStyles();
 
   const fetchSearchResults = async (searchQuery) => {
     const { x1, y1, x2, y2 } = calculateBoundingBoxAroundLocation(userLocation);
@@ -59,6 +67,7 @@ const RestaurantForm = ({ userLocation }) => {
           <br />
           <Field
             component={TextField}
+            className={classes.textField}
             label="Restaurant name"
             name="search"
             type="text"
@@ -96,42 +105,54 @@ const RestaurantForm = ({ userLocation }) => {
           resetForm({ values: "" });
         }}
       >
-        <Form>
-          <Field component={TextField} label="Name" name="name" type="text" />
-          <br />
+        {(props) => (
+          <Form>
+            <Field
+              component={TextField}
+              className={classes.textField}
+              label="Name"
+              name="name"
+              type="text"
+            />
+            <br />
 
-          <Field
-            component={TextField}
-            label="Specifier"
-            name="subtitle"
-            type="text"
-          />
-          <br />
+            <Field
+              component={TextField}
+              className={classes.textField}
+              label="Specifier"
+              name="subtitle"
+              type="text"
+            />
+            <br />
 
-          <Field
-            component={TextField}
-            label="Website"
-            name="website"
-            type="text"
-          />
-          <br />
+            <Field
+              component={TextField}
+              className={classes.textField}
+              label="Website"
+              name="website"
+              type="text"
+            />
+            <br />
 
-          <Field
-            component={TextField}
-            label="Coordinates lat, lon"
-            name="latlon"
-            type="text"
-          />
-          <br />
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            disableElevation
-          >
-            Add restaurant
-          </Button>
-        </Form>
+            <Field
+              component={TextField}
+              className={classes.textField}
+              label="Coordinates lat, lon"
+              name="latlon"
+              type="text"
+            />
+            <br />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disableElevation
+              disabled={!(props.isValid && props.dirty)}
+            >
+              Add restaurant
+            </Button>
+          </Form>
+        )}
       </Formik>
     </Box>
   );
