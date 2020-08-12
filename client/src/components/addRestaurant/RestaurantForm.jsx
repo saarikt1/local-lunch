@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
+import { Formik, Field, Form } from "formik";
 import { Box, Typography, Button } from "@material-ui/core";
 import SearchResults from "./SearchResults";
 import { calculateBoundingBoxAroundLocation } from "../../utils";
 import { TextField } from "formik-material-ui";
 import axios from "axios";
+import * as Yup from "yup";
 
 const RestaurantForm = ({ userLocation }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -41,7 +42,7 @@ const RestaurantForm = ({ userLocation }) => {
 
   return (
     <Box>
-      <Typography variant="h5">Add a new restaurant</Typography>
+      <Typography variant="h4">Add a new restaurant</Typography>
       <Formik
         initialValues={{
           search: "",
@@ -77,6 +78,13 @@ const RestaurantForm = ({ userLocation }) => {
       <Formik
         enableReinitialize={true}
         initialValues={initialFormValues}
+        validationSchema={Yup.object({
+          name: Yup.string()
+            .max(40, "Must be 40 characters or less")
+            .required("Required"),
+          website: Yup.string().url("Must be a valid url"),
+          latlon: Yup.string().required("Required"),
+        })}
         onSubmit={async (values, { resetForm }) => {
           const params = {
             name: values.name,
