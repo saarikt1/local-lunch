@@ -147,7 +147,7 @@ const RestaurantForm = ({ userLocation }) => {
               variant="contained"
               color="primary"
               disableElevation
-              disabled={!(props.isValid && props.dirty)}
+              disabled={!props.isValid}
             >
               Add restaurant
             </Button>
