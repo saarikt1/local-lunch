@@ -19,9 +19,8 @@ const { PORT } = process.env;
 server.use(express.json());
 server.use(cors());
 server.use(morgan("dev"));
+server.use(express.static(path.join(__dirname, "../build")));
 server.use("/", router);
-// server.use(express.static("build"));
-server.use(express.static(path.join(__dirname, "build")));
 
 server.use((req, res, next) => {
   next(createError(404));
