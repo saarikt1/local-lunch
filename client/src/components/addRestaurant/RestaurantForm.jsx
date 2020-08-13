@@ -102,7 +102,14 @@ const RestaurantForm = ({ userLocation }) => {
             latlon: `(${values.latlon})`,
           };
           await axios.post("/restaurants", params);
+          // setInitialFormValues({
+          //   name: "",
+          //   subtitle: "",
+          //   website: "",
+          //   latlon: "",
+          // });
           resetForm({ values: "" });
+          console.log("Restaurant added!");
         }}
       >
         {(props) => (
