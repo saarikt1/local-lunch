@@ -26,6 +26,7 @@
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
     "express-promise-router": "^4.0.1",
+    "heroku-ssl-redirect": "^0.1.1",
     "http-errors": "^1.8.0",
     "morgan": "^1.10.0",
     "pg": "^8.2.1"

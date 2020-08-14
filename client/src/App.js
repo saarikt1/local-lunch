@@ -46,7 +46,8 @@ const App = () => {
         setIsWithDistance(false);
       }
 
-      function error() {
+      function error(err) {
+        console.log(`ERROR(${err.code}): ${err.message}`);
         setNotification({
           message: "Location is needed to show the restaurant suggestions.",
           type: "error",
