@@ -1,5 +1,4 @@
 import dotenv from "dotenv";
-import sslRedirect from "heroku-ssl-redirect";
 import express from "express";
 import cors from "cors";
 import router from "./routes/routes.js";
@@ -17,7 +16,14 @@ dotenv.config();
 const server = express();
 const { PORT } = process.env;
 
-server.use(sslRedirect());
+if (process.env.NODE_ENV === "production") {
+  server.use((req, res, next) => {
+    if (req.header("x-forwarded-proto") !== "https")
+      res.redirect(`https://${req.header("host")}${req.url}`);
+    else next();
+  });
+}
+
 server.use(express.json());
 server.use(cors());
 server.use(morgan("dev"));
