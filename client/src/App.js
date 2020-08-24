@@ -9,6 +9,8 @@ import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
 import { calculateDistanceBetweenPoints } from "./utils";
+import { showNotification } from "./reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -20,7 +22,8 @@ const App = () => {
   const [restaurants, setRestaurants] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
   const [isWithDistance, setIsWithDistance] = useState(false);
-  const [notification, setNotification] = useState(null);
+
+  const dispatch = useDispatch();
 
   const classes = useStyles();
 
@@ -41,31 +44,41 @@ const App = () => {
           lon: position.coords.longitude,
         };
 
-        setNotification(null);
+        dispatch(showNotification(null));
         setUserLocation(coordinates);
         setIsWithDistance(false);
       }
 
       function error(err) {
         console.log(`ERROR(${err.code}): ${err.message}`);
-        setNotification({
-          message: "Location is needed to show the restaurant suggestions.",
-          type: "error",
-        });
+        dispatch(
+          showNotification(
+            "Location is needed to show the restaurant suggestions.",
+            "warning"
+          )
+        );
+        dispatch(
+          showNotification(
+            "Location is needed to show the restaurant suggestions.",
+            "warning"
+          )
+        );
       }
 
       if (!navigator.geolocation) {
-        setNotification({
-          message: "Geolocation is not supported by your browser",
-          type: "error",
-        });
+        dispatch(
+          showNotification(
+            "Geolocation is not supported by your browser",
+            "warning"
+          )
+        );
       } else {
         navigator.geolocation.getCurrentPosition(success, error);
       }
     };
 
     locateUser();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const addDistanceToRestaurants = () => {
@@ -99,13 +112,12 @@ const App = () => {
                 <RestaurantForm userLocation={userLocation} />
               </Route>
               <Route path="/">
-                <Notification notification={notification} />
+                <Notification />
                 <RestaurantSuggestions
                   restaurants={restaurants}
                   setRestaurants={setRestaurants}
                   userLocation={userLocation}
                   isWithDistance={isWithDistance}
-                  setNotification={setNotification}
                 />
               </Route>
             </Switch>
