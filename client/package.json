@@ -48,7 +48,8 @@
     ]
   },
   "devDependencies": {
-    "jest-puppeteer": "^4.4.0"
+    "jest-puppeteer": "^4.4.0",
+    "redux-devtools-extension": "^2.13.8"
   },
   "jest": {
     "preset": "jest-puppeteer"

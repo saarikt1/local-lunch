@@ -44,7 +44,6 @@ const App = () => {
           lon: position.coords.longitude,
         };
 
-        dispatch(showNotification(null));
         setUserLocation(coordinates);
         setIsWithDistance(false);
       }
@@ -107,12 +106,12 @@ const App = () => {
         <Box display="flex" flexDirection="column">
           <Router>
             <Header />
+            <Notification />
             <Switch>
               <Route path="/addRestaurant">
                 <RestaurantForm userLocation={userLocation} />
               </Route>
               <Route path="/">
-                <Notification />
                 <RestaurantSuggestions
                   restaurants={restaurants}
                   setRestaurants={setRestaurants}

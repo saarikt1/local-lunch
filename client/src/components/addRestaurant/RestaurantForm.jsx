@@ -7,6 +7,8 @@ import { TextField } from "formik-material-ui";
 import axios from "axios";
 import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
+import { showNotification } from "../../reducers/notificationReducer";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
   textField: {
@@ -23,6 +25,7 @@ const RestaurantForm = ({ userLocation }) => {
     latlon: "",
   });
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const fetchSearchResults = async (searchQuery) => {
     const { x1, y1, x2, y2 } = calculateBoundingBoxAroundLocation(userLocation);
@@ -58,6 +61,8 @@ const RestaurantForm = ({ userLocation }) => {
         onSubmit={(values, { resetForm }) => {
           fetchSearchResults(JSON.stringify(values.search));
           resetForm({ values: "" });
+          dispatch(showNotification("Search done!", "success"));
+          console.log("search submit");
         }}
       >
         <Form>
@@ -104,6 +109,12 @@ const RestaurantForm = ({ userLocation }) => {
           await axios.post("/restaurants", params);
           resetForm();
           console.log("Restaurant added!");
+          dispatch(
+            showNotification(
+              `Restaurant ${values.name} added to the database!`,
+              "success"
+            )
+          );
         }}
       >
         {(props) => (
