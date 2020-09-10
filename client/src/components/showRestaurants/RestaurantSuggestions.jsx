@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import { Box } from "@material-ui/core";
 import RestaurantMap from "./RestaurantMap";
+import { useDispatch } from "react-redux";
+import { showNotification } from "../../reducers/notificationReducer";
 
 const RestaurantSuggestions = ({
   restaurants,
   userLocation,
   isWithDistance,
-  setNotification,
 }) => {
   const [restaurantSuggestions, setRestaurantSuggestions] = useState();
   const [restaurantsFound, setRestaurantsFound] = useState(true);
   const searchRadiusInMeters = 700;
   const secondarySearchRadiusInMeters = 2000;
+  const dispatch = useDispatch();
 
   useEffect(() => {
     let isTooFewResults = false;
@@ -63,15 +65,16 @@ const RestaurantSuggestions = ({
       if (filteredRestaurants) {
         limitToRandomSuggestions(filteredRestaurants, 3);
       } else {
-        setNotification({
-          message:
+        dispatch(
+          showNotification(
             "No restaurants found near your location. Try refreshing the page at a different location.",
-          type: "error",
-        });
+            "error"
+          )
+        );
         setRestaurantsFound(false);
       }
     }
-  }, [restaurants, userLocation, isWithDistance, setNotification]);
+  }, [restaurants, userLocation, isWithDistance, dispatch]);
 
   return (
     <>
