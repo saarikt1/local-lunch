@@ -62,7 +62,6 @@ const RestaurantForm = ({ userLocation }) => {
           fetchSearchResults(JSON.stringify(values.search));
           resetForm({ values: "" });
           dispatch(showNotification("Search done!", "success"));
-          console.log("search submit");
         }}
       >
         <Form>
@@ -107,14 +106,13 @@ const RestaurantForm = ({ userLocation }) => {
             latlon: `(${values.latlon})`,
           };
           await axios.post("/restaurants", params);
-          resetForm();
-          console.log("Restaurant added!");
           dispatch(
             showNotification(
               `Restaurant ${values.name} added to the database!`,
               "success"
             )
           );
+          resetForm();
         }}
       >
         {(props) => (
