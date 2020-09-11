@@ -24,12 +24,9 @@ const useStyles = makeStyles({
 
 const App = () => {
   const [userLocation, setUserLocation] = useState(null);
-  const [isWithDistance, setIsWithDistances] = useState(false);
-
-  const restaurants = useSelector((state) => state.restaurants.allRestaurants);
+  const restaurants = useSelector((state) => state.restaurants);
 
   const dispatch = useDispatch();
-
   const classes = useStyles();
 
   useEffect(() => {
@@ -39,7 +36,7 @@ const App = () => {
     };
 
     initRestaurants();
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     const locateUser = () => {
@@ -86,7 +83,7 @@ const App = () => {
 
   useEffect(() => {
     const addDistanceToRestaurants = () => {
-      const restaurantsWithDistances = restaurants.map((r) => {
+      const restaurantsWithDistances = restaurants.allRestaurants.map((r) => {
         r.distance = calculateDistanceBetweenPoints(
           userLocation.lat,
           userLocation.lon,
@@ -96,14 +93,22 @@ const App = () => {
         return r;
       });
       dispatch(setAllRestaurants(restaurantsWithDistances));
-      setIsWithDistances(true);
       dispatch(setIsWithDistance(true));
     };
 
-    if (userLocation && restaurants && !isWithDistance) {
+    if (
+      userLocation &&
+      restaurants.allRestaurants &&
+      !restaurants.isWithDistance
+    ) {
       addDistanceToRestaurants();
     }
-  }, [userLocation, restaurants, isWithDistance]);
+  }, [
+    userLocation,
+    restaurants.allRestaurants,
+    restaurants.isWithDistance,
+    dispatch,
+  ]);
 
   return (
     <React.Fragment>
@@ -119,9 +124,9 @@ const App = () => {
               </Route>
               <Route path="/">
                 <RestaurantSuggestions
-                  restaurants={restaurants}
+                  restaurants={restaurants.allRestaurants}
                   userLocation={userLocation}
-                  isWithDistance={isWithDistance}
+                  isWithDistance={restaurants.isWithDistance}
                 />
               </Route>
             </Switch>
