@@ -104,10 +104,7 @@ const RestaurantSuggestions = ({ userLocation }) => {
             ))}
           </Box>
         )}
-        <RestaurantMap
-          userLocation={userLocation}
-          restaurantSuggestions={restaurants.restaurantSuggestions}
-        />
+        <RestaurantMap userLocation={userLocation} />
       </Box>
     </>
   );

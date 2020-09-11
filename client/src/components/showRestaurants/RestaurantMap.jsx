@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef } from "react";
 import { Map, TileLayer, Marker, Popup, Tooltip, Circle } from "react-leaflet";
 import { Link, Typography, Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   map: {
@@ -11,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
+const RestaurantMap = ({ userLocation }) => {
   const initialMapView = [
     [62.9894714, 34.558059],
     [38.1706012, -3.976497],
@@ -19,6 +20,9 @@ const RestaurantMap = ({ userLocation, restaurantSuggestions }) => {
   const [boundingBox, setBoundingBox] = useState(initialMapView);
   const map = useRef();
 
+  const restaurantSuggestions = useSelector(
+    (state) => state.restaurants.restaurantSuggestions
+  );
   const classes = useStyles();
 
   useEffect(() => {
