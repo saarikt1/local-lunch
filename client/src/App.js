@@ -10,8 +10,11 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
 import { calculateDistanceBetweenPoints } from "./utils";
 import { showNotification } from "./reducers/notificationReducer";
-import { setAllRestaurants } from "./reducers/restaurantReducer";
-import { useDispatch } from "react-redux";
+import {
+  setAllRestaurants,
+  setIsWithDistance,
+} from "./reducers/restaurantReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -20,9 +23,10 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-  const [restaurants, setRestaurants] = useState(null);
   const [userLocation, setUserLocation] = useState(null);
-  const [isWithDistance, setIsWithDistance] = useState(false);
+  const [isWithDistance, setIsWithDistances] = useState(false);
+
+  const restaurants = useSelector((state) => state.restaurants.allRestaurants);
 
   const dispatch = useDispatch();
 
@@ -31,7 +35,7 @@ const App = () => {
   useEffect(() => {
     const initRestaurants = async () => {
       const response = await axios.get("/restaurants");
-      setRestaurants(response.data);
+      dispatch(setAllRestaurants(response.data));
     };
 
     initRestaurants();
@@ -91,8 +95,9 @@ const App = () => {
         );
         return r;
       });
-      setRestaurants(restaurantsWithDistances);
-      setIsWithDistance(true);
+      dispatch(setAllRestaurants(restaurantsWithDistances));
+      setIsWithDistances(true);
+      dispatch(setIsWithDistance(true));
     };
 
     if (userLocation && restaurants && !isWithDistance) {
@@ -115,7 +120,6 @@ const App = () => {
               <Route path="/">
                 <RestaurantSuggestions
                   restaurants={restaurants}
-                  setRestaurants={setRestaurants}
                   userLocation={userLocation}
                   isWithDistance={isWithDistance}
                 />

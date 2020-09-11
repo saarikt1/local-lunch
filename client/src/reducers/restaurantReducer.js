@@ -9,17 +9,17 @@ const reducer = (state = initialState, action) => {
     case "restaurant/setAllRestaurants":
       return {
         ...state,
-        allRestaurants: action.payload.restaurants,
+        allRestaurants: action.payload,
       };
     case "restaurant/setRestaurantSuggestions":
       return {
         ...state,
-        restaurantSuggestions: action.payload.restaurants,
+        restaurantSuggestions: action.payload,
       };
     case "restaurant/setIsWithDistance":
       return {
         ...state,
-        isWithDistance: action.payload.isWithDistance,
+        isWithDistance: action.payload,
       };
     default:
       return state;

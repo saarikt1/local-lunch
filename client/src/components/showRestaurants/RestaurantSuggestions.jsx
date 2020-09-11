@@ -4,15 +4,16 @@ import { Box } from "@material-ui/core";
 import RestaurantMap from "./RestaurantMap";
 import { useDispatch } from "react-redux";
 import { showNotification } from "../../reducers/notificationReducer";
+import { setRestaurantSuggestions } from "../../reducers/restaurantReducer";
 
 const RestaurantSuggestions = ({
   restaurants,
   userLocation,
   isWithDistance,
 }) => {
-  const [restaurantSuggestions, setRestaurantSuggestions] = useState();
+  const [restaurantSuggestions, setRestaurantsuggestions] = useState();
   const [restaurantsFound, setRestaurantsFound] = useState(true);
-  const searchRadiusInMeters = 700;
+  const searchRadiusInMeters = 750;
   const secondarySearchRadiusInMeters = 2000;
   const dispatch = useDispatch();
 
@@ -37,7 +38,8 @@ const RestaurantSuggestions = ({
 
     const limitToRandomSuggestions = (array, number) => {
       const suffledArray = shuffle(array);
-      setRestaurantSuggestions(suffledArray.splice(0, number));
+      setRestaurantsuggestions(suffledArray.splice(0, number));
+      dispatch(setRestaurantSuggestions(suffledArray.splice(0, number)));
     };
 
     function shuffle(array) {
