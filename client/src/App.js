@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
 import { calculateDistanceBetweenPoints } from "./utils";
 import { showNotification } from "./reducers/notificationReducer";
+import { setAllRestaurants } from "./reducers/restaurantReducer";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({

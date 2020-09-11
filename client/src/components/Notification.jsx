@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Notification = () => {
-  const notification = useSelector((state) => state);
+  const notification = useSelector((state) => state.notification);
   const classes = useStyles();
   const dispatch = useDispatch();
 
