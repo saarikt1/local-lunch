@@ -123,11 +123,7 @@ const App = () => {
                 <RestaurantForm userLocation={userLocation} />
               </Route>
               <Route path="/">
-                <RestaurantSuggestions
-                  restaurants={restaurants.allRestaurants}
-                  userLocation={userLocation}
-                  isWithDistance={restaurants.isWithDistance}
-                />
+                <RestaurantSuggestions userLocation={userLocation} />
               </Route>
             </Switch>
           </Router>

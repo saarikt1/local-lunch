@@ -2,26 +2,22 @@ import React, { useEffect, useState } from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import { Box } from "@material-ui/core";
 import RestaurantMap from "./RestaurantMap";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { showNotification } from "../../reducers/notificationReducer";
 import { setRestaurantSuggestions } from "../../reducers/restaurantReducer";
 
-const RestaurantSuggestions = ({
-  restaurants,
-  userLocation,
-  isWithDistance,
-}) => {
-  const [restaurantSuggestions, setRestaurantsuggestions] = useState();
+const RestaurantSuggestions = ({ userLocation }) => {
   const [restaurantsFound, setRestaurantsFound] = useState(true);
   const searchRadiusInMeters = 750;
   const secondarySearchRadiusInMeters = 2000;
+  const restaurants = useSelector((state) => state.restaurants);
   const dispatch = useDispatch();
 
   useEffect(() => {
     let isTooFewResults = false;
 
     const filterByDistance = (distance) => {
-      let filteredRestaurants = restaurants.filter(
+      let filteredRestaurants = restaurants.allRestaurants.filter(
         (r) => r.distance < distance / 1000
       );
 
@@ -38,7 +34,6 @@ const RestaurantSuggestions = ({
 
     const limitToRandomSuggestions = (array, number) => {
       const suffledArray = shuffle(array);
-      setRestaurantsuggestions(suffledArray.splice(0, number));
       dispatch(setRestaurantSuggestions(suffledArray.splice(0, number)));
     };
 
@@ -62,7 +57,11 @@ const RestaurantSuggestions = ({
       return array;
     }
 
-    if (restaurants && userLocation && isWithDistance) {
+    if (
+      restaurants.allRestaurants &&
+      userLocation &&
+      restaurants.isWithDistance
+    ) {
       const filteredRestaurants = filterByDistance(searchRadiusInMeters);
       if (filteredRestaurants) {
         limitToRandomSuggestions(filteredRestaurants, 3);
@@ -76,7 +75,12 @@ const RestaurantSuggestions = ({
         setRestaurantsFound(false);
       }
     }
-  }, [restaurants, userLocation, isWithDistance, dispatch]);
+  }, [
+    restaurants.allRestaurants,
+    userLocation,
+    restaurants.isWithDistance,
+    dispatch,
+  ]);
 
   return (
     <>
@@ -90,8 +94,8 @@ const RestaurantSuggestions = ({
       >
         {restaurantsFound && (
           <Box display="flex" flexDirection="column">
-            {(restaurantSuggestions
-              ? restaurantSuggestions
+            {(restaurants.restaurantSuggestions
+              ? restaurants.restaurantSuggestions
               : Array.from(new Array(3))
             ).map((r, index) => (
               <Box key={index}>
@@ -102,7 +106,7 @@ const RestaurantSuggestions = ({
         )}
         <RestaurantMap
           userLocation={userLocation}
-          restaurantSuggestions={restaurantSuggestions}
+          restaurantSuggestions={restaurants.restaurantSuggestions}
         />
       </Box>
     </>
