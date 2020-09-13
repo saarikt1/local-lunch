@@ -16,14 +16,14 @@ const RestaurantSuggestions = ({ userLocation }) => {
   useEffect(() => {
     let isTooFewResults = false;
 
-    const filterByDistance = (distance) => {
+    const filterRestaurantsByDistance = (distance) => {
       let filteredRestaurants = restaurants.allRestaurants.filter(
-        (r) => r.distance < distance / 1000
+        (r) => r.distance < distance
       );
 
       if (!isTooFewResults && filteredRestaurants.length < 2) {
         isTooFewResults = true;
-        return filterByDistance(secondarySearchRadiusInMeters);
+        return filterRestaurantsByDistance(secondarySearchRadiusInMeters);
       }
 
       if (filteredRestaurants.length === 0) {
@@ -62,7 +62,9 @@ const RestaurantSuggestions = ({ userLocation }) => {
       userLocation &&
       restaurants.isWithDistance
     ) {
-      const filteredRestaurants = filterByDistance(searchRadiusInMeters);
+      const filteredRestaurants = filterRestaurantsByDistance(
+        searchRadiusInMeters
+      );
       if (filteredRestaurants) {
         limitToRandomSuggestions(filteredRestaurants, 3);
       } else {
