@@ -8,10 +8,10 @@ import { setRestaurantSuggestions } from "../../reducers/restaurantReducer";
 
 const RestaurantSuggestions = ({ userLocation }) => {
   const [restaurantsFound, setRestaurantsFound] = useState(true);
-  const searchRadiusInMeters = 750;
-  const secondarySearchRadiusInMeters = 2000;
   const restaurants = useSelector((state) => state.restaurants);
   const dispatch = useDispatch();
+  const primarySearchRadiusInMeters = 750;
+  const secondarySearchRadiusInMeters = 2000;
 
   useEffect(() => {
     let isTooFewResults = false;
@@ -32,9 +32,11 @@ const RestaurantSuggestions = ({ userLocation }) => {
       return filteredRestaurants;
     };
 
-    const limitToRandomSuggestions = (array, number) => {
+    const limitToRandomSuggestions = (array, numberOfSuggestions) => {
       const suffledArray = shuffle(array);
-      dispatch(setRestaurantSuggestions(suffledArray.splice(0, number)));
+      dispatch(
+        setRestaurantSuggestions(suffledArray.splice(0, numberOfSuggestions))
+      );
     };
 
     if (
@@ -43,7 +45,7 @@ const RestaurantSuggestions = ({ userLocation }) => {
       restaurants.isWithDistance
     ) {
       const filteredRestaurants = filterRestaurantsByDistance(
-        searchRadiusInMeters
+        primarySearchRadiusInMeters
       );
       if (filteredRestaurants) {
         limitToRandomSuggestions(filteredRestaurants, 3);
