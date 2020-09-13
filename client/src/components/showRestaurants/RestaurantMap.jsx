@@ -19,11 +19,10 @@ const RestaurantMap = ({ userLocation }) => {
   ];
   const [boundingBox, setBoundingBox] = useState(initialMapView);
   const map = useRef();
-
+  const classes = useStyles();
   const restaurantSuggestions = useSelector(
     (state) => state.restaurants.restaurantSuggestions
   );
-  const classes = useStyles();
 
   useEffect(() => {
     map.current.leafletElement.invalidateSize();
