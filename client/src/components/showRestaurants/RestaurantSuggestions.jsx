@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import RestaurantDetails from "./RestaurantDetails";
 import { Box } from "@material-ui/core";
+import RestaurantList from "./RestaurantList";
 import RestaurantMap from "./RestaurantMap";
 import { useDispatch, useSelector } from "react-redux";
 import { showNotification } from "../../reducers/notificationReducer";
@@ -93,18 +93,23 @@ const RestaurantSuggestions = ({ userLocation }) => {
         flexDirection="row"
         flexWrap="wrap"
       >
-        {restaurantsFound && (
-          <Box display="flex" flexDirection="column">
-            {(restaurants.restaurantSuggestions
-              ? restaurants.restaurantSuggestions
-              : Array.from(new Array(3))
-            ).map((r, index) => (
-              <Box key={index}>
-                <RestaurantDetails restaurant={r} />
-              </Box>
-            ))}
-          </Box>
-        )}
+        {
+          restaurantsFound && (
+            <RestaurantList
+              restaurantSuggestions={restaurants.restaurantSuggestions}
+            />
+          )
+          // <Box display="flex" flexDirection="column">
+          //   {(restaurants.restaurantSuggestions
+          //     ? restaurants.restaurantSuggestions
+          //     : Array.from(new Array(3))
+          //   ).map((r, index) => (
+          //     <Box key={index}>
+          //       <RestaurantDetails restaurant={r} />
+          //     </Box>
+          //   ))}
+          // </Box>
+        }
         <RestaurantMap userLocation={userLocation} />
       </Box>
     </>
