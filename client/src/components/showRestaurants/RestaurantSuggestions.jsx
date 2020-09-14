@@ -14,24 +14,6 @@ const RestaurantSuggestions = ({ userLocation }) => {
   const secondarySearchRadiusInMeters = 2000;
 
   useEffect(() => {
-    let isTooFewResults = false;
-
-    const filterRestaurantsByDistance = (distance) => {
-      let filteredRestaurants = restaurants.allRestaurants.filter(
-        (r) => r.distance < distance
-      );
-
-      if (!isTooFewResults && filteredRestaurants.length < 2) {
-        isTooFewResults = true;
-        return filterRestaurantsByDistance(secondarySearchRadiusInMeters);
-      }
-
-      if (filteredRestaurants.length === 0) {
-        return null;
-      }
-      return filteredRestaurants;
-    };
-
     const limitToRandomSuggestions = (array, numberOfSuggestions) => {
       const suffledArray = shuffle(array);
       dispatch(
@@ -45,6 +27,7 @@ const RestaurantSuggestions = ({ userLocation }) => {
       restaurants.isWithDistance
     ) {
       const filteredRestaurants = filterRestaurantsByDistance(
+        restaurants.allRestaurants,
         primarySearchRadiusInMeters
       );
       if (filteredRestaurants) {
@@ -65,6 +48,12 @@ const RestaurantSuggestions = ({ userLocation }) => {
     restaurants.isWithDistance,
     dispatch,
   ]);
+
+  const filterRestaurantsByDistance = (restaurants, distance) => {
+    let filteredRestaurants = restaurants.filter((r) => r.distance < distance);
+
+    return filteredRestaurants;
+  };
 
   function shuffle(array) {
     var currentIndex = array.length,
