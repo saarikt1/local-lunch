@@ -1,14 +1,17 @@
 import React from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import { Box } from "@material-ui/core";
+import { useSelector } from "react-redux";
 
-const RestaurantList = ({ restaurantSuggestions }) => {
+const RestaurantList = () => {
+  const restaurantSuggestions = useSelector(
+    (state) => state.restaurants.restaurantSuggestions
+  );
+  const emptyArray = Array.from(new Array(3));
+
   return (
     <Box display="flex" flexDirection="column">
-      {(restaurantSuggestions
-        ? restaurantSuggestions
-        : Array.from(new Array(3))
-      ).map((r, index) => (
+      {(restaurantSuggestions || emptyArray).map((r, index) => (
         <Box key={index}>
           <RestaurantDetails restaurant={r} />
         </Box>
