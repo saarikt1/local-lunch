@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Box } from "@material-ui/core";
 import RestaurantList from "./RestaurantList";
 import RestaurantMap from "./RestaurantMap";
@@ -7,11 +7,9 @@ import { showNotification } from "../../reducers/notificationReducer";
 import { setRestaurantSuggestions } from "../../reducers/restaurantReducer";
 
 const RestaurantSuggestions = ({ userLocation }) => {
-  const [restaurantsFound, setRestaurantsFound] = useState(true);
   const restaurants = useSelector((state) => state.restaurants);
   const dispatch = useDispatch();
   const primarySearchRadiusInMeters = 750;
-  const secondarySearchRadiusInMeters = 2000;
 
   useEffect(() => {
     const limitToRandomSuggestions = (array, numberOfSuggestions) => {
@@ -39,7 +37,6 @@ const RestaurantSuggestions = ({ userLocation }) => {
             "error"
           )
         );
-        setRestaurantsFound(false);
       }
     }
   }, [
@@ -82,7 +79,7 @@ const RestaurantSuggestions = ({ userLocation }) => {
         flexDirection="row"
         flexWrap="wrap"
       >
-        {restaurantsFound && <RestaurantList />}
+        <RestaurantList />
         <RestaurantMap userLocation={userLocation} />
       </Box>
     </>
