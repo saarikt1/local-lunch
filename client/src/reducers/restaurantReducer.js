@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const initialState = {
   allRestaurants: null,
   restaurantSuggestions: null,
@@ -24,6 +26,20 @@ const reducer = (state = initialState, action) => {
     default:
       return state;
   }
+};
+
+export const initData = () => {
+  // Set restaurants
+  // Get userLocation
+  // Then set distances
+  // Flag as ready
+  return async (dispatch) => {
+    const response = await axios.get("/restaurants");
+    dispatch({
+      type: "restaurant/setAllRestaurants",
+      payload: response.data,
+    });
+  };
 };
 
 export const setIsWithDistance = (isWithDistance) => {

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import RestaurantSuggestions from "./components/showRestaurants/RestaurantSuggestions";
@@ -10,6 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
 import { calculateDistanceBetweenPoints } from "./utils";
 import { showNotification } from "./reducers/notificationReducer";
+import { initData } from "./reducers/restaurantReducer";
 import {
   setAllRestaurants,
   setIsWithDistance,
@@ -30,12 +30,12 @@ const App = () => {
   const classes = useStyles();
 
   useEffect(() => {
-    const initRestaurants = async () => {
-      const response = await axios.get("/restaurants");
-      dispatch(setAllRestaurants(response.data));
-    };
-
-    initRestaurants();
+    dispatch(initData());
+    // const initRestaurants = async () => {
+    //   const response = await axios.get("/restaurants");
+    //   dispatch(setAllRestaurants(response.data));
+    // };
+    // initRestaurants();
   }, [dispatch]);
 
   useEffect(() => {
@@ -52,12 +52,6 @@ const App = () => {
 
       function error(err) {
         console.log(`ERROR(${err.code}): ${err.message}`);
-        dispatch(
-          showNotification(
-            "Location is needed to show the restaurant suggestions.",
-            "warning"
-          )
-        );
         dispatch(
           showNotification(
             "Location is needed to show the restaurant suggestions.",

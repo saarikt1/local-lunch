@@ -10,13 +10,20 @@ const RestaurantSuggestions = ({ userLocation }) => {
   const restaurants = useSelector((state) => state.restaurants);
   const dispatch = useDispatch();
   const primarySearchRadiusInMeters = 750;
+  const numberOfSuggestions = 3;
 
   useEffect(() => {
-    const limitToRandomSuggestions = (array, numberOfSuggestions) => {
-      const suffledArray = shuffle(array);
-      dispatch(
-        setRestaurantSuggestions(suffledArray.splice(0, numberOfSuggestions))
+    const createRestaurantSuggestions = () => {
+      const filteredByDistance = filterRestaurantsByDistance(
+        restaurants.allRestaurants,
+        primarySearchRadiusInMeters
       );
+
+      const suffledArray = shuffleArray(filteredByDistance);
+
+      const topItems = suffledArray.splice(0, numberOfSuggestions);
+
+      dispatch(setRestaurantSuggestions(topItems));
     };
 
     if (
@@ -24,35 +31,57 @@ const RestaurantSuggestions = ({ userLocation }) => {
       userLocation &&
       restaurants.isWithDistance
     ) {
-      const filteredRestaurants = filterRestaurantsByDistance(
-        restaurants.allRestaurants,
-        primarySearchRadiusInMeters
-      );
-      if (filteredRestaurants) {
-        limitToRandomSuggestions(filteredRestaurants, 3);
-      } else {
-        dispatch(
-          showNotification(
-            "No restaurants found near your location. Try refreshing the page at a different location.",
-            "error"
-          )
-        );
-      }
+      createRestaurantSuggestions();
     }
-  }, [
-    restaurants.allRestaurants,
-    userLocation,
-    restaurants.isWithDistance,
-    dispatch,
-  ]);
+    // let filteredRestaurants;
+
+    // const limitToRandomSuggestions = (array, numberOfSuggestions) => {
+    //   const suffledArray = shuffleArray(array);
+    //   dispatch(
+    //     setRestaurantSuggestions(suffledArray.splice(0, numberOfSuggestions))
+    //   );
+    // };
+
+    // if (
+    //   restaurants.allRestaurants &&
+    //   userLocation &&
+    //   restaurants.isWithDistance
+    // ) {
+    //   filteredRestaurants = filterRestaurantsByDistance(
+    //     restaurants.allRestaurants,
+    //     primarySearchRadiusInMeters
+    //   );
+    //   if (filteredRestaurants) {
+    //     limitToRandomSuggestions(filteredRestaurants, 3);
+    //   } else {
+    //     dispatch(
+    //       showNotification(
+    //         "No restaurants found near your location. Try refreshing the page at a different location.",
+    //         "error"
+    //       )
+    //     );
+    //   }
+    // }
+  }, [restaurants.allRestaurants, userLocation, restaurants.isWithDistance]);
 
   const filterRestaurantsByDistance = (restaurants, distance) => {
-    let filteredRestaurants = restaurants.filter((r) => r.distance < distance);
+    const filteredRestaurants = restaurants.filter(
+      (r) => r.distance < distance
+    );
+
+    if (filteredRestaurants.length === 0) {
+      dispatch(
+        showNotification(
+          "No restaurants found near your location. Try refreshing the page at a different location.",
+          "error"
+        )
+      );
+    }
 
     return filteredRestaurants;
   };
 
-  function shuffle(array) {
+  function shuffleArray(array) {
     var currentIndex = array.length,
       temporaryValue,
       randomIndex;
