@@ -3,11 +3,41 @@ import axios from "axios";
 const initialState = {
   allRestaurants: null,
   restaurantSuggestions: null,
+  isFetching: false,
   isWithDistance: false,
+  didInvalidate: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case "restaurant/invalidateRestaurants":
+      return {
+        ...state,
+        didInvalidate: true,
+      };
+    case "restaurant/requestRestaurants":
+      return {
+        ...state,
+        isFetching: true,
+        isWithDistance: false,
+        didInvalidate: false,
+      };
+    case "restaurants/receiveRestaurants":
+      return {
+        ...state,
+        isFetching: false,
+        isWithDistance: false,
+        didInvalidate: false,
+        allRestaurants: action.payload,
+      };
+    case "restaurant/addDistances":
+      return {
+        ...state,
+        isFetching: false,
+        isWithDistance: true,
+        didInvalidate: false,
+        allRestaurants: action.payload,
+      };
     case "restaurant/setAllRestaurants":
       return {
         ...state,
@@ -28,17 +58,26 @@ const reducer = (state = initialState, action) => {
   }
 };
 
+const requestRestaurants = () => {
+  return {
+    type: "restaurant/requestRestaurants",
+  };
+};
+
+const loadRestaurants = () => async (dispatch) => {
+  const response = await axios.get("/restaurants");
+  dispatch(setAllRestaurants(response.data));
+};
+
+// Set restaurants
+// Get userLocation
+// Then set distances
+// Flag as ready
 export const initData = () => {
-  // Set restaurants
-  // Get userLocation
-  // Then set distances
-  // Flag as ready
   return async (dispatch) => {
-    const response = await axios.get("/restaurants");
-    dispatch({
-      type: "restaurant/setAllRestaurants",
-      payload: response.data,
-    });
+    dispatch(requestRestaurants());
+    // Here comes promise.all
+    dispatch(loadRestaurants());
   };
 };
 
