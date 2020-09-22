@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import RestaurantSuggestions from "./components/showRestaurants/RestaurantSuggestions";
@@ -7,13 +7,7 @@ import { Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
-import { calculateDistanceBetweenPoints } from "./utils";
-import { showNotification } from "./reducers/notificationReducer";
 import { initData } from "./reducers/restaurantReducer";
-import {
-  setAllRestaurants,
-  setIsWithDistance,
-} from "./reducers/restaurantReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({
@@ -23,86 +17,51 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-  const [userLocation, setUserLocation] = useState(null);
-  const restaurants = useSelector((state) => state.restaurants);
+  const userLocation = useSelector((state) => state.user.userLocation);
 
   const dispatch = useDispatch();
   const classes = useStyles();
 
   useEffect(() => {
     dispatch(initData());
-    // const initRestaurants = async () => {
-    //   const response = await axios.get("/restaurants");
-    //   dispatch(setAllRestaurants(response.data));
-    // };
-    // initRestaurants();
   }, [dispatch]);
 
-  useEffect(() => {
-    const locateUser = () => {
-      function success(position) {
-        const coordinates = {
-          lat: position.coords.latitude,
-          lon: position.coords.longitude,
-        };
+  // useEffect(() => {
+  //   const locateUser = () => {
+  //     function success(position) {
+  //       const coordinates = {
+  //         lat: position.coords.latitude,
+  //         lon: position.coords.longitude,
+  //       };
 
-        setUserLocation(coordinates);
-        setIsWithDistance(false);
-      }
+  //       setUserLocation(coordinates);
+  //       setIsWithDistance(false);
+  //     }
 
-      function error(err) {
-        console.log(`ERROR(${err.code}): ${err.message}`);
-        dispatch(
-          showNotification(
-            "Location is needed to show the restaurant suggestions.",
-            "warning"
-          )
-        );
-      }
+  //     function error(err) {
+  //       console.log(`ERROR(${err.code}): ${err.message}`);
+  //       dispatch(
+  //         showNotification(
+  //           "Location is needed to show the restaurant suggestions.",
+  //           "warning"
+  //         )
+  //       );
+  //     }
 
-      if (!navigator.geolocation) {
-        dispatch(
-          showNotification(
-            "Geolocation is not supported by your browser",
-            "warning"
-          )
-        );
-      } else {
-        navigator.geolocation.getCurrentPosition(success, error);
-      }
-    };
+  //     if (!navigator.geolocation) {
+  //       dispatch(
+  //         showNotification(
+  //           "Geolocation is not supported by your browser",
+  //           "warning"
+  //         )
+  //       );
+  //     } else {
+  //       navigator.geolocation.getCurrentPosition(success, error);
+  //     }
+  //   };
 
-    locateUser();
-  }, [dispatch]);
-
-  useEffect(() => {
-    const addDistanceToRestaurants = () => {
-      const restaurantsWithDistances = restaurants.allRestaurants.map((r) => {
-        r.distance = calculateDistanceBetweenPoints(
-          userLocation.lat,
-          userLocation.lon,
-          r.latlon.x,
-          r.latlon.y
-        );
-        return r;
-      });
-      dispatch(setAllRestaurants(restaurantsWithDistances));
-      dispatch(setIsWithDistance(true));
-    };
-
-    if (
-      userLocation &&
-      restaurants.allRestaurants &&
-      !restaurants.isWithDistance
-    ) {
-      addDistanceToRestaurants();
-    }
-  }, [
-    userLocation,
-    restaurants.allRestaurants,
-    restaurants.isWithDistance,
-    dispatch,
-  ]);
+  //   locateUser();
+  // }, [dispatch]);
 
   return (
     <React.Fragment>

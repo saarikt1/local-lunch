@@ -1,4 +1,6 @@
 import axios from "axios";
+import { locateUser } from "./userReducer";
+import { calculateDistanceBetweenPoints } from "../utils";
 
 const initialState = {
   allRestaurants: null,
@@ -10,11 +12,6 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "restaurant/invalidateRestaurants":
-      return {
-        ...state,
-        didInvalidate: true,
-      };
     case "restaurant/requestRestaurants":
       return {
         ...state,
@@ -22,7 +19,7 @@ const reducer = (state = initialState, action) => {
         isWithDistance: false,
         didInvalidate: false,
       };
-    case "restaurants/receiveRestaurants":
+    case "restaurant/receiveRestaurants":
       return {
         ...state,
         isFetching: false,
@@ -38,20 +35,15 @@ const reducer = (state = initialState, action) => {
         didInvalidate: false,
         allRestaurants: action.payload,
       };
-    case "restaurant/setAllRestaurants":
-      return {
-        ...state,
-        allRestaurants: action.payload,
-      };
     case "restaurant/setRestaurantSuggestions":
       return {
         ...state,
         restaurantSuggestions: action.payload,
       };
-    case "restaurant/setIsWithDistance":
+    case "restaurant/invalidateRestaurants":
       return {
         ...state,
-        isWithDistance: action.payload,
+        didInvalidate: true,
       };
     default:
       return state;
@@ -64,34 +56,41 @@ const requestRestaurants = () => {
   };
 };
 
-const loadRestaurants = () => async (dispatch) => {
-  const response = await axios.get("/restaurants");
-  dispatch(setAllRestaurants(response.data));
+const receiveRestaurants = (restaurants) => {
+  return {
+    type: "restaurant/receiveRestaurants",
+    payload: restaurants,
+  };
 };
 
-// Set restaurants
-// Get userLocation
-// Then set distances
-// Flag as ready
+const loadRestaurants = () => async (dispatch) => {
+  const response = await axios.get("/restaurants");
+  dispatch(receiveRestaurants(response.data));
+};
+
+const addDistanceToRestaurants = () => (dispatch, getState) => {
+  const { restaurants, user } = getState();
+  const restaurantsWithDistances = restaurants.allRestaurants.map((r) => {
+    r.distance = calculateDistanceBetweenPoints(
+      user.userLocation.lat,
+      user.userLocation.lon,
+      r.latlon.x,
+      r.latlon.y
+    );
+    return r;
+  });
+  dispatch({
+    type: "restaurant/addDistances",
+    payload: restaurantsWithDistances,
+  });
+};
+
+// TODO error handling
 export const initData = () => {
   return async (dispatch) => {
     dispatch(requestRestaurants());
-    // Here comes promise.all
-    dispatch(loadRestaurants());
-  };
-};
-
-export const setIsWithDistance = (isWithDistance) => {
-  return {
-    type: "restaurant/setIsWithDistance",
-    payload: isWithDistance,
-  };
-};
-
-export const setAllRestaurants = (restaurants) => {
-  return {
-    type: "restaurant/setAllRestaurants",
-    payload: restaurants,
+    await Promise.all([dispatch(locateUser()), dispatch(loadRestaurants())]);
+    dispatch(addDistanceToRestaurants());
   };
 };
 

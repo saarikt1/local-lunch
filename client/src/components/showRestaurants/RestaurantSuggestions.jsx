@@ -62,7 +62,12 @@ const RestaurantSuggestions = ({ userLocation }) => {
     //     );
     //   }
     // }
-  }, [restaurants.allRestaurants, userLocation, restaurants.isWithDistance]);
+  }, [
+    restaurants.allRestaurants,
+    userLocation,
+    restaurants.isWithDistance,
+    dispatch,
+  ]);
 
   const filterRestaurantsByDistance = (restaurants, distance) => {
     const filteredRestaurants = restaurants.filter(
