@@ -30,11 +30,11 @@ server.use(morgan("dev"));
 server.use(express.static(path.join(__dirname, "../build")));
 server.use("/", router);
 
-server.use((req, res, next) => {
+server.use((_req, _res, next) => {
   next(createError(404));
 });
 
-server.use((error, req, res, next) => {
+server.use((error, _req, res, _next) => {
   console.log("Error status: ", error.status);
   console.log("Message: ", error.message);
 

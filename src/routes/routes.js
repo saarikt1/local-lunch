@@ -11,8 +11,11 @@ router.get("/restaurants", restaurantService.getRestaurants);
 router.get("/restaurants/:id", restaurantService.findRestaurantById);
 router.post("/restaurants", restaurantService.createRestaurant);
 
-router.get("/*", (req, res) => {
-  res.sendFile(path.join(__dirname, "../../build", "index.html"));
-});
+if (process.env.NODE_ENV === "production") {
+  // Fixes issues with express routing clashing with React routing in production.
+  router.get("/*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../../build", "index.html"));
+  });
+}
 
 export default router;
