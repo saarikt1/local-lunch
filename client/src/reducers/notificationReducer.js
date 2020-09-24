@@ -7,9 +7,17 @@ const initialState = {
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case "notification/notificationShown":
-      return action.data;
+      return {
+        ...state,
+        msg: action.data.msg,
+        notificationType: action.data.notificationType,
+        open: action.data.open,
+      };
     case "notification/notificationHidden":
-      return action.data;
+      return {
+        ...state,
+        open: action.data.open,
+      };
     default:
       return state;
   }
@@ -30,8 +38,6 @@ export const hideNotification = () => {
   return {
     type: "notification/notificationHidden",
     data: {
-      msg: "",
-      notificationType: "success",
       open: false,
     },
   };
