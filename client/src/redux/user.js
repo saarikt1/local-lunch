@@ -1,4 +1,4 @@
-import { showNotification } from "./notificationReducer";
+import { showNotification } from "./notification";
 
 const initialState = {
   userLocation: null,

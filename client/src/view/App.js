@@ -2,12 +2,12 @@ import React, { useEffect } from "react";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import RestaurantSuggestions from "./components/showRestaurants/RestaurantSuggestions";
-import Header from "./components/Header";
+import Header from "./Header";
 import { Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import Notification from "./components/Notification";
-import { initData } from "./reducers/restaurantReducer";
+import Notification from "./Notification";
+import { initData } from "../redux/restaurant";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({

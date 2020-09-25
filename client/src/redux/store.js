@@ -1,8 +1,8 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import notificationReducer from "./reducers/notificationReducer";
-import restaurantReducer from "./reducers/restaurantReducer";
-import userReducer from "./reducers/userReducer";
+import notificationReducer from "./notification";
+import restaurantReducer from "./restaurant";
+import userReducer from "./user";
 import thunk from "redux-thunk";
 
 const reducer = combineReducers({

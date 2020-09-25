@@ -3,8 +3,8 @@ import { Box } from "@material-ui/core";
 import RestaurantList from "./RestaurantList";
 import RestaurantMap from "./RestaurantMap";
 import { useDispatch, useSelector } from "react-redux";
-import { showNotification } from "../../reducers/notificationReducer";
-import { setRestaurantSuggestions } from "../../reducers/restaurantReducer";
+import { showNotification } from "../../../redux/notification";
+import { setRestaurantSuggestions } from "../../../redux/restaurant";
 
 const RestaurantSuggestions = () => {
   const userLocation = useSelector((state) => state.user.userLocation);

@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { Box, Typography, Button } from "@material-ui/core";
 import SearchResults from "./SearchResults";
-import { calculateBoundingBoxAroundLocation } from "../../utils";
+import { calculateBoundingBoxAroundLocation } from "../../..//redux/utils";
 import { TextField } from "formik-material-ui";
 import axios from "axios";
 import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
-import { showNotification } from "../../reducers/notificationReducer";
+import { showNotification } from "../../../redux/notification";
 import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({

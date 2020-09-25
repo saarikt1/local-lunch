@@ -1,6 +1,6 @@
 import axios from "axios";
-import { locateUser } from "./userReducer";
-import { calculateDistanceBetweenPoints } from "../utils";
+import { locateUser } from "./user";
+import { calculateDistanceBetweenPoints } from "./utils";
 
 const initialState = {
   allRestaurants: null,
