@@ -1,3 +1,6 @@
+const SHOW_NOTIFICATION = "[notification] showNotification";
+const HIDE_NOTIFICATION = "[notification] hideNotification";
+
 const initialState = {
   msg: "",
   notificationType: "success",
@@ -6,14 +9,14 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "notification/notificationShown":
+    case SHOW_NOTIFICATION:
       return {
         ...state,
         msg: action.data.msg,
         notificationType: action.data.notificationType,
         open: action.data.open,
       };
-    case "notification/notificationHidden":
+    case HIDE_NOTIFICATION:
       return {
         ...state,
         open: action.data.open,
@@ -25,7 +28,7 @@ const reducer = (state = initialState, action) => {
 
 export const showNotification = (msg, notificationType) => {
   return {
-    type: "notification/notificationShown",
+    type: SHOW_NOTIFICATION,
     data: {
       msg,
       notificationType,
@@ -36,7 +39,7 @@ export const showNotification = (msg, notificationType) => {
 
 export const hideNotification = () => {
   return {
-    type: "notification/notificationHidden",
+    type: HIDE_NOTIFICATION,
     data: {
       open: false,
     },
