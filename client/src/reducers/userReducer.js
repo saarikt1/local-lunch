@@ -1,3 +1,5 @@
+import { showNotification } from "./notificationReducer";
+
 const initialState = {
   userLocation: null,
   isLocating: false,
@@ -24,17 +26,16 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-// TODO error handling
-const getCurrentPosition = (options = {}) => {
-  return new Promise((resolve, reject) => {
-    navigator.geolocation.getCurrentPosition(resolve, reject, options);
-  });
-};
-
 const requestLocation = () => {
   return {
     type: "user/requestLocation",
   };
+};
+
+const getCurrentPosition = (options = {}) => {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, options);
+  });
 };
 
 const setLocation = (position) => {
@@ -48,12 +49,32 @@ const setLocation = (position) => {
 };
 
 export const locateUser = () => async (dispatch) => {
+  if (!navigator.geolocation) {
+    dispatch(
+      showNotification(
+        "Geolocation is not supported by your browser",
+        "warning"
+      )
+    );
+    throw new Error("Geolocation not supported");
+  }
   dispatch(requestLocation());
   try {
     const position = await getCurrentPosition();
-    dispatch(setLocation(position));
+    if (position.coords.accuracy > 1000) {
+      dispatch(
+        showNotification(
+          "Couldn't get an accurate location. Maybe try with a different browser.",
+          "warning"
+        )
+      );
+      throw new Error("Poor accuracy for location");
+    } else {
+      dispatch(setLocation(position));
+    }
+    return position;
   } catch (err) {
-    console.error(err);
+    throw err;
   }
 };
 

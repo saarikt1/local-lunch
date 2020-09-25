@@ -8,7 +8,7 @@ import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./components/Notification";
 import { initData } from "./reducers/restaurantReducer";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
   root: {
@@ -17,8 +17,6 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-  const userLocation = useSelector((state) => state.user.userLocation);
-
   const dispatch = useDispatch();
   const classes = useStyles();
 
@@ -73,10 +71,10 @@ const App = () => {
             <Notification />
             <Switch>
               <Route path="/addRestaurant">
-                <RestaurantForm userLocation={userLocation} />
+                <RestaurantForm />
               </Route>
               <Route path="/">
-                <RestaurantSuggestions userLocation={userLocation} />
+                <RestaurantSuggestions />
               </Route>
             </Switch>
           </Router>

@@ -64,8 +64,13 @@ const receiveRestaurants = (restaurants) => {
 };
 
 const loadRestaurants = () => async (dispatch) => {
-  const response = await axios.get("/restaurants");
-  dispatch(receiveRestaurants(response.data));
+  try {
+    const response = await axios.get("/restaurants");
+    dispatch(receiveRestaurants(response.data));
+    return response;
+  } catch (err) {
+    throw new Error("Couldn't get restaurants.");
+  }
 };
 
 const addDistanceToRestaurants = () => (dispatch, getState) => {
@@ -85,12 +90,15 @@ const addDistanceToRestaurants = () => (dispatch, getState) => {
   });
 };
 
-// TODO error handling
 export const initData = () => {
   return async (dispatch) => {
     dispatch(requestRestaurants());
-    await Promise.all([dispatch(locateUser()), dispatch(loadRestaurants())]);
-    dispatch(addDistanceToRestaurants());
+    try {
+      await Promise.all([dispatch(loadRestaurants()), dispatch(locateUser())]);
+      dispatch(addDistanceToRestaurants());
+    } catch (err) {
+      console.error(err);
+    }
   };
 };
 

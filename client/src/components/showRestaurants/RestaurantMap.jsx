@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RestaurantMap = ({ userLocation }) => {
+const RestaurantMap = () => {
   const initialMapView = [
     [62.9894714, 34.558059],
     [38.1706012, -3.976497],
@@ -23,6 +23,7 @@ const RestaurantMap = ({ userLocation }) => {
   const restaurantSuggestions = useSelector(
     (state) => state.restaurants.restaurantSuggestions
   );
+  const userLocation = useSelector((state) => state.user.userLocation);
 
   useEffect(() => {
     map.current.leafletElement.invalidateSize();

@@ -8,7 +8,7 @@ import axios from "axios";
 import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import { showNotification } from "../../reducers/notificationReducer";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles({
   textField: {
@@ -16,7 +16,8 @@ const useStyles = makeStyles({
   },
 });
 
-const RestaurantForm = ({ userLocation }) => {
+const RestaurantForm = () => {
+  const userLocation = useSelector((state) => state.user.userLocation);
   const [searchResults, setSearchResults] = useState([]);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",

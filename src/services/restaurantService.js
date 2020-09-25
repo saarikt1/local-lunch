@@ -2,12 +2,13 @@ import db from "../db/index.js";
 import asyncHandler from "express-async-handler";
 import createError from "http-errors";
 
-const getRestaurants = asyncHandler(async (req, res) => {
+const getRestaurants = async (_req, res) => {
   const query = "SELECT * FROM restaurants ORDER BY id DESC";
   const { rows } = await db.query(query, null);
+  // console.log("Rows: ", rows);
 
   res.status(200).json(rows);
-});
+};
 
 const findRestaurantById = asyncHandler(async (req, res) => {
   const query = "SELECT * FROM restaurants WHERE id = $1";

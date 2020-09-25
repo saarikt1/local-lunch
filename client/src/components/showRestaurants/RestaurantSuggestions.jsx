@@ -6,7 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { showNotification } from "../../reducers/notificationReducer";
 import { setRestaurantSuggestions } from "../../reducers/restaurantReducer";
 
-const RestaurantSuggestions = ({ userLocation }) => {
+const RestaurantSuggestions = () => {
+  const userLocation = useSelector((state) => state.user.userLocation);
   const restaurants = useSelector((state) => state.restaurants);
   const dispatch = useDispatch();
   const primarySearchRadiusInMeters = 750;
@@ -114,7 +115,7 @@ const RestaurantSuggestions = ({ userLocation }) => {
         flexWrap="wrap"
       >
         <RestaurantList />
-        <RestaurantMap userLocation={userLocation} />
+        <RestaurantMap />
       </Box>
     </>
   );
