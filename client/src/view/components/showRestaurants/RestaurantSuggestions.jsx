@@ -7,7 +7,7 @@ import { showNotification } from "../../../redux/notification";
 import { setRestaurantSuggestions } from "../../../redux/restaurant";
 
 const RestaurantSuggestions = () => {
-  const userLocation = useSelector((state) => state.user.userLocation);
+  const userLocation = useSelector((state) => state.location.coordinates);
   const restaurants = useSelector((state) => state.restaurants);
   const dispatch = useDispatch();
   const primarySearchRadiusInMeters = 750;

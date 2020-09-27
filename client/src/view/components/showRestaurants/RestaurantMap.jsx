@@ -23,7 +23,7 @@ const RestaurantMap = () => {
   const restaurantSuggestions = useSelector(
     (state) => state.restaurants.restaurantSuggestions
   );
-  const userLocation = useSelector((state) => state.user.userLocation);
+  const userCoordinates = useSelector((state) => state.location.coordinates);
 
   useEffect(() => {
     map.current.leafletElement.invalidateSize();
@@ -33,28 +33,28 @@ const RestaurantMap = () => {
     const calculateBoundingBox = () => {
       if (!restaurantSuggestions) {
         setBoundingBox([
-          [userLocation.lat, userLocation.lon],
-          [userLocation.lat, userLocation.lon],
+          [userCoordinates.lat, userCoordinates.lon],
+          [userCoordinates.lat, userCoordinates.lon],
         ]);
       } else {
         const northBound = restaurantSuggestions.reduce(
           (max, cur) => Math.max(max, cur.latlon.x),
-          userLocation.lat
+          userCoordinates.lat
         );
 
         const westBound = restaurantSuggestions.reduce(
           (min, cur) => Math.min(min, cur.latlon.y),
-          userLocation.lon
+          userCoordinates.lon
         );
 
         const southBound = restaurantSuggestions.reduce(
           (min, cur) => Math.min(min, cur.latlon.x),
-          userLocation.lat
+          userCoordinates.lat
         );
 
         const eastBound = restaurantSuggestions.reduce(
           (max, cur) => Math.max(max, cur.latlon.y),
-          userLocation.lon
+          userCoordinates.lon
         );
 
         setBoundingBox([
@@ -63,10 +63,10 @@ const RestaurantMap = () => {
         ]);
       }
     };
-    if (userLocation) {
+    if (userCoordinates) {
       calculateBoundingBox();
     }
-  }, [restaurantSuggestions, setBoundingBox, userLocation]);
+  }, [restaurantSuggestions, setBoundingBox, userCoordinates]);
 
   return (
     <React.Fragment>
@@ -83,8 +83,8 @@ const RestaurantMap = () => {
             url={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=${process.env.REACT_APP_MAPBOX}`}
             attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, &copy; <a href="https://www.mapbox.com/">Mapbox</a>'
           />
-          {userLocation && (
-            <Circle center={userLocation} radius={15}>
+          {userCoordinates && (
+            <Circle center={userCoordinates} radius={15}>
               <Popup>
                 <Typography variant="subtitle1">Your location</Typography>
               </Popup>

@@ -2,13 +2,13 @@ import { combineReducers, createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import notificationReducer from "./notification";
 import restaurantReducer from "./restaurant";
-import userReducer from "./user";
+import locationReducer from "./location";
 import thunk from "redux-thunk";
 
 const reducer = combineReducers({
   notification: notificationReducer,
   restaurants: restaurantReducer,
-  user: userReducer,
+  location: locationReducer,
 });
 
 const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
