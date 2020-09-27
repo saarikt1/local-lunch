@@ -1,6 +1,14 @@
 import axios from "axios";
-import { locateUser } from "./user";
+import { locateUser } from "./location";
 import { calculateDistanceBetweenPoints } from "./utils";
+
+// Action types
+
+const REQUEST_RESTAURANTS = "[restaurants] API request";
+const RECEIVE_RESTAURANTS = "[restaurants] Fetch success";
+const ADD_DISTANCES = "[restaurants] Distances added";
+const SET_RESTAURANTSUGGESTIONS = "[restaurants] Set suggestions";
+const INVALIDATE_RESTAURANTS = "[restaurants] Invalidate data";
 
 const initialState = {
   allRestaurants: null,
@@ -10,16 +18,18 @@ const initialState = {
   didInvalidate: false,
 };
 
+// Reducer
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case "restaurant/requestRestaurants":
+    case REQUEST_RESTAURANTS:
       return {
         ...state,
         isFetching: true,
         isWithDistance: false,
         didInvalidate: false,
       };
-    case "restaurant/receiveRestaurants":
+    case RECEIVE_RESTAURANTS:
       return {
         ...state,
         isFetching: false,
@@ -27,7 +37,7 @@ const reducer = (state = initialState, action) => {
         didInvalidate: false,
         allRestaurants: action.payload,
       };
-    case "restaurant/addDistances":
+    case ADD_DISTANCES:
       return {
         ...state,
         isFetching: false,
@@ -35,12 +45,12 @@ const reducer = (state = initialState, action) => {
         didInvalidate: false,
         allRestaurants: action.payload,
       };
-    case "restaurant/setRestaurantSuggestions":
+    case SET_RESTAURANTSUGGESTIONS:
       return {
         ...state,
         restaurantSuggestions: action.payload,
       };
-    case "restaurant/invalidateRestaurants":
+    case INVALIDATE_RESTAURANTS:
       return {
         ...state,
         didInvalidate: true,
@@ -50,15 +60,17 @@ const reducer = (state = initialState, action) => {
   }
 };
 
+// Actions
+
 const requestRestaurants = () => {
   return {
-    type: "restaurant/requestRestaurants",
+    type: REQUEST_RESTAURANTS,
   };
 };
 
 const receiveRestaurants = (restaurants) => {
   return {
-    type: "restaurant/receiveRestaurants",
+    type: RECEIVE_RESTAURANTS,
     payload: restaurants,
   };
 };
@@ -74,38 +86,40 @@ const loadRestaurants = () => async (dispatch) => {
 };
 
 const addDistanceToRestaurants = () => (dispatch, getState) => {
-  const { restaurants, user } = getState();
+  const { restaurants, location } = getState();
   const restaurantsWithDistances = restaurants.allRestaurants.map((r) => {
     r.distance = calculateDistanceBetweenPoints(
-      user.userLocation.lat,
-      user.userLocation.lon,
+      location.coordinates.lat,
+      location.coordinates.lon,
       r.latlon.x,
       r.latlon.y
     );
     return r;
   });
   dispatch({
-    type: "restaurant/addDistances",
+    type: ADD_DISTANCES,
     payload: restaurantsWithDistances,
   });
 };
+
+export const setRestaurantSuggestions = (restaurants) => {
+  return {
+    type: SET_RESTAURANTSUGGESTIONS,
+    payload: restaurants,
+  };
+};
+
+// Operations
 
 export const initData = () => {
   return async (dispatch) => {
     dispatch(requestRestaurants());
     try {
-      await Promise.all([dispatch(loadRestaurants()), dispatch(locateUser())]);
+      await Promise.all([dispatch(locateUser()), dispatch(loadRestaurants())]);
       dispatch(addDistanceToRestaurants());
     } catch (err) {
       console.error(err);
     }
-  };
-};
-
-export const setRestaurantSuggestions = (restaurants) => {
-  return {
-    type: "restaurant/setRestaurantSuggestions",
-    payload: restaurants,
   };
 };
 
