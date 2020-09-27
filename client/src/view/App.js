@@ -24,43 +24,6 @@ const App = () => {
     dispatch(initData());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   const locateUser = () => {
-  //     function success(position) {
-  //       const coordinates = {
-  //         lat: position.coords.latitude,
-  //         lon: position.coords.longitude,
-  //       };
-
-  //       setUserLocation(coordinates);
-  //       setIsWithDistance(false);
-  //     }
-
-  //     function error(err) {
-  //       console.log(`ERROR(${err.code}): ${err.message}`);
-  //       dispatch(
-  //         showNotification(
-  //           "Location is needed to show the restaurant suggestions.",
-  //           "warning"
-  //         )
-  //       );
-  //     }
-
-  //     if (!navigator.geolocation) {
-  //       dispatch(
-  //         showNotification(
-  //           "Geolocation is not supported by your browser",
-  //           "warning"
-  //         )
-  //       );
-  //     } else {
-  //       navigator.geolocation.getCurrentPosition(success, error);
-  //     }
-  //   };
-
-  //   locateUser();
-  // }, [dispatch]);
-
   return (
     <React.Fragment>
       <CssBaseline />
