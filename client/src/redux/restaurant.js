@@ -1,11 +1,9 @@
 import axios from "axios";
-import { locateUser } from "./location";
 import { calculateDistanceBetweenPoints } from "./utils";
 
-// Action types
-
-const REQUEST_RESTAURANTS = "[restaurants] API request";
-const RECEIVE_RESTAURANTS = "[restaurants] Fetch success";
+const FETCH_RESTAURANTS_REQUEST = "[restaurants] Fetch request";
+const FETCH_RESTAURANTS_SUCCESS = "[restaurants] Fetch success";
+const FETCH_RESTAURANTS_FAILURE = "[restaurants] Fetch failure";
 const ADD_DISTANCES = "[restaurants] Distances added";
 const SET_RESTAURANTSUGGESTIONS = "[restaurants] Set suggestions";
 const INVALIDATE_RESTAURANTS = "[restaurants] Invalidate data";
@@ -18,24 +16,29 @@ const initialState = {
   didInvalidate: false,
 };
 
-// Reducer
-
 const reducer = (state = initialState, action) => {
   switch (action.type) {
-    case REQUEST_RESTAURANTS:
+    case FETCH_RESTAURANTS_REQUEST:
       return {
         ...state,
         isFetching: true,
         isWithDistance: false,
         didInvalidate: false,
       };
-    case RECEIVE_RESTAURANTS:
+    case FETCH_RESTAURANTS_SUCCESS:
       return {
         ...state,
         isFetching: false,
         isWithDistance: false,
         didInvalidate: false,
         allRestaurants: action.payload,
+      };
+    case FETCH_RESTAURANTS_FAILURE:
+      return {
+        ...state,
+        isFetching: false,
+        isWithDistance: false,
+        didInvalidate: false,
       };
     case ADD_DISTANCES:
       return {
@@ -60,32 +63,30 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-// Actions
-
-const requestRestaurants = () => {
+export const setRestaurantSuggestions = (restaurants) => {
   return {
-    type: REQUEST_RESTAURANTS,
-  };
-};
-
-const receiveRestaurants = (restaurants) => {
-  return {
-    type: RECEIVE_RESTAURANTS,
+    type: SET_RESTAURANTSUGGESTIONS,
     payload: restaurants,
   };
 };
 
-const loadRestaurants = () => async (dispatch) => {
+export const fetchRestaurants = () => async (dispatch) => {
+  dispatch({ type: FETCH_RESTAURANTS_REQUEST });
+
   try {
     const response = await axios.get("/restaurants");
-    dispatch(receiveRestaurants(response.data));
+    dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: response.data });
     return response;
   } catch (err) {
+    dispatch({
+      type: FETCH_RESTAURANTS_FAILURE,
+      payload: "Couldn't fetch restaurants",
+    });
     throw new Error("Couldn't get restaurants.");
   }
 };
 
-const addDistanceToRestaurants = () => (dispatch, getState) => {
+export const addDistanceToRestaurants = () => (dispatch, getState) => {
   const { restaurants, location } = getState();
   const restaurantsWithDistances = restaurants.allRestaurants.map((r) => {
     r.distance = calculateDistanceBetweenPoints(
@@ -100,27 +101,6 @@ const addDistanceToRestaurants = () => (dispatch, getState) => {
     type: ADD_DISTANCES,
     payload: restaurantsWithDistances,
   });
-};
-
-export const setRestaurantSuggestions = (restaurants) => {
-  return {
-    type: SET_RESTAURANTSUGGESTIONS,
-    payload: restaurants,
-  };
-};
-
-// Operations
-
-export const initData = () => {
-  return async (dispatch) => {
-    dispatch(requestRestaurants());
-    try {
-      await Promise.all([dispatch(locateUser()), dispatch(loadRestaurants())]);
-      dispatch(addDistanceToRestaurants());
-    } catch (err) {
-      console.error(err);
-    }
-  };
 };
 
 export default reducer;

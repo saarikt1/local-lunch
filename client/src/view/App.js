@@ -7,7 +7,7 @@ import { Container, Box } from "@material-ui/core";
 import RestaurantForm from "./components/addRestaurant/RestaurantForm";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Notification from "./Notification";
-import { initData } from "../redux/restaurant";
+import { initData } from "../redux";
 import { useDispatch } from "react-redux";
 
 const useStyles = makeStyles({
