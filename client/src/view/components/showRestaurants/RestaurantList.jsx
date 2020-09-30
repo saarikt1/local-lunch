@@ -1,12 +1,8 @@
 import React from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import { Box } from "@material-ui/core";
-import { useSelector } from "react-redux";
 
-const RestaurantList = () => {
-  const restaurantSuggestions = useSelector(
-    (state) => state.restaurants.restaurantSuggestions
-  );
+const RestaurantList = ({ restaurantSuggestions }) => {
   const emptyArray = Array.from(new Array(3));
 
   return (

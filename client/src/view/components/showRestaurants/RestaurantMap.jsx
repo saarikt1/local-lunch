@@ -12,7 +12,7 @@ const useStyles = makeStyles({
   },
 });
 
-const RestaurantMap = () => {
+const RestaurantMap = ({ restaurantSuggestions }) => {
   const initialMapView = [
     [62.9894714, 34.558059],
     [38.1706012, -3.976497],
@@ -20,9 +20,6 @@ const RestaurantMap = () => {
   const [boundingBox, setBoundingBox] = useState(initialMapView);
   const map = useRef();
   const classes = useStyles();
-  const restaurantSuggestions = useSelector(
-    (state) => state.restaurants.restaurantSuggestions
-  );
   const userCoordinates = useSelector((state) => state.location.coordinates);
 
   useEffect(() => {

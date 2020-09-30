@@ -1,108 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Box } from "@material-ui/core";
 import RestaurantList from "./RestaurantList";
 import RestaurantMap from "./RestaurantMap";
-import { useDispatch, useSelector } from "react-redux";
-import { showNotification } from "../../../redux/notification";
-import { setRestaurantSuggestions } from "../../../redux/restaurant";
+import { getRestaurantSuggestions } from "../../../redux/restaurant";
+import { useSelector } from "react-redux";
 
 const RestaurantSuggestions = () => {
-  const userLocation = useSelector((state) => state.location.coordinates);
-  const restaurants = useSelector((state) => state.restaurants);
-  const dispatch = useDispatch();
-  const primarySearchRadiusInMeters = 750;
-  const numberOfSuggestions = 3;
-
-  useEffect(() => {
-    const createRestaurantSuggestions = () => {
-      const filteredByDistance = filterRestaurantsByDistance(
-        restaurants.allRestaurants,
-        primarySearchRadiusInMeters
-      );
-
-      const suffledArray = shuffleArray(filteredByDistance);
-
-      const topItems = suffledArray.splice(0, numberOfSuggestions);
-
-      dispatch(setRestaurantSuggestions(topItems));
-    };
-
-    if (
-      restaurants.allRestaurants &&
-      userLocation &&
-      restaurants.isWithDistance
-    ) {
-      createRestaurantSuggestions();
-    }
-    // let filteredRestaurants;
-
-    // const limitToRandomSuggestions = (array, numberOfSuggestions) => {
-    //   const suffledArray = shuffleArray(array);
-    //   dispatch(
-    //     setRestaurantSuggestions(suffledArray.splice(0, numberOfSuggestions))
-    //   );
-    // };
-
-    // if (
-    //   restaurants.allRestaurants &&
-    //   userLocation &&
-    //   restaurants.isWithDistance
-    // ) {
-    //   filteredRestaurants = filterRestaurantsByDistance(
-    //     restaurants.allRestaurants,
-    //     primarySearchRadiusInMeters
-    //   );
-    //   if (filteredRestaurants) {
-    //     limitToRandomSuggestions(filteredRestaurants, 3);
-    //   } else {
-    //     dispatch(
-    //       showNotification(
-    //         "No restaurants found near your location. Try refreshing the page at a different location.",
-    //         "error"
-    //       )
-    //     );
-    //   }
-    // }
-  }, [
-    restaurants.allRestaurants,
-    userLocation,
-    restaurants.isWithDistance,
-    dispatch,
-  ]);
-
-  const filterRestaurantsByDistance = (restaurants, distance) => {
-    const filteredRestaurants = restaurants.filter(
-      (r) => r.distance < distance
-    );
-
-    if (filteredRestaurants.length === 0) {
-      dispatch(
-        showNotification(
-          "No restaurants found near your location. Try refreshing the page at a different location.",
-          "error"
-        )
-      );
-    }
-
-    return filteredRestaurants;
-  };
-
-  function shuffleArray(array) {
-    var currentIndex = array.length,
-      temporaryValue,
-      randomIndex;
-
-    while (0 !== currentIndex) {
-      randomIndex = Math.floor(Math.random() * currentIndex);
-      currentIndex -= 1;
-
-      temporaryValue = array[currentIndex];
-      array[currentIndex] = array[randomIndex];
-      array[randomIndex] = temporaryValue;
-    }
-
-    return array;
-  }
+  const state = useSelector((state) => state);
+  const restaurantSuggestions = getRestaurantSuggestions(state);
 
   return (
     <>
@@ -114,8 +19,8 @@ const RestaurantSuggestions = () => {
         flexDirection="row"
         flexWrap="wrap"
       >
-        <RestaurantList />
-        <RestaurantMap />
+        <RestaurantList restaurantSuggestions={restaurantSuggestions} />
+        <RestaurantMap restaurantSuggestions={restaurantSuggestions} />
       </Box>
     </>
   );

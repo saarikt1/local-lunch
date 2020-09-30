@@ -1,16 +1,14 @@
 import axios from "axios";
-import { calculateDistanceBetweenPoints } from "./utils";
+import { calculateDistanceBetweenPoints, shuffleArray } from "./utils";
 
 const FETCH_RESTAURANTS_REQUEST = "[restaurants] Fetch request";
 const FETCH_RESTAURANTS_SUCCESS = "[restaurants] Fetch success";
 const FETCH_RESTAURANTS_FAILURE = "[restaurants] Fetch failure";
 const ADD_DISTANCES = "[restaurants] Distances added";
-const SET_RESTAURANTSUGGESTIONS = "[restaurants] Set suggestions";
 const INVALIDATE_RESTAURANTS = "[restaurants] Invalidate data";
 
 const initialState = {
   allRestaurants: null,
-  restaurantSuggestions: null,
   isFetching: false,
   isWithDistance: false,
   didInvalidate: false,
@@ -48,11 +46,6 @@ const reducer = (state = initialState, action) => {
         didInvalidate: false,
         allRestaurants: action.payload,
       };
-    case SET_RESTAURANTSUGGESTIONS:
-      return {
-        ...state,
-        restaurantSuggestions: action.payload,
-      };
     case INVALIDATE_RESTAURANTS:
       return {
         ...state,
@@ -61,13 +54,6 @@ const reducer = (state = initialState, action) => {
     default:
       return state;
   }
-};
-
-export const setRestaurantSuggestions = (restaurants) => {
-  return {
-    type: SET_RESTAURANTSUGGESTIONS,
-    payload: restaurants,
-  };
 };
 
 export const fetchRestaurants = () => async (dispatch) => {
@@ -101,6 +87,32 @@ export const addDistanceToRestaurants = () => (dispatch, getState) => {
     type: ADD_DISTANCES,
     payload: restaurantsWithDistances,
   });
+};
+
+const filterRestaurantsByDistance = (restaurants, distance) => {
+  return restaurants.filter((r) => r.distance < distance);
+};
+
+export const getRestaurantSuggestions = (state) => {
+  if (!state.restaurants.isWithDistance) {
+    return;
+  }
+
+  let restaurantSuggestions = [];
+
+  // Distance cutoff
+  restaurantSuggestions = filterRestaurantsByDistance(
+    state.restaurants.allRestaurants,
+    750
+  );
+
+  // Randomize
+  restaurantSuggestions = shuffleArray(restaurantSuggestions);
+
+  // Pick three
+  restaurantSuggestions = restaurantSuggestions.splice(0, 3);
+
+  return restaurantSuggestions;
 };
 
 export default reducer;
