@@ -1,6 +1,9 @@
 const puppeteer = require("puppeteer");
 
 beforeAll(async () => {
+  // const browser = await puppeteer.launch({ headless: true });
+  // const context = browser.defaultBrowserContext();
+  // const page = await context.newPage();
   await context.overridePermissions("http://localhost:3000", ["geolocation"]);
   await page.setGeolocation({ latitude: 60.1697802, longitude: 24.9472751 });
   await page.goto("http://localhost:3000");

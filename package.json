@@ -20,7 +20,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-push": "cd ./client && npm test"
+      "pre-push": "cd ./client && npm test && npm run test:all"
     }
   },
   "author": "Tommi Saarikangas",

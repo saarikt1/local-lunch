@@ -29,7 +29,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "jest --coverage",
+    "test": "CI=true react-scripts test",
+    "test:e2e": "cd ./e2e && jest",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -49,10 +50,8 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-transform-react-jsx": "^7.10.4",
     "jest-puppeteer": "^4.4.0",
     "redux-devtools-extension": "^2.13.8"
-  },
-  "jest": {
-    "preset": "jest-puppeteer"
   }
 }
