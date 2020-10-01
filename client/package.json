@@ -30,6 +30,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "CI=true react-scripts test",
+    "test:watch": "react-scripts test --verbose",
     "test:e2e": "cd ./e2e && jest",
     "eject": "react-scripts eject"
   },
@@ -51,7 +52,10 @@
   },
   "devDependencies": {
     "@babel/plugin-transform-react-jsx": "^7.10.4",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "jest-puppeteer": "^4.4.0",
+    "react-test-renderer": "^16.13.1",
     "redux-devtools-extension": "^2.13.8"
   }
 }

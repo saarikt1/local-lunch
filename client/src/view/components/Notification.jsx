@@ -3,7 +3,7 @@ import Snackbar from "@material-ui/core/Snackbar";
 import MuiAlert from "@material-ui/lab/Alert";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
-import { hideNotification } from "../redux/notification";
+import { hideNotification } from "../../redux/notification";
 import { useDispatch } from "react-redux";
 
 function Alert(props) {

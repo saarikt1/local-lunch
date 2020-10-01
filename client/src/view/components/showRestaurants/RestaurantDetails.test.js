@@ -19,4 +19,6 @@ test("renders content", () => {
   const component = render(<RestaurantDetails restaurant={restaurant} />);
 
   expect(component.container).toHaveTextContent("Taikakattila");
+  expect(component.container).toHaveTextContent("Website");
+  // expect(component.container).toHaveTextContent("http://www.taikakattila.fi/");
 });
