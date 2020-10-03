@@ -21,6 +21,9 @@ describe("<RestaurantDetails />", () => {
 
     expect(screen.getByText(/Taikakattila/)).toBeInTheDocument();
     expect(screen.getByText(/website/i)).toBeInTheDocument();
+    expect(screen.getByText(/website/i).href).toBe(
+      "http://www.taikakattila.fi/"
+    );
   });
 
   test("doesn't render website link if no website", () => {
