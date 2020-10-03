@@ -17,7 +17,7 @@ describe("<RestaurantDetails />", () => {
       distance: 12620,
     };
 
-    const component = render(<RestaurantDetails restaurant={restaurant} />);
+    render(<RestaurantDetails restaurant={restaurant} />);
 
     expect(screen.getByText(/Taikakattila/)).toBeInTheDocument();
     expect(screen.getByText(/website/i)).toBeInTheDocument();
@@ -36,7 +36,7 @@ describe("<RestaurantDetails />", () => {
       distance: 12620,
     };
 
-    const component = render(<RestaurantDetails restaurant={restaurant} />);
+    render(<RestaurantDetails restaurant={restaurant} />);
 
     expect(screen.getByText(/Taikakattila/)).toBeInTheDocument();
     expect(screen.queryByText(/website/i)).toBeNull();
