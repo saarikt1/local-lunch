@@ -17,13 +17,11 @@ describe("<RestaurantDetails />", () => {
       distance: 12620,
     };
 
-    render(<RestaurantDetails restaurant={restaurant} />);
+    const { getByText } = render(<RestaurantDetails restaurant={restaurant} />);
 
-    expect(screen.getByText(/Taikakattila/)).toBeInTheDocument();
-    expect(screen.getByText(/website/i)).toBeInTheDocument();
-    expect(screen.getByText(/website/i).href).toBe(
-      "http://www.taikakattila.fi/"
-    );
+    expect(getByText(/Taikakattila/)).toBeInTheDocument();
+    expect(getByText(/website/i)).toBeInTheDocument();
+    expect(getByText(/website/i).href).toBe("http://www.taikakattila.fi/");
   });
 
   test("doesn't render website link if no website", () => {
@@ -39,9 +37,11 @@ describe("<RestaurantDetails />", () => {
       distance: 12620,
     };
 
-    render(<RestaurantDetails restaurant={restaurant} />);
+    const { getByText, queryByText } = render(
+      <RestaurantDetails restaurant={restaurant} />
+    );
 
-    expect(screen.getByText(/Taikakattila/)).toBeInTheDocument();
-    expect(screen.queryByText(/website/i)).toBeNull();
+    expect(getByText(/Taikakattila/)).toBeInTheDocument();
+    expect(queryByText(/website/i)).toBeNull();
   });
 });
