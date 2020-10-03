@@ -28,7 +28,6 @@ const useStyles = makeStyles({
 
 const RestaurantDetails = ({ restaurant }) => {
   const classes = useStyles();
-  // const bull = <span className={classes.bullet}>•</span>;
 
   return (
     <Card className={classes.root}>
@@ -36,15 +35,6 @@ const RestaurantDetails = ({ restaurant }) => {
         <Typography gutterBottom variant="h5" component="h2">
           {restaurant ? restaurant.name : <Skeleton />}
         </Typography>
-        {/* <Typography variant="body2" color="textSecondary" component="p">
-          {restaurant ? (
-            <>
-              Takeaway{bull}Big groups{bull}Fast service{bull}Buffet
-            </>
-          ) : (
-            <Skeleton width="60%" />
-          )}
-        </Typography> */}
       </CardContent>
       <CardActions>
         {restaurant ? (
