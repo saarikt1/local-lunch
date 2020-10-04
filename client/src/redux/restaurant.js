@@ -1,11 +1,11 @@
 import axios from "axios";
 import { calculateDistanceBetweenPoints, shuffleArray } from "./utils";
 
-const FETCH_RESTAURANTS_REQUEST = "[restaurants] Fetch request";
-const FETCH_RESTAURANTS_SUCCESS = "[restaurants] Fetch success";
-const FETCH_RESTAURANTS_FAILURE = "[restaurants] Fetch failure";
-const ADD_DISTANCES = "[restaurants] Distances added";
-const INVALIDATE_RESTAURANTS = "[restaurants] Invalidate data";
+export const FETCH_RESTAURANTS_REQUEST = "[restaurants] Fetch request";
+export const FETCH_RESTAURANTS_SUCCESS = "[restaurants] Fetch success";
+export const FETCH_RESTAURANTS_FAILURE = "[restaurants] Fetch failure";
+export const ADD_DISTANCES = "[restaurants] Distances added";
+export const INVALIDATE_RESTAURANTS = "[restaurants] Invalidate data";
 
 const initialState = {
   allRestaurants: null,
