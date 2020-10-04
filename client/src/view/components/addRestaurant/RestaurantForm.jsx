@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 });
 
 const RestaurantForm = () => {
-  const userLocation = useSelector((state) => state.user.userLocation);
+  const userLocation = useSelector((state) => state.location.coordinates);
   const [searchResults, setSearchResults] = useState([]);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
