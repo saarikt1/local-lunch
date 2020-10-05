@@ -1,8 +1,8 @@
 import { showNotification } from "./notification";
 
-const FETCH_LOCATION_REQUEST = "[location] Fetch request";
-const FETCH_LOCATION_SUCCESS = "[location] Fetch success";
-const FETCH_LOCATION_FAILURE = "[location] Fetch failure";
+export const FETCH_LOCATION_REQUEST = "[location] Fetch request";
+export const FETCH_LOCATION_SUCCESS = "[location] Fetch success";
+export const FETCH_LOCATION_FAILURE = "[location] Fetch failure";
 
 const initialState = {
   coordinates: null,
