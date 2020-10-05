@@ -89,6 +89,7 @@ export const locateUser = () => async (dispatch) => {
   } catch (err) {
     dispatch({ type: FETCH_LOCATION_FAILURE });
     if (err.code === 2) {
+      dispatch(showNotification("Couldn't get location.", "warning"));
       throw new Error("Location unavailable");
     }
     throw err;
