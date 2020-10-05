@@ -68,7 +68,6 @@ export const fetchRestaurants = () => async (dispatch) => {
       type: FETCH_RESTAURANTS_FAILURE,
       payload: "Couldn't fetch restaurants",
     });
-    throw new Error("Couldn't get restaurants.");
   }
 };
 

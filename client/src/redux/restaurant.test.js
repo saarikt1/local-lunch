@@ -1,11 +1,19 @@
+import axios from "axios";
 import reducer from "./restaurant";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 import {
   FETCH_RESTAURANTS_REQUEST,
   FETCH_RESTAURANTS_SUCCESS,
   FETCH_RESTAURANTS_FAILURE,
   ADD_DISTANCES,
   INVALIDATE_RESTAURANTS,
+  fetchRestaurants,
 } from "./restaurant";
+
+const middlewares = [thunk];
+const mockStore = configureMockStore(middlewares);
+jest.mock("axios");
 
 const restaurantList = [
   {
@@ -75,6 +83,8 @@ const restaurantListWithDistances = [
     distance: 1440752,
   },
 ];
+
+// Reducers
 
 describe("Restaurant reducer", () => {
   it("should return initial state", () => {
@@ -190,6 +200,70 @@ describe("Restaurant reducer", () => {
       isFetching: false,
       isWithDistance: true,
       didInvalidate: true,
+    });
+  });
+});
+
+// Actions
+
+describe("Fetch restaurants", () => {
+  afterEach(() => {
+    fetch.resetMocks();
+  });
+
+  it("should call right actions on successful fetch", () => {
+    const response = { data: restaurantList };
+
+    axios.get.mockImplementationOnce(() => Promise.resolve(response));
+
+    const expectedActions = [
+      {
+        type: FETCH_RESTAURANTS_REQUEST,
+      },
+      {
+        type: FETCH_RESTAURANTS_SUCCESS,
+        payload: response.data,
+      },
+    ];
+
+    const store = mockStore({
+      allRestaurants: null,
+      isFetching: false,
+      isWithDistance: false,
+      didInvalidate: false,
+    });
+
+    return store.dispatch(fetchRestaurants()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
+    });
+  });
+
+  it("should give an error on fetch failure", () => {
+    const errorMessage = "Network Error";
+
+    axios.get.mockImplementationOnce(() =>
+      Promise.reject(new Error(errorMessage))
+    );
+
+    const expectedActions = [
+      {
+        type: FETCH_RESTAURANTS_REQUEST,
+      },
+      {
+        type: FETCH_RESTAURANTS_FAILURE,
+        payload: "Couldn't fetch restaurants",
+      },
+    ];
+
+    const store = mockStore({
+      allRestaurants: null,
+      isFetching: false,
+      isWithDistance: false,
+      didInvalidate: false,
+    });
+
+    return store.dispatch(fetchRestaurants()).then(() => {
+      expect(store.getActions()).toEqual(expectedActions);
     });
   });
 });
