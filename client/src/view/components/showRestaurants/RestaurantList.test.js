@@ -5,6 +5,13 @@ import RestaurantList from "./RestaurantList";
 
 describe("<RestaurantList />", () => {
   it("renders all children", () => {
+    const locationState = {
+      coordinates: null,
+      isLocating: false,
+      didInvalidate: false,
+      error: null,
+    };
+
     const restaurantSuggestions = [
       {
         id: "41",
@@ -41,7 +48,12 @@ describe("<RestaurantList />", () => {
       },
     ];
 
-    render(<RestaurantList restaurantSuggestions={restaurantSuggestions} />);
+    render(
+      <RestaurantList
+        restaurantSuggestions={restaurantSuggestions}
+        locationState={locationState}
+      />
+    );
 
     expect(screen.getByText(/Taikakattila/)).toBeInTheDocument();
     expect(screen.getByText(/Paisano/)).toBeInTheDocument();

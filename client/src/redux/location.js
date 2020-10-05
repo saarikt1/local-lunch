@@ -8,6 +8,7 @@ const initialState = {
   coordinates: null,
   isLocating: false,
   didInvalidate: false,
+  error: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,12 +18,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLocating: true,
         didInvalidate: false,
+        error: null,
       };
     case FETCH_LOCATION_SUCCESS:
       return {
         ...state,
         isLocating: false,
         didInvalidate: false,
+        error: null,
         coordinates: action.coords,
       };
     case FETCH_LOCATION_FAILURE:
@@ -30,6 +33,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         isLocating: false,
         didInvalidate: false,
+        error: true,
       };
     default:
       return state;

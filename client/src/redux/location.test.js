@@ -17,6 +17,7 @@ describe("Location reducer", () => {
       coordinates: null,
       isLocating: false,
       didInvalidate: false,
+      error: null,
     });
   });
 
@@ -27,6 +28,7 @@ describe("Location reducer", () => {
           coordinates: null,
           isLocating: false,
           didInvalidate: false,
+          error: null,
         },
         {
           type: FETCH_LOCATION_REQUEST,
@@ -36,6 +38,7 @@ describe("Location reducer", () => {
       coordinates: null,
       isLocating: true,
       didInvalidate: false,
+      error: null,
     });
   });
 
@@ -46,6 +49,7 @@ describe("Location reducer", () => {
           coordinates: null,
           isLocating: true,
           didInvalidate: false,
+          error: null,
         },
         {
           type: FETCH_LOCATION_SUCCESS,
@@ -56,6 +60,7 @@ describe("Location reducer", () => {
       coordinates: null,
       isLocating: false,
       didInvalidate: false,
+      error: null,
       coordinates: userLocation,
     });
   });
@@ -67,6 +72,7 @@ describe("Location reducer", () => {
           coordinates: null,
           isLocating: true,
           didInvalidate: false,
+          error: null,
         },
         {
           type: FETCH_LOCATION_FAILURE,
@@ -76,6 +82,7 @@ describe("Location reducer", () => {
       coordinates: null,
       isLocating: false,
       didInvalidate: false,
+      error: true,
     });
   });
 });

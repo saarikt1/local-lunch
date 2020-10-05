@@ -6,8 +6,10 @@ import { getRestaurantSuggestions } from "../../../redux/restaurant";
 import { useSelector } from "react-redux";
 
 const RestaurantSuggestions = () => {
-  const state = useSelector((state) => state);
-  const restaurantSuggestions = getRestaurantSuggestions(state);
+  const restaurantState = useSelector((state) => state.restaurants);
+  const locationState = useSelector((state) => state.location);
+  let restaurantSuggestions = [];
+  restaurantSuggestions = getRestaurantSuggestions(restaurantState);
 
   return (
     <>
@@ -19,7 +21,10 @@ const RestaurantSuggestions = () => {
         flexDirection="row"
         flexWrap="wrap"
       >
-        <RestaurantList restaurantSuggestions={restaurantSuggestions} />
+        <RestaurantList
+          restaurantSuggestions={restaurantSuggestions}
+          locationState={locationState}
+        />
         <RestaurantMap restaurantSuggestions={restaurantSuggestions} />
       </Box>
     </>

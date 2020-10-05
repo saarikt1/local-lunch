@@ -92,8 +92,8 @@ export const filterRestaurantsByDistance = (restaurants, distance) => {
   return restaurants.filter((r) => r.distance < distance);
 };
 
-export const getRestaurantSuggestions = (state) => {
-  if (!state.restaurants.isWithDistance) {
+export const getRestaurantSuggestions = (restaurantState) => {
+  if (!restaurantState.isWithDistance) {
     return;
   }
 
@@ -101,7 +101,7 @@ export const getRestaurantSuggestions = (state) => {
 
   // Distance cutoff
   restaurantSuggestions = filterRestaurantsByDistance(
-    state.restaurants.allRestaurants,
+    restaurantState.allRestaurants,
     750
   );
 

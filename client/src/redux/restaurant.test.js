@@ -301,17 +301,18 @@ describe("filterRestaurantsByDistance", () => {
 
 describe("getRestaurantSuggestions", () => {
   it("returns three random options from inside the search radius", () => {
-    const state = {
-      restaurants: {
-        allRestaurants: restaurantList,
-        isFetching: false,
-        isWithDistance: true,
-        didInvalidate: false,
-      },
+    const restaurantState = {
+      allRestaurants: restaurantList,
+      isFetching: false,
+      isWithDistance: true,
+      didInvalidate: false,
     };
 
     global.Math.random = () => 0.2;
-    const restaurantSuggestions = getRestaurantSuggestions(state, 300);
+    const restaurantSuggestions = getRestaurantSuggestions(
+      restaurantState,
+      300
+    );
     expect(restaurantSuggestions).toEqual([
       {
         id: "21",
