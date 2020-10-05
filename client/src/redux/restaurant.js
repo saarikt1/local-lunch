@@ -88,7 +88,7 @@ export const addDistanceToRestaurants = () => (dispatch, getState) => {
   });
 };
 
-const filterRestaurantsByDistance = (restaurants, distance) => {
+export const filterRestaurantsByDistance = (restaurants, distance) => {
   return restaurants.filter((r) => r.distance < distance);
 };
 
