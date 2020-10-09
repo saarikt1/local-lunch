@@ -33,7 +33,7 @@ const Notification = () => {
   };
 
   return (
-    <div className={classes.root}>
+    <div id="notificationContainer" className={classes.root}>
       <Snackbar
         open={notification.open}
         autoHideDuration={6000}

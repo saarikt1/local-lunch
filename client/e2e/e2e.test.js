@@ -1,10 +1,11 @@
-beforeAll(async () => {
-  await context.overridePermissions("http://localhost:3000", ["geolocation"]);
-  await page.setGeolocation({ latitude: 60.1697802, longitude: 24.9472751 });
-  await page.goto("http://localhost:3000");
-});
+describe("Front page", () => {
+  beforeAll(async () => {
+    await context.overridePermissions("http://localhost:3000", ["geolocation"]);
+    await page.setGeolocation({ latitude: 60.1697802, longitude: 24.9472751 });
+    await page.goto("http://localhost:3000");
+    await page.screenshot({ path: "./screenshots/initialLoadSuccess.png" });
+  });
 
-describe("Page", () => {
   it('should be titled "Lunch Near Me"', async () => {
     await expect(page.title()).resolves.toMatch("Lunch Near Me");
   });
@@ -14,13 +15,48 @@ describe("Page", () => {
     await expect(header).toBe("Lunch Near Me");
   });
 
-  it("should show restaurant suggestions section", async () => {
-    const restaurantSuggestions = await page.$("#restaurant-suggestions");
-    await expect(restaurantSuggestions).toBeTruthy;
-  });
-
   it("should show a map", async () => {
     const map = await page.$("#map");
     await expect(map).toBeTruthy;
   });
+
+  it("should show restaurant suggestions section", async () => {
+    const restaurantSuggestions = await page.$("#restaurant-suggestions");
+    await expect(restaurantSuggestions).toBeTruthy;
+  });
 });
+
+describe("Notification", () => {
+  it("should be shown if there are no restaurants", async () => {
+    await context.overridePermissions("http://localhost:3000", ["geolocation"]);
+    // Location: London
+    await page.setGeolocation({ latitude: 51.507351, longitude: -0.127758 });
+    await page.goto("http://localhost:3000");
+
+    const notification = await page.$("#notificationContainer");
+    const notificationText = await page.$eval(
+      "#notificationContainer > div > div > div.MuiAlert-message",
+      (e) => e.innerHTML
+    );
+
+    await expect(notification).toBeTruthy;
+    await expect(notificationText).toBe(
+      "No restaurants found near your location."
+    );
+  });
+});
+
+// NOTIFICATION
+// should be shown if no location
+// should be shown if inaccurate location
+
+// MAP
+// should show three options on the map
+// options should be clickable
+// should show user location on the map
+// if no restaurants, should show only user location on the map
+
+// RESTAURANTSUGGESTIONS
+// should show three options
+// should show name and website link
+// website link should take to the correct url
