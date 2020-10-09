@@ -13,6 +13,7 @@ import {
   addDistanceToRestaurants,
   filterRestaurantsByDistance,
   getRestaurantSuggestions,
+  setRestaurantSuggestions,
 } from "./restaurant";
 import {
   userLocation,
@@ -20,7 +21,6 @@ import {
   restaurantListWithDistances,
   restaurantSuggestionsList,
 } from "../testData";
-import { setRestaurantSuggestions } from "../reducers/restaurantReducer";
 import { SHOW_NOTIFICATION } from "./notification";
 
 const middlewares = [thunk];
@@ -359,8 +359,6 @@ describe("getRestaurantSuggestions", () => {
 });
 
 describe("setRestaurantSuggestions", () => {
-  // When results in an empty list should call dispatch(setRestaurantSuggestions) with an empty list AND call dispatch(showNotification)
-
   it("should call setRestaurantSuggestions with correct data", () => {
     const expectedActions = [
       {
@@ -370,10 +368,12 @@ describe("setRestaurantSuggestions", () => {
     ];
 
     const store = mockStore({
-      allRestaurants: restaurantListWithDistances,
-      isFetching: false,
-      isWithDistance: true,
-      didInvalidate: false,
+      restaurants: {
+        allRestaurants: restaurantListWithDistances,
+        isFetching: false,
+        isWithDistance: true,
+        didInvalidate: false,
+      },
     });
 
     store.dispatch(setRestaurantSuggestions());
@@ -383,21 +383,26 @@ describe("setRestaurantSuggestions", () => {
   it("should call showNotification when there are no suggestions", () => {
     const expectedActions = [
       {
-        type: SET_RESTAURANT_SUGGESTIONS,
-        payload: [],
+        type: SHOW_NOTIFICATION,
+        data: {
+          msg: "No restaurants found near your location.",
+          notificationType: "warning",
+          open: true,
+        },
       },
       {
-        type: SHOW_NOTIFICATION,
-        msg: "No restaurants found near your location",
-        notificationType: "warning",
+        type: SET_RESTAURANT_SUGGESTIONS,
+        payload: [],
       },
     ];
 
     const store = mockStore({
-      allRestaurants: [],
-      isFetching: false,
-      isWithDistance: true,
-      didInvalidate: false,
+      restaurants: {
+        allRestaurants: [],
+        isFetching: false,
+        isWithDistance: true,
+        didInvalidate: false,
+      },
     });
 
     store.dispatch(setRestaurantSuggestions());

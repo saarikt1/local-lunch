@@ -1,4 +1,5 @@
 import axios from "axios";
+import { showNotification } from "./notification";
 import { calculateDistanceBetweenPoints, shuffleArray } from "./utils";
 
 export const FETCH_RESTAURANTS_REQUEST = "[restaurants] Fetch request";
@@ -6,6 +7,7 @@ export const FETCH_RESTAURANTS_SUCCESS = "[restaurants] Fetch success";
 export const FETCH_RESTAURANTS_FAILURE = "[restaurants] Fetch failure";
 export const ADD_DISTANCES = "[restaurants] Distances added";
 export const INVALIDATE_RESTAURANTS = "[restaurants] Invalidate data";
+export const SET_RESTAURANT_SUGGESTIONS = "[restaurants] Set suggestions";
 
 const initialState = {
   allRestaurants: null,
@@ -50,6 +52,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         didInvalidate: true,
+      };
+    case SET_RESTAURANT_SUGGESTIONS:
+      return {
+        ...state,
+        restaurantSuggestions: action.payload,
       };
     default:
       return state;
@@ -112,6 +119,33 @@ export const getRestaurantSuggestions = (restaurantState) => {
   restaurantSuggestions = restaurantSuggestions.splice(0, 3);
 
   return restaurantSuggestions;
+};
+
+export const setRestaurantSuggestions = () => (dispatch, getState) => {
+  const { restaurants } = getState();
+
+  let restaurantSuggestions = [];
+
+  // Distance cutoff
+  restaurantSuggestions = filterRestaurantsByDistance(
+    restaurants.allRestaurants,
+    750
+  );
+
+  // Randomize
+  restaurantSuggestions = shuffleArray(restaurantSuggestions);
+
+  // Pick three
+  restaurantSuggestions = restaurantSuggestions.splice(0, 3);
+  if (restaurantSuggestions.length === 0) {
+    dispatch(
+      showNotification("No restaurants found near your location.", "warning")
+    );
+  }
+  dispatch({
+    type: SET_RESTAURANT_SUGGESTIONS,
+    payload: restaurantSuggestions,
+  });
 };
 
 export default reducer;
