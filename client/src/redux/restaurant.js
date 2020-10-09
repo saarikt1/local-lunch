@@ -99,28 +99,6 @@ export const filterRestaurantsByDistance = (restaurants, distance) => {
   return restaurants.filter((r) => r.distance < distance);
 };
 
-export const getRestaurantSuggestions = (restaurantState) => {
-  if (!restaurantState.isWithDistance) {
-    return;
-  }
-
-  let restaurantSuggestions = [];
-
-  // Distance cutoff
-  restaurantSuggestions = filterRestaurantsByDistance(
-    restaurantState.allRestaurants,
-    750
-  );
-
-  // Randomize
-  restaurantSuggestions = shuffleArray(restaurantSuggestions);
-
-  // Pick three
-  restaurantSuggestions = restaurantSuggestions.splice(0, 3);
-
-  return restaurantSuggestions;
-};
-
 export const setRestaurantSuggestions = () => (dispatch, getState) => {
   const { restaurants } = getState();
 

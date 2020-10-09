@@ -12,7 +12,6 @@ import {
   fetchRestaurants,
   addDistanceToRestaurants,
   filterRestaurantsByDistance,
-  getRestaurantSuggestions,
   setRestaurantSuggestions,
 } from "./restaurant";
 import {
@@ -326,40 +325,9 @@ describe("filterRestaurantsByDistance", () => {
   });
 });
 
-describe("getRestaurantSuggestions", () => {
-  it("returns three random options from inside the search radius", () => {
-    const restaurantState = {
-      allRestaurants: restaurantList,
-      isFetching: false,
-      isWithDistance: true,
-      didInvalidate: false,
-    };
-
-    global.Math.random = () => 0.2;
-    const restaurantSuggestions = getRestaurantSuggestions(
-      restaurantState,
-      300
-    );
-    expect(restaurantSuggestions).toEqual(restaurantSuggestionsList);
-  });
-
-  it("returns undefined if restaurantList is without distances", () => {
-    const state = {
-      restaurants: {
-        allRestaurants: restaurantList,
-        isFetching: false,
-        isWithDistance: false,
-        didInvalidate: false,
-      },
-    };
-
-    const restaurantSuggestions = getRestaurantSuggestions(state);
-    expect(restaurantSuggestions).toBeUndefined();
-  });
-});
-
 describe("setRestaurantSuggestions", () => {
   it("should call setRestaurantSuggestions with correct data", () => {
+    global.Math.random = () => 0.2;
     const expectedActions = [
       {
         type: SET_RESTAURANT_SUGGESTIONS,
