@@ -222,3 +222,39 @@ export const restaurantListWithDistances = [
     distance: 167,
   },
 ];
+
+export const restaurantSuggestionsList = [
+  {
+    id: "21",
+    name: "Ravintola Bank",
+    website: "https://www.ravintolabank.fi/",
+    latlon: {
+      x: 60.1661896,
+      y: 24.950987,
+    },
+    subtitle: "",
+    distance: 167,
+  },
+  {
+    id: "33",
+    name: "Capperi",
+    website: "https://capperi.fi/keskusta/",
+    latlon: {
+      x: 60.1660073,
+      y: 24.9471702,
+    },
+    subtitle: "Keskusta",
+    distance: 47,
+  },
+  {
+    id: "22",
+    name: "The Cock",
+    website: "https://thecock.fi/",
+    latlon: {
+      x: 60.1655559,
+      y: 24.9498892,
+    },
+    subtitle: "",
+    distance: 112,
+  },
+];

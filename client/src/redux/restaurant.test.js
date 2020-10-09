@@ -8,6 +8,7 @@ import {
   FETCH_RESTAURANTS_FAILURE,
   ADD_DISTANCES,
   INVALIDATE_RESTAURANTS,
+  SET_RESTAURANT_SUGGESTIONS,
   fetchRestaurants,
   addDistanceToRestaurants,
   filterRestaurantsByDistance,
@@ -17,7 +18,10 @@ import {
   userLocation,
   restaurantList,
   restaurantListWithDistances,
+  restaurantSuggestionsList,
 } from "../testData";
+import { setRestaurantSuggestions } from "../reducers/restaurantReducer";
+import { SHOW_NOTIFICATION } from "./notification";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
@@ -139,6 +143,29 @@ describe("Restaurant reducer", () => {
       isFetching: false,
       isWithDistance: true,
       didInvalidate: true,
+    });
+  });
+
+  it(`should handle ${SET_RESTAURANT_SUGGESTIONS}`, () => {
+    expect(
+      reducer(
+        {
+          allRestaurants: restaurantListWithDistances,
+          isFetching: false,
+          isWithDistance: true,
+          didInvalidate: false,
+        },
+        {
+          type: SET_RESTAURANT_SUGGESTIONS,
+          payload: restaurantSuggestionsList,
+        }
+      )
+    ).toEqual({
+      allRestaurants: restaurantListWithDistances,
+      restaurantSuggestions: restaurantSuggestionsList,
+      isFetching: false,
+      isWithDistance: true,
+      didInvalidate: false,
     });
   });
 });
@@ -313,42 +340,9 @@ describe("getRestaurantSuggestions", () => {
       restaurantState,
       300
     );
-    expect(restaurantSuggestions).toEqual([
-      {
-        id: "21",
-        name: "Ravintola Bank",
-        website: "https://www.ravintolabank.fi/",
-        latlon: {
-          x: 60.1661896,
-          y: 24.950987,
-        },
-        subtitle: "",
-        distance: 167,
-      },
-      {
-        id: "33",
-        name: "Capperi",
-        website: "https://capperi.fi/keskusta/",
-        latlon: {
-          x: 60.1660073,
-          y: 24.9471702,
-        },
-        subtitle: "Keskusta",
-        distance: 47,
-      },
-      {
-        id: "22",
-        name: "The Cock",
-        website: "https://thecock.fi/",
-        latlon: {
-          x: 60.1655559,
-          y: 24.9498892,
-        },
-        subtitle: "",
-        distance: 112,
-      },
-    ]);
+    expect(restaurantSuggestions).toEqual(restaurantSuggestionsList);
   });
+
   it("returns undefined if restaurantList is without distances", () => {
     const state = {
       restaurants: {
@@ -361,5 +355,52 @@ describe("getRestaurantSuggestions", () => {
 
     const restaurantSuggestions = getRestaurantSuggestions(state);
     expect(restaurantSuggestions).toBeUndefined();
+  });
+});
+
+describe("setRestaurantSuggestions", () => {
+  // When results in an empty list should call dispatch(setRestaurantSuggestions) with an empty list AND call dispatch(showNotification)
+
+  it("should call setRestaurantSuggestions with correct data", () => {
+    const expectedActions = [
+      {
+        type: SET_RESTAURANT_SUGGESTIONS,
+        payload: restaurantSuggestionsList,
+      },
+    ];
+
+    const store = mockStore({
+      allRestaurants: restaurantListWithDistances,
+      isFetching: false,
+      isWithDistance: true,
+      didInvalidate: false,
+    });
+
+    store.dispatch(setRestaurantSuggestions());
+    expect(store.getActions()).toEqual(expectedActions);
+  });
+
+  it("should call showNotification when there are no suggestions", () => {
+    const expectedActions = [
+      {
+        type: SET_RESTAURANT_SUGGESTIONS,
+        payload: [],
+      },
+      {
+        type: SHOW_NOTIFICATION,
+        msg: "No restaurants found near your location",
+        notificationType: "warning",
+      },
+    ];
+
+    const store = mockStore({
+      allRestaurants: [],
+      isFetching: false,
+      isWithDistance: true,
+      didInvalidate: false,
+    });
+
+    store.dispatch(setRestaurantSuggestions());
+    expect(store.getActions()).toEqual(expectedActions);
   });
 });

@@ -1,4 +1,4 @@
-const SHOW_NOTIFICATION = "[notification] showNotification";
+export const SHOW_NOTIFICATION = "[notification] showNotification";
 const HIDE_NOTIFICATION = "[notification] hideNotification";
 
 const initialState = {
