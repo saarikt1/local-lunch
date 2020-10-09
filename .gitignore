@@ -4,3 +4,4 @@
 .env
 backup*
 *.code-workspace
+tags
