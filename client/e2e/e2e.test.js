@@ -33,22 +33,35 @@ describe("Notification", () => {
     await page.setGeolocation({ latitude: 51.507351, longitude: -0.127758 });
     await page.goto("http://localhost:3000");
 
-    const notification = await page.$("#notificationContainer");
     const notificationText = await page.$eval(
       "#notificationContainer > div > div > div.MuiAlert-message",
       (e) => e.innerHTML
     );
 
-    await expect(notification).toBeTruthy;
     await expect(notificationText).toBe(
       "No restaurants found near your location."
     );
   });
-});
 
-// NOTIFICATION
-// should be shown if no location
-// should be shown if inaccurate location
+  it("should be shown if location is inaccurate", async () => {
+    await context.overridePermissions("http://localhost:3000", ["geolocation"]);
+    await page.setGeolocation({
+      latitude: 60.1697802,
+      longitude: 24.9472751,
+      accuracy: 5000,
+    });
+    await page.goto("http://localhost:3000");
+
+    const notificationText = await page.$eval(
+      "#notificationContainer > div > div > div.MuiAlert-message",
+      (e) => e.innerHTML
+    );
+
+    await expect(notificationText).toBe(
+      "Couldn't get an accurate location. Maybe try with a different browser."
+    );
+  });
+});
 
 // MAP
 // should show three options on the map
