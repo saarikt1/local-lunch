@@ -33,6 +33,8 @@ describe("Notification", () => {
     await page.setGeolocation({ latitude: 51.507351, longitude: -0.127758 });
     await page.goto("http://localhost:3000");
 
+    await page.screenshot({ path: "./screenshots/no-restaurants.png" });
+
     const notificationText = await page.$eval(
       "#notificationContainer > div > div > div.MuiAlert-message",
       (e) => e.innerHTML
