@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Link,
@@ -26,7 +26,21 @@ const useStyles = makeStyles({
   },
 });
 
-const RestaurantDetails = ({ restaurant }) => {
+type RestaurantProps = {
+  restaurant: {
+    id: number;
+    name: string;
+    website: string;
+    latlon: {
+      x: number;
+      y: number;
+    };
+    subtitle?: string;
+    distance: number;
+  };
+};
+
+const RestaurantDetails = ({ restaurant }: RestaurantProps) => {
   const classes = useStyles();
 
   return (
