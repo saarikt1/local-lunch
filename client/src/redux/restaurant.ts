@@ -1,22 +1,32 @@
 import axios from "axios";
 import { showNotification } from "./notification";
 import { calculateDistanceBetweenPoints, shuffleArray } from "./utils";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "./store";
+import { Action } from "redux";
+import {
+  FETCH_RESTAURANTS_FAILURE,
+  FETCH_RESTAURANTS_REQUEST,
+  FETCH_RESTAURANTS_SUCCESS,
+  ADD_DISTANCES,
+  INVALIDATE_RESTAURANTS,
+  SET_RESTAURANT_SUGGESTIONS,
+  Restaurant,
+  RestaurantState,
+  RestaurantActionTypes,
+} from "./restaurantTypes";
 
-export const FETCH_RESTAURANTS_REQUEST = "[restaurants] Fetch request";
-export const FETCH_RESTAURANTS_SUCCESS = "[restaurants] Fetch success";
-export const FETCH_RESTAURANTS_FAILURE = "[restaurants] Fetch failure";
-export const ADD_DISTANCES = "[restaurants] Distances added";
-export const INVALIDATE_RESTAURANTS = "[restaurants] Invalidate data";
-export const SET_RESTAURANT_SUGGESTIONS = "[restaurants] Set suggestions";
-
-const initialState = {
-  allRestaurants: null,
+const initialState: RestaurantState = {
+  allRestaurants: [],
   isFetching: false,
   isWithDistance: false,
   didInvalidate: false,
 };
 
-const reducer = (state = initialState, action) => {
+export const restaurantReducer = (
+  state = initialState,
+  action: RestaurantActionTypes
+): RestaurantState => {
   switch (action.type) {
     case FETCH_RESTAURANTS_REQUEST:
       return {
@@ -63,11 +73,19 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const fetchRestaurants = () => async (dispatch) => {
+export const fetchRestaurants = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
   dispatch({ type: FETCH_RESTAURANTS_REQUEST });
 
   try {
     const response = await axios.get("/restaurants");
+    response.data.forEach((element: Restaurant) => {
+      element.distance = 0;
+    });
     dispatch({ type: FETCH_RESTAURANTS_SUCCESS, payload: response.data });
     return response;
   } catch (err) {
@@ -78,28 +96,43 @@ export const fetchRestaurants = () => async (dispatch) => {
   }
 };
 
-export const addDistanceToRestaurants = () => (dispatch, getState) => {
+export const addDistanceToRestaurants = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => (dispatch, getState) => {
   const { restaurants, location } = getState();
-  const restaurantsWithDistances = restaurants.allRestaurants.map((r) => {
-    r.distance = calculateDistanceBetweenPoints(
-      location.coordinates.lat,
-      location.coordinates.lon,
-      r.latlon.x,
-      r.latlon.y
-    );
-    return r;
-  });
+  const restaurantsWithDistances = restaurants.allRestaurants.map(
+    (r: Restaurant) => {
+      r.distance = calculateDistanceBetweenPoints(
+        location.coordinates.lat,
+        location.coordinates.lng,
+        r.latlon.x,
+        r.latlon.y
+      );
+      return r;
+    }
+  );
   dispatch({
     type: ADD_DISTANCES,
     payload: restaurantsWithDistances,
   });
 };
 
-export const filterRestaurantsByDistance = (restaurants, distance) => {
+export const filterRestaurantsByDistance = (
+  restaurants: Restaurant[],
+  distance: number
+): Restaurant[] => {
   return restaurants.filter((r) => r.distance < distance);
 };
 
-export const setRestaurantSuggestions = () => (dispatch, getState) => {
+export const setRestaurantSuggestions = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => (dispatch, getState) => {
   const { restaurants } = getState();
 
   let restaurantSuggestions = [];
@@ -125,5 +158,3 @@ export const setRestaurantSuggestions = () => (dispatch, getState) => {
     payload: restaurantSuggestions,
   });
 };
-
-export default reducer;

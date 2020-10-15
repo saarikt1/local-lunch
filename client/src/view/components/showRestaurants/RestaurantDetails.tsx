@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-type RestaurantProps = {
+interface Restaurant {
   restaurant: {
     id: number;
     name: string;
@@ -38,9 +38,9 @@ type RestaurantProps = {
     subtitle?: string;
     distance: number;
   };
-};
+}
 
-const RestaurantDetails = ({ restaurant }: RestaurantProps) => {
+const RestaurantDetails = ({ restaurant }: Restaurant) => {
   const classes = useStyles();
 
   return (

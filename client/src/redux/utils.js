@@ -21,9 +21,9 @@ export const calculateBoundingBoxAroundLocation = (userLocation) => {
   // Roughly 50 km
   const offsetFromLocation = 0.45;
 
-  const x1 = userLocation.lon - offsetFromLocation;
+  const x1 = userLocation.lng - offsetFromLocation;
   const y1 = userLocation.lat - offsetFromLocation;
-  const x2 = userLocation.lon + offsetFromLocation;
+  const x2 = userLocation.lng + offsetFromLocation;
   const y2 = userLocation.lat + offsetFromLocation;
 
   return { x1, y1, x2, y2 };

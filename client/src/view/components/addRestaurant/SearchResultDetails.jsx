@@ -14,7 +14,7 @@ const SearchResultDetails = ({ searchResult, fillFormWithData }) => {
   const name = searchResult.address.amenity;
   const subtitle = "";
   const website = searchResult.extratags.website || "";
-  const latlon = `${searchResult.lat},${searchResult.lon}`;
+  const latlon = `${searchResult.lat},${searchResult.lng}`;
   const addressLine1 = [
     searchResult.address.road,
     " ",

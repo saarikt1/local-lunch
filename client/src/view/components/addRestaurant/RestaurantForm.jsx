@@ -148,7 +148,7 @@ const RestaurantForm = () => {
             <Field
               component={TextField}
               className={classes.textField}
-              label="Coordinates lat, lon"
+              label="Coordinates lat, lng"
               name="latlon"
               type="text"
             />

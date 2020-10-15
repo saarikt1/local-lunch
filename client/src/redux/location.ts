@@ -1,31 +1,41 @@
 import { showNotification } from "./notification";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "./store";
+import { Action } from "redux";
+import {
+  FETCH_LOCATION_REQUEST,
+  FETCH_LOCATION_SUCCESS,
+  FETCH_LOCATION_FAILURE,
+  LocationActionTypes,
+  LocationState,
+  FetchLocationSuccessAction,
+} from "./locationTypes";
 
-export const FETCH_LOCATION_REQUEST = "[location] Fetch request";
-export const FETCH_LOCATION_SUCCESS = "[location] Fetch success";
-export const FETCH_LOCATION_FAILURE = "[location] Fetch failure";
-
-const initialState = {
-  coordinates: null,
+const initialState: LocationState = {
+  coordinates: { lat: 60.1797517, lng: 24.9597715 },
   isLocating: false,
   didInvalidate: false,
-  error: null,
+  error: false,
 };
 
-const reducer = (state = initialState, action) => {
+export const locationReducer = (
+  state = initialState,
+  action: LocationActionTypes
+): LocationState => {
   switch (action.type) {
     case FETCH_LOCATION_REQUEST:
       return {
         ...state,
         isLocating: true,
         didInvalidate: false,
-        error: null,
+        error: false,
       };
     case FETCH_LOCATION_SUCCESS:
       return {
         ...state,
         isLocating: false,
         didInvalidate: false,
-        error: null,
+        error: false,
         coordinates: action.coords,
       };
     case FETCH_LOCATION_FAILURE:
@@ -40,28 +50,33 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-const setLocation = (position) => {
+const setLocation = (position: Position): FetchLocationSuccessAction => {
   return {
     type: FETCH_LOCATION_SUCCESS,
     coords: {
       lat: position.coords.latitude,
-      lon: position.coords.longitude,
+      lng: position.coords.longitude,
     },
   };
 };
 
-const getPositionPromise = () => {
+const getPositionPromise = (): Promise<Position> => {
   const options = {
     enableHighAccuracy: false,
     maximumAge: 30000,
     timeout: 5000,
   };
-  return new Promise((resolve, reject) => {
+  return new Promise<Position>((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(resolve, reject, options);
   });
 };
 
-export const locateUser = () => async (dispatch) => {
+export const locateUser = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => async (dispatch) => {
   dispatch({ type: FETCH_LOCATION_REQUEST });
   try {
     if (!navigator.geolocation) {
@@ -95,5 +110,3 @@ export const locateUser = () => async (dispatch) => {
     throw err;
   }
 };
-
-export default reducer;

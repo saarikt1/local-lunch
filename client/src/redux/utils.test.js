@@ -19,7 +19,7 @@ describe("Util functions", () => {
     expect(
       calculateBoundingBoxAroundLocation({
         lat: 60.16592,
-        lon: 24.94801,
+        lng: 24.94801,
       })
     ).toMatchObject({
       x1: 24.49801,

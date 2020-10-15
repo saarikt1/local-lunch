@@ -1,7 +1,7 @@
 // Kasarmitori, Helsinki
 export const userLocation = {
   lat: 60.16592,
-  lon: 24.94801,
+  lng: 24.94801,
 };
 
 export const restaurantList = [

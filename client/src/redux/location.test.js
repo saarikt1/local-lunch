@@ -95,7 +95,7 @@ describe("locateUser", () => {
           success({
             coords: {
               latitude: userLocation.lat,
-              longitude: userLocation.lon,
+              longitude: userLocation.lng,
             },
           })
         )
@@ -111,7 +111,7 @@ describe("locateUser", () => {
         type: FETCH_LOCATION_SUCCESS,
         coords: {
           lat: userLocation.lat,
-          lon: userLocation.lon,
+          lng: userLocation.lng,
         },
       },
     ];
