@@ -1,9 +1,9 @@
-import reducer, {
-  locateUser,
+import { locationReducer, locateUser } from "./location";
+import {
   FETCH_LOCATION_FAILURE,
   FETCH_LOCATION_REQUEST,
   FETCH_LOCATION_SUCCESS,
-} from "./location";
+} from "./locationTypes";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import { userLocation } from "../testData";
@@ -13,43 +13,43 @@ const mockStore = configureMockStore(middlewares);
 
 describe("Location reducer", () => {
   it("should return initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      coordinates: null,
+    expect(locationReducer(undefined, {})).toEqual({
+      coordinates: { lat: 60.1797517, lng: 24.9597715 },
       isLocating: false,
       didInvalidate: false,
-      error: null,
+      error: false,
     });
   });
 
   it(`should handle ${FETCH_LOCATION_REQUEST}`, () => {
     expect(
-      reducer(
+      locationReducer(
         {
-          coordinates: null,
+          coordinates: { lat: 60.1797517, lng: 24.9597715 },
           isLocating: false,
           didInvalidate: false,
-          error: null,
+          error: false,
         },
         {
           type: FETCH_LOCATION_REQUEST,
         }
       )
     ).toEqual({
-      coordinates: null,
+      coordinates: { lat: 60.1797517, lng: 24.9597715 },
       isLocating: true,
       didInvalidate: false,
-      error: null,
+      error: false,
     });
   });
 
   it(`should handle ${FETCH_LOCATION_SUCCESS}`, () => {
     expect(
-      reducer(
+      locationReducer(
         {
-          coordinates: null,
+          coordinates: { lat: 60.1797517, lng: 24.9597715 },
           isLocating: true,
           didInvalidate: false,
-          error: null,
+          error: false,
         },
         {
           type: FETCH_LOCATION_SUCCESS,
@@ -57,29 +57,28 @@ describe("Location reducer", () => {
         }
       )
     ).toEqual({
-      coordinates: null,
       isLocating: false,
       didInvalidate: false,
-      error: null,
+      error: false,
       coordinates: userLocation,
     });
   });
 
   it(`should handle ${FETCH_LOCATION_FAILURE}`, () => {
     expect(
-      reducer(
+      locationReducer(
         {
-          coordinates: null,
+          coordinates: { lat: 60.1797517, lng: 24.9597715 },
           isLocating: true,
           didInvalidate: false,
-          error: null,
+          error: false,
         },
         {
           type: FETCH_LOCATION_FAILURE,
         }
       )
     ).toEqual({
-      coordinates: null,
+      coordinates: { lat: 60.1797517, lng: 24.9597715 },
       isLocating: false,
       didInvalidate: false,
       error: true,
@@ -118,7 +117,7 @@ describe("locateUser", () => {
 
     const store = mockStore({
       location: {
-        coordinates: null,
+        coordinates: { lat: 60.1797517, lng: 24.9597715 },
         isLocating: false,
         didInvalidate: false,
       },

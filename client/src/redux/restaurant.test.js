@@ -1,7 +1,13 @@
 import axios from "axios";
-import reducer from "./restaurant";
+import { restaurantReducer } from "./restaurant";
 import configureMockStore from "redux-mock-store";
 import thunk from "redux-thunk";
+import {
+  fetchRestaurants,
+  addDistanceToRestaurants,
+  filterRestaurantsByDistance,
+  setRestaurantSuggestions,
+} from "./restaurant";
 import {
   FETCH_RESTAURANTS_REQUEST,
   FETCH_RESTAURANTS_SUCCESS,
@@ -9,11 +15,7 @@ import {
   ADD_DISTANCES,
   INVALIDATE_RESTAURANTS,
   SET_RESTAURANT_SUGGESTIONS,
-  fetchRestaurants,
-  addDistanceToRestaurants,
-  filterRestaurantsByDistance,
-  setRestaurantSuggestions,
-} from "./restaurant";
+} from "./restaurantTypes";
 import {
   userLocation,
   restaurantList,
@@ -30,8 +32,8 @@ jest.mock("axios");
 
 describe("Restaurant reducer", () => {
   it("should return initial state", () => {
-    expect(reducer(undefined, {})).toEqual({
-      allRestaurants: null,
+    expect(restaurantReducer(undefined, {})).toEqual({
+      allRestaurants: [],
       isFetching: false,
       isWithDistance: false,
       didInvalidate: false,
@@ -40,7 +42,7 @@ describe("Restaurant reducer", () => {
 
   it(`should handle ${FETCH_RESTAURANTS_REQUEST}`, () => {
     expect(
-      reducer(
+      restaurantReducer(
         {
           allRestaurants: null,
           isFetching: false,
@@ -61,7 +63,7 @@ describe("Restaurant reducer", () => {
 
   it(`should handle ${FETCH_RESTAURANTS_SUCCESS}`, () => {
     expect(
-      reducer(
+      restaurantReducer(
         {
           allRestaurants: null,
           isFetching: true,
@@ -83,7 +85,7 @@ describe("Restaurant reducer", () => {
 
   it(`should handle ${FETCH_RESTAURANTS_FAILURE}`, () => {
     expect(
-      reducer(
+      restaurantReducer(
         {
           allRestaurants: null,
           isFetching: true,
@@ -104,7 +106,7 @@ describe("Restaurant reducer", () => {
 
   it(`should handle ${ADD_DISTANCES}`, () => {
     expect(
-      reducer(
+      restaurantReducer(
         {
           allRestaurants: restaurantList,
           isFetching: true,
@@ -126,7 +128,7 @@ describe("Restaurant reducer", () => {
 
   it(`should handle ${INVALIDATE_RESTAURANTS}`, () => {
     expect(
-      reducer(
+      restaurantReducer(
         {
           allRestaurants: restaurantListWithDistances,
           isFetching: false,
@@ -147,7 +149,7 @@ describe("Restaurant reducer", () => {
 
   it(`should handle ${SET_RESTAURANT_SUGGESTIONS}`, () => {
     expect(
-      reducer(
+      restaurantReducer(
         {
           allRestaurants: restaurantListWithDistances,
           isFetching: false,
