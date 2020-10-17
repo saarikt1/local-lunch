@@ -23,16 +23,23 @@ import {
   restaurantSuggestionsList,
 } from "../testData";
 import { SHOW_NOTIFICATION } from "./notificationTypes";
+import fetch from "jest-fetch-mock";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 jest.mock("axios");
+const mockedAxios = axios as jest.Mocked<typeof axios>;
 
 // Reducers
 
 describe("Restaurant reducer", () => {
   it("should return initial state", () => {
-    expect(restaurantReducer(undefined, {})).toEqual({
+    expect(
+      restaurantReducer(undefined, {
+        type: FETCH_RESTAURANTS_SUCCESS,
+        payload: [],
+      })
+    ).toEqual({
       allRestaurants: [],
       isFetching: false,
       isWithDistance: false,
@@ -44,7 +51,7 @@ describe("Restaurant reducer", () => {
     expect(
       restaurantReducer(
         {
-          allRestaurants: null,
+          allRestaurants: [],
           isFetching: false,
           isWithDistance: false,
           didInvalidate: false,
@@ -54,7 +61,7 @@ describe("Restaurant reducer", () => {
         }
       )
     ).toEqual({
-      allRestaurants: null,
+      allRestaurants: [],
       isFetching: true,
       isWithDistance: false,
       didInvalidate: false,
@@ -65,7 +72,7 @@ describe("Restaurant reducer", () => {
     expect(
       restaurantReducer(
         {
-          allRestaurants: null,
+          allRestaurants: [],
           isFetching: true,
           isWithDistance: false,
           didInvalidate: false,
@@ -87,17 +94,18 @@ describe("Restaurant reducer", () => {
     expect(
       restaurantReducer(
         {
-          allRestaurants: null,
+          allRestaurants: [],
           isFetching: true,
           isWithDistance: false,
           didInvalidate: false,
         },
         {
           type: FETCH_RESTAURANTS_FAILURE,
+          payload: "Couldn't fetch restaurants",
         }
       )
     ).toEqual({
-      allRestaurants: null,
+      allRestaurants: [],
       isFetching: false,
       isWithDistance: false,
       didInvalidate: false,
@@ -181,7 +189,7 @@ describe("Fetch restaurants", () => {
   it("should call right actions on successful fetch", () => {
     const response = { data: restaurantList };
 
-    axios.get.mockImplementationOnce(() => Promise.resolve(response));
+    mockedAxios.get.mockImplementationOnce(() => Promise.resolve(response));
 
     const expectedActions = [
       {
@@ -194,13 +202,13 @@ describe("Fetch restaurants", () => {
     ];
 
     const store = mockStore({
-      allRestaurants: null,
+      allRestaurants: [],
       isFetching: false,
       isWithDistance: false,
       didInvalidate: false,
     });
 
-    return store.dispatch(fetchRestaurants()).then(() => {
+    return store.dispatch<any>(fetchRestaurants()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -208,7 +216,7 @@ describe("Fetch restaurants", () => {
   it("should give an error on fetch failure", () => {
     const errorMessage = "Network Error";
 
-    axios.get.mockImplementationOnce(() =>
+    mockedAxios.get.mockImplementationOnce(() =>
       Promise.reject(new Error(errorMessage))
     );
 
@@ -223,13 +231,13 @@ describe("Fetch restaurants", () => {
     ];
 
     const store = mockStore({
-      allRestaurants: null,
+      allRestaurants: [],
       isFetching: false,
       isWithDistance: false,
       didInvalidate: false,
     });
 
-    return store.dispatch(fetchRestaurants()).then(() => {
+    return store.dispatch<any>(fetchRestaurants()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });
@@ -258,7 +266,7 @@ describe("addDistanceToRestaurants", () => {
       },
     });
 
-    store.dispatch(addDistanceToRestaurants());
+    store.dispatch<any>(addDistanceToRestaurants());
     expect(store.getActions()).toEqual(expectedActions);
   });
 });
@@ -346,7 +354,7 @@ describe("setRestaurantSuggestions", () => {
       },
     });
 
-    store.dispatch(setRestaurantSuggestions());
+    store.dispatch<any>(setRestaurantSuggestions());
     expect(store.getActions()).toEqual(expectedActions);
   });
 
@@ -375,7 +383,7 @@ describe("setRestaurantSuggestions", () => {
       },
     });
 
-    store.dispatch(setRestaurantSuggestions());
+    store.dispatch<any>(setRestaurantSuggestions());
     expect(store.getActions()).toEqual(expectedActions);
   });
 });

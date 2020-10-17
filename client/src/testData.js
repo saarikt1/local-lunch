@@ -4,7 +4,7 @@ export const userLocation = {
   lng: 24.94801,
 };
 
-export const restaurantList = [
+export const simpleRestaurantList = [
   {
     id: "41",
     name: "Taikakattila",
@@ -14,6 +14,7 @@ export const restaurantList = [
       y: 24.988834,
     },
     subtitle: "",
+    distance: 0,
   },
   {
     id: "37",
@@ -24,6 +25,7 @@ export const restaurantList = [
       y: 24.9460262,
     },
     subtitle: "",
+    distance: 0,
   },
   {
     id: "27",
@@ -34,6 +36,43 @@ export const restaurantList = [
       y: 24.9588485,
     },
     subtitle: "",
+    distance: 0,
+  },
+];
+
+export const restaurantList = [
+  {
+    id: "41",
+    name: "Taikakattila",
+    website: "http://www.taikakattila.fi/",
+    latlon: {
+      x: 60.2923294,
+      y: 24.988834,
+    },
+    subtitle: "",
+    distance: 0,
+  },
+  {
+    id: "37",
+    name: "Paisano",
+    website: "https://www.paisano.fi/",
+    latlon: {
+      x: 60.1665682,
+      y: 24.9460262,
+    },
+    subtitle: "",
+    distance: 0,
+  },
+  {
+    id: "27",
+    name: "Väinö Kallio",
+    website: "https://www.vainokallio.fi/",
+    latlon: {
+      x: 60.1832531,
+      y: 24.9588485,
+    },
+    subtitle: "",
+    distance: 0,
   },
   {
     id: "39",
@@ -56,6 +95,7 @@ export const restaurantList = [
       y: 1.41548,
     },
     subtitle: null,
+    distance: 0,
   },
   {
     id: "9",
@@ -66,6 +106,7 @@ export const restaurantList = [
       y: 16.3704734,
     },
     subtitle: "Am Laurenzerberg",
+    distance: 0,
   },
   {
     id: "40",
@@ -76,6 +117,7 @@ export const restaurantList = [
       y: 24.9453058,
     },
     subtitle: "",
+    distance: 0,
   },
   {
     id: "33",
@@ -86,6 +128,7 @@ export const restaurantList = [
       y: 24.9471702,
     },
     subtitle: "Keskusta",
+    distance: 0,
   },
   {
     id: "22",
@@ -96,6 +139,7 @@ export const restaurantList = [
       y: 24.9498892,
     },
     subtitle: "",
+    distance: 0,
   },
   {
     id: "21",
@@ -106,6 +150,7 @@ export const restaurantList = [
       y: 24.950987,
     },
     subtitle: "",
+    distance: 0,
   },
 ];
 

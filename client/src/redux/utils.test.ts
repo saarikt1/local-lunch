@@ -3,6 +3,7 @@ import {
   shuffleArray,
   calculateBoundingBoxAroundLocation,
 } from "./utils";
+import { simpleRestaurantList } from "../testData";
 
 describe("Util functions", () => {
   it("return correct distance between two points", () => {
@@ -30,41 +31,15 @@ describe("Util functions", () => {
   });
 
   it("return a properly shuffled array", () => {
-    const array = [
-      {
-        id: "41",
-        name: "Taikakattila",
-      },
-      {
-        id: "37",
-        name: "Paisano",
-      },
-      {
-        id: "27",
-        name: "Väinö Kallio",
-      },
-    ];
-
     global.Math.random = () => 0.2;
-    const shuffledArray = shuffleArray(array);
+    const shuffledArray = shuffleArray(simpleRestaurantList);
 
-    expect(shuffledArray).toContainEqual({ id: "41", name: "Taikakattila" });
-    expect(shuffledArray).toContainEqual({ id: "37", name: "Paisano" });
-    expect(shuffledArray).toContainEqual({ id: "27", name: "Väinö Kallio" });
+    expect(shuffledArray).toContainEqual(simpleRestaurantList[0]);
+    expect(shuffledArray).toContainEqual(simpleRestaurantList[1]);
+    expect(shuffledArray).toContainEqual(simpleRestaurantList[2]);
 
-    expect(shuffledArray[0]).not.toMatchObject({
-      id: "41",
-      name: "Taikakattila",
-    });
-
-    expect(shuffledArray[1]).not.toMatchObject({
-      id: "37",
-      name: "Paisano",
-    });
-
-    expect(shuffledArray[2]).not.toMatchObject({
-      id: "27",
-      name: "Väinö Kallio",
-    });
+    expect(shuffledArray[0]).not.toMatchObject(simpleRestaurantList[0]);
+    expect(shuffledArray[1]).not.toMatchObject(simpleRestaurantList[1]);
+    expect(shuffledArray[2]).not.toMatchObject(simpleRestaurantList[2]);
   });
 });

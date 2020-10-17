@@ -40,7 +40,8 @@ export const calculateBoundingBoxAroundLocation = (
 };
 
 export const shuffleArray = (array: Restaurant[]): Restaurant[] => {
-  let currentIndex: number = array.length,
+  let shuffledArray = [...array];
+  let currentIndex: number = shuffledArray.length,
     temporaryValue: Restaurant,
     randomIndex: number;
 
@@ -48,10 +49,10 @@ export const shuffleArray = (array: Restaurant[]): Restaurant[] => {
     randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
 
-    temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+    temporaryValue = shuffledArray[currentIndex];
+    shuffledArray[currentIndex] = shuffledArray[randomIndex];
+    shuffledArray[randomIndex] = temporaryValue;
   }
 
-  return array;
+  return shuffledArray;
 };
