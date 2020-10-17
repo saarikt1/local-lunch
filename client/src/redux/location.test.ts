@@ -13,8 +13,13 @@ const mockStore = configureMockStore(middlewares);
 
 describe("Location reducer", () => {
   it("should return initial state", () => {
-    expect(locationReducer(undefined, {})).toEqual({
-      coordinates: { lat: 60.1797517, lng: 24.9597715 },
+    expect(
+      locationReducer(undefined, {
+        type: FETCH_LOCATION_SUCCESS,
+        coords: userLocation,
+      })
+    ).toEqual({
+      coordinates: userLocation,
       isLocating: false,
       didInvalidate: false,
       error: false,
@@ -25,7 +30,7 @@ describe("Location reducer", () => {
     expect(
       locationReducer(
         {
-          coordinates: { lat: 60.1797517, lng: 24.9597715 },
+          coordinates: userLocation,
           isLocating: false,
           didInvalidate: false,
           error: false,
@@ -35,7 +40,7 @@ describe("Location reducer", () => {
         }
       )
     ).toEqual({
-      coordinates: { lat: 60.1797517, lng: 24.9597715 },
+      coordinates: userLocation,
       isLocating: true,
       didInvalidate: false,
       error: false,
@@ -46,7 +51,7 @@ describe("Location reducer", () => {
     expect(
       locationReducer(
         {
-          coordinates: { lat: 60.1797517, lng: 24.9597715 },
+          coordinates: userLocation,
           isLocating: true,
           didInvalidate: false,
           error: false,
@@ -68,7 +73,7 @@ describe("Location reducer", () => {
     expect(
       locationReducer(
         {
-          coordinates: { lat: 60.1797517, lng: 24.9597715 },
+          coordinates: userLocation,
           isLocating: true,
           didInvalidate: false,
           error: false,
@@ -78,7 +83,7 @@ describe("Location reducer", () => {
         }
       )
     ).toEqual({
-      coordinates: { lat: 60.1797517, lng: 24.9597715 },
+      coordinates: userLocation,
       isLocating: false,
       didInvalidate: false,
       error: true,
@@ -100,7 +105,9 @@ describe("locateUser", () => {
         )
       ),
     };
-    global.navigator.geolocation = mockGeolocation;
+    Object.defineProperty(global.navigator, "geolocation", {
+      value: mockGeolocation,
+    });
 
     const expectedActions = [
       {
@@ -117,13 +124,13 @@ describe("locateUser", () => {
 
     const store = mockStore({
       location: {
-        coordinates: { lat: 60.1797517, lng: 24.9597715 },
+        coordinates: userLocation,
         isLocating: false,
         didInvalidate: false,
       },
     });
 
-    return store.dispatch(locateUser()).then(() => {
+    return store.dispatch<any>(locateUser()).then(() => {
       expect(store.getActions()).toEqual(expectedActions);
     });
   });

@@ -12,7 +12,7 @@ import {
 } from "./locationTypes";
 
 const initialState: LocationState = {
-  coordinates: { lat: 60.1797517, lng: 24.9597715 },
+  coordinates: { lat: 60.16592, lng: 24.94801 },
   isLocating: false,
   didInvalidate: false,
   error: false,
