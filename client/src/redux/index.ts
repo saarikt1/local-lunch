@@ -1,11 +1,19 @@
 import { locateUser } from "./location";
+import { ThunkAction } from "redux-thunk";
+import { RootState } from "./store";
+import { Action } from "redux";
 import {
   fetchRestaurants,
   setRestaurantSuggestions,
   addDistanceToRestaurants,
 } from "./restaurant";
 
-export const initData = () => {
+export const initData = (): ThunkAction<
+  void,
+  RootState,
+  unknown,
+  Action<string>
+> => {
   return async (dispatch) => {
     try {
       await Promise.all([dispatch(locateUser()), dispatch(fetchRestaurants())]);
