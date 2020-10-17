@@ -22,7 +22,7 @@ import {
   restaurantListWithDistances,
   restaurantSuggestionsList,
 } from "../testData";
-import { SHOW_NOTIFICATION } from "./notification";
+import { SHOW_NOTIFICATION } from "./notificationTypes";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);

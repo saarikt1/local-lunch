@@ -1,13 +1,22 @@
-export const SHOW_NOTIFICATION = "[notification] showNotification";
-const HIDE_NOTIFICATION = "[notification] hideNotification";
+import {
+  SHOW_NOTIFICATION,
+  HIDE_NOTIFICATION,
+  ShowNotificationAction,
+  HideNotificationAction,
+  NotificationActionTypes,
+  NotificationState,
+} from "./notificationTypes";
 
-const initialState = {
+const initialState: NotificationState = {
   msg: "",
   notificationType: "success",
   open: false,
 };
 
-const reducer = (state = initialState, action) => {
+export const notificationReducer = (
+  state = initialState,
+  action: NotificationActionTypes
+): NotificationState => {
   switch (action.type) {
     case SHOW_NOTIFICATION:
       return {
@@ -26,7 +35,10 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const showNotification = (msg, notificationType) => {
+export const showNotification = (
+  msg: string,
+  notificationType: string
+): ShowNotificationAction => {
   return {
     type: SHOW_NOTIFICATION,
     data: {
@@ -37,7 +49,7 @@ export const showNotification = (msg, notificationType) => {
   };
 };
 
-export const hideNotification = () => {
+export const hideNotification = (): HideNotificationAction => {
   return {
     type: HIDE_NOTIFICATION,
     data: {
@@ -45,5 +57,3 @@ export const hideNotification = () => {
     },
   };
 };
-
-export default reducer;

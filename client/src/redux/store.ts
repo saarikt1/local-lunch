@@ -1,6 +1,6 @@
 import { combineReducers, createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
-import notificationReducer from "./notification";
+import { notificationReducer } from "./notification";
 import { restaurantReducer } from "./restaurant";
 import { locationReducer } from "./location";
 import thunk from "redux-thunk";
