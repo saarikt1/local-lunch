@@ -9,6 +9,7 @@ import {
   Button,
 } from "@material-ui/core";
 import Skeleton from "@material-ui/lab/Skeleton";
+import { Restaurant } from "../../../redux/restaurantTypes";
 
 const useStyles = makeStyles({
   root: {
@@ -26,21 +27,11 @@ const useStyles = makeStyles({
   },
 });
 
-interface Restaurant {
-  restaurant: {
-    id: number;
-    name: string;
-    website: string;
-    latlon: {
-      x: number;
-      y: number;
-    };
-    subtitle?: string;
-    distance: number;
-  };
-}
+type RestaurantDetailsProps = {
+  restaurant: Restaurant;
+};
 
-const RestaurantDetails = ({ restaurant }: Restaurant) => {
+const RestaurantDetails = ({ restaurant }: RestaurantDetailsProps) => {
   const classes = useStyles();
 
   return (

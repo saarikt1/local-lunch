@@ -5,6 +5,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import * as L from "leaflet";
 import { RootState } from "../../../redux/store";
+import { Restaurant } from "../../../redux/restaurantTypes";
 
 const useStyles = makeStyles({
   map: {
@@ -14,23 +15,11 @@ const useStyles = makeStyles({
   },
 });
 
-interface Restaurant {
-  id: number;
-  name: string;
-  website: string;
-  latlon: {
-    x: number;
-    y: number;
-  };
-  subtitle?: string;
-  distance: number;
-}
-
-interface RestaurantSuggestions {
+type RestaurantMapProps = {
   restaurantSuggestions: Restaurant[];
-}
+};
 
-const RestaurantMap = ({ restaurantSuggestions }: RestaurantSuggestions) => {
+const RestaurantMap = ({ restaurantSuggestions }: RestaurantMapProps) => {
   const initialMapView = L.latLngBounds(
     L.latLng(62.9894714, 34.558059),
     L.latLng(38.1706012, -3.976497)
@@ -119,7 +108,7 @@ const RestaurantMap = ({ restaurantSuggestions }: RestaurantSuggestions) => {
                 <Tooltip permanent>{r.name}</Tooltip>
                 <Popup>
                   <Typography variant="h6">{r.name}</Typography>
-                  <Link href={r.website}>{r.website}</Link>
+                  {r.website && <Link href={r.website}>{r.website}</Link>}
                 </Popup>
               </Marker>
             ))}

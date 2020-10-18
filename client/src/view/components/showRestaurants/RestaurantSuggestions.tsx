@@ -3,12 +3,13 @@ import { Box } from "@material-ui/core";
 import RestaurantList from "./RestaurantList";
 import RestaurantMap from "./RestaurantMap";
 import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const RestaurantSuggestions = () => {
   const restaurantSuggestions = useSelector(
-    (state) => state.restaurants.restaurantSuggestions
+    (state: RootState) => state.restaurants.restaurantSuggestions
   );
-  const locationState = useSelector((state) => state.location);
+  const locationState = useSelector((state: RootState) => state.location);
 
   return (
     <>

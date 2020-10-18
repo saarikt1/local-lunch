@@ -21,6 +21,7 @@ const initialState: RestaurantState = {
   isFetching: false,
   isWithDistance: false,
   didInvalidate: false,
+  restaurantSuggestions: [],
 };
 
 export const restaurantReducer = (

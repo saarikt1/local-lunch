@@ -22,7 +22,7 @@ export interface RestaurantState {
   isFetching: boolean;
   isWithDistance: boolean;
   didInvalidate: boolean;
-  restaurantSuggestions?: Restaurant[];
+  restaurantSuggestions: Restaurant[];
 }
 
 interface FetchRestaurantsRequestAction {

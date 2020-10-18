@@ -44,6 +44,7 @@ describe("Restaurant reducer", () => {
       isFetching: false,
       isWithDistance: false,
       didInvalidate: false,
+      restaurantSuggestions: [],
     });
   });
 
@@ -55,6 +56,7 @@ describe("Restaurant reducer", () => {
           isFetching: false,
           isWithDistance: false,
           didInvalidate: false,
+          restaurantSuggestions: [],
         },
         {
           type: FETCH_RESTAURANTS_REQUEST,
@@ -65,6 +67,7 @@ describe("Restaurant reducer", () => {
       isFetching: true,
       isWithDistance: false,
       didInvalidate: false,
+      restaurantSuggestions: [],
     });
   });
 
@@ -76,6 +79,7 @@ describe("Restaurant reducer", () => {
           isFetching: true,
           isWithDistance: false,
           didInvalidate: false,
+          restaurantSuggestions: [],
         },
         {
           type: FETCH_RESTAURANTS_SUCCESS,
@@ -87,6 +91,7 @@ describe("Restaurant reducer", () => {
       isFetching: false,
       isWithDistance: false,
       didInvalidate: false,
+      restaurantSuggestions: [],
     });
   });
 
@@ -98,6 +103,7 @@ describe("Restaurant reducer", () => {
           isFetching: true,
           isWithDistance: false,
           didInvalidate: false,
+          restaurantSuggestions: [],
         },
         {
           type: FETCH_RESTAURANTS_FAILURE,
@@ -109,6 +115,7 @@ describe("Restaurant reducer", () => {
       isFetching: false,
       isWithDistance: false,
       didInvalidate: false,
+      restaurantSuggestions: [],
     });
   });
 
@@ -120,6 +127,7 @@ describe("Restaurant reducer", () => {
           isFetching: true,
           isWithDistance: false,
           didInvalidate: false,
+          restaurantSuggestions: [],
         },
         {
           type: ADD_DISTANCES,
@@ -131,6 +139,7 @@ describe("Restaurant reducer", () => {
       isFetching: false,
       isWithDistance: true,
       didInvalidate: false,
+      restaurantSuggestions: [],
     });
   });
 
@@ -142,6 +151,7 @@ describe("Restaurant reducer", () => {
           isFetching: false,
           isWithDistance: true,
           didInvalidate: false,
+          restaurantSuggestions: [],
         },
         {
           type: INVALIDATE_RESTAURANTS,
@@ -152,6 +162,7 @@ describe("Restaurant reducer", () => {
       isFetching: false,
       isWithDistance: true,
       didInvalidate: true,
+      restaurantSuggestions: [],
     });
   });
 
@@ -163,6 +174,7 @@ describe("Restaurant reducer", () => {
           isFetching: false,
           isWithDistance: true,
           didInvalidate: false,
+          restaurantSuggestions: [],
         },
         {
           type: SET_RESTAURANT_SUGGESTIONS,

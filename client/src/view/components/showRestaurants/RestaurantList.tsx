@@ -1,8 +1,18 @@
 import React from "react";
 import RestaurantDetails from "./RestaurantDetails";
 import { Box } from "@material-ui/core";
+import { Restaurant } from "../../../redux/restaurantTypes";
+import { LocationState } from "../../../redux/locationTypes";
 
-const RestaurantList = ({ restaurantSuggestions, locationState }) => {
+type RestaurantListProps = {
+  restaurantSuggestions: Restaurant[];
+  locationState: LocationState;
+};
+
+const RestaurantList = ({
+  restaurantSuggestions,
+  locationState,
+}: RestaurantListProps) => {
   const emptyArray = Array.from(new Array(3));
 
   return (
