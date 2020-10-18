@@ -19,9 +19,11 @@ describe("<RestaurantDetails />", () => {
 
     const { getByText } = render(<RestaurantDetails restaurant={restaurant} />);
 
+    const linkElement = getByText(/website/i) as HTMLAnchorElement;
+
     expect(getByText(/Taikakattila/)).toBeInTheDocument();
-    expect(getByText(/website/i)).toBeInTheDocument();
-    expect(getByText(/website/i).href).toBe("http://www.taikakattila.fi/");
+    expect(linkElement).toBeInTheDocument();
+    expect(linkElement.href).toBe("http://www.taikakattila.fi/");
   });
 
   test("doesn't render website link if no website", () => {

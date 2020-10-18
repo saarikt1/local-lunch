@@ -2,14 +2,15 @@ import React from "react";
 import "@testing-library/jest-dom/extend-expect";
 import { render, screen } from "@testing-library/react";
 import RestaurantList from "./RestaurantList";
+import { userLocation } from "../../../testData";
 
 describe("<RestaurantList />", () => {
   it("renders all children", () => {
     const locationState = {
-      coordinates: null,
+      coordinates: userLocation,
       isLocating: false,
       didInvalidate: false,
-      error: null,
+      error: false,
     };
 
     const restaurantSuggestions = [
