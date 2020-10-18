@@ -3,7 +3,7 @@ export const HIDE_NOTIFICATION = "[notification] hideNotification";
 
 export interface NotificationState {
   msg: string;
-  notificationType: string;
+  notificationType: "success" | "info" | "warning" | "error" | undefined;
   open: boolean;
 }
 

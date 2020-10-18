@@ -37,7 +37,7 @@ export const notificationReducer = (
 
 export const showNotification = (
   msg: string,
-  notificationType: string
+  notificationType: "success" | "info" | "warning" | "error" | undefined
 ): ShowNotificationAction => {
   return {
     type: SHOW_NOTIFICATION,

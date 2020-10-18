@@ -5,8 +5,15 @@ import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import { hideNotification } from "../../redux/notification";
 import { useDispatch } from "react-redux";
+import { RootState } from "../../redux/store";
 
-function Alert(props) {
+type AlertProps = {
+  onClose: (event: React.SyntheticEvent<Element, Event>) => void;
+  severity: "success" | "info" | "warning" | "error" | undefined;
+  children: string;
+};
+
+function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 }
 
@@ -20,15 +27,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Notification = () => {
-  const notification = useSelector((state) => state.notification);
+  const notification = useSelector((state: RootState) => state.notification);
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const handleClose = (_event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
+  const handleClose = (_event: React.SyntheticEvent<Element, Event>) => {
     dispatch(hideNotification());
   };
 
