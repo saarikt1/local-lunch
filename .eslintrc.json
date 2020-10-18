@@ -19,5 +19,15 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "no-use-before-define": "off",
     "@typescript-eslint/no-use-before-define": ["error"]
+  },
+  "module.exports": {
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+      "ecmaVersion": 2020,
+      "sourceType": "module",
+      "ecmaFeatures": {
+        "jsx": true
+      }
+    }
   }
 }

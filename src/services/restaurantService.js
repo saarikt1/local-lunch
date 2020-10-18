@@ -1,4 +1,4 @@
-import db from "../db/index.js";
+import db from "../db/index.ts";
 import asyncHandler from "express-async-handler";
 import createError from "http-errors";
 

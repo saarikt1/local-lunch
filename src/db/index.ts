@@ -6,7 +6,7 @@ dotenv.config();
 const { DB_USER, DB_HOST, DB_DATABASE, DB_PASSWORD, DB_PORT } = process.env;
 
 const { Pool } = pg;
-let pool;
+let pool: pg.Pool;
 
 if (process.env.NODE_ENV === "development") {
   pool = new Pool({
@@ -26,5 +26,5 @@ if (process.env.NODE_ENV === "development") {
 }
 
 export default {
-  query: (text, params) => pool.query(text, params),
+  query: (text: string, params: string[]) => pool.query(text, params),
 };

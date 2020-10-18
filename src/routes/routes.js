@@ -5,7 +5,7 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const router = new Router();
+const router = Router();
 
 router.get("/restaurants", restaurantService.getRestaurants);
 router.get("/restaurants/:id", restaurantService.findRestaurantById);
