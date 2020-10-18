@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { Formik, Field, Form } from "formik";
 import { Box, Typography, Button } from "@material-ui/core";
 import SearchResults from "./SearchResults";
-import { calculateBoundingBoxAroundLocation } from "../../..//redux/utils";
+import { calculateBoundingBoxAroundLocation } from "../../../redux/utils";
 import { TextField } from "formik-material-ui";
 import axios from "axios";
 import * as Yup from "yup";
 import { makeStyles } from "@material-ui/core/styles";
 import { showNotification } from "../../../redux/notification";
 import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../../redux/store";
 
 const useStyles = makeStyles({
   textField: {
@@ -17,7 +18,9 @@ const useStyles = makeStyles({
 });
 
 const RestaurantForm = () => {
-  const userLocation = useSelector((state) => state.location.coordinates);
+  const userLocation = useSelector(
+    (state: RootState) => state.location.coordinates
+  );
   const [searchResults, setSearchResults] = useState([]);
   const [initialFormValues, setInitialFormValues] = useState({
     name: "",
@@ -28,7 +31,7 @@ const RestaurantForm = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const fetchSearchResults = async (searchQuery) => {
+  const fetchSearchResults = async (searchQuery: string) => {
     const { x1, y1, x2, y2 } = calculateBoundingBoxAroundLocation(userLocation);
 
     const response = await fetch(
@@ -43,7 +46,12 @@ const RestaurantForm = () => {
     }
   };
 
-  const fillFormWithData = (name, subtitle, website, latlon) => {
+  const fillFormWithData = (
+    name: string,
+    subtitle: string,
+    website: string,
+    latlon: string
+  ): void => {
     setInitialFormValues({
       name: name,
       subtitle: subtitle,
@@ -61,7 +69,7 @@ const RestaurantForm = () => {
         }}
         onSubmit={(values, { resetForm }) => {
           fetchSearchResults(JSON.stringify(values.search));
-          resetForm({ values: "" });
+          resetForm();
           dispatch(showNotification("Search done!", "success"));
         }}
       >

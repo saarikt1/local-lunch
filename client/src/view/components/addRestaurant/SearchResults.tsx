@@ -1,8 +1,17 @@
 import React from "react";
 import { Box } from "@material-ui/core";
 import SearchResultDetails from "./SearchResultDetails";
+import { SearchResult, FormData } from "./RestaurantFormTypes";
 
-const SearchResults = ({ searchResults, fillFormWithData }) => {
+type SearchResultProps = {
+  searchResults: SearchResult[];
+  fillFormWithData: FormData;
+};
+
+const SearchResults = ({
+  searchResults,
+  fillFormWithData,
+}: SearchResultProps) => {
   return (
     <Box
       id="search-results"

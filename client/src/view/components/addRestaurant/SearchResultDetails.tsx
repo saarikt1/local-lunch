@@ -1,6 +1,7 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Link, Card, CardContent, Typography, Button } from "@material-ui/core";
+import { SearchResult, FormData } from "./RestaurantFormTypes";
 
 const useStyles = makeStyles({
   root: {
@@ -8,7 +9,15 @@ const useStyles = makeStyles({
   },
 });
 
-const SearchResultDetails = ({ searchResult, fillFormWithData }) => {
+type SearchResultDetailsProps = {
+  searchResult: SearchResult;
+  fillFormWithData: FormData;
+};
+
+const SearchResultDetails = ({
+  searchResult,
+  fillFormWithData,
+}: SearchResultDetailsProps) => {
   const classes = useStyles();
 
   const name = searchResult.address.amenity;
