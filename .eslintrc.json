@@ -4,13 +4,20 @@
     "es2020": true,
     "node": true
   },
-  "extends": ["airbnb-base", "plugin:prettier/recommended"],
+  "extends": [
+    "airbnb-base",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
   "parserOptions": {
     "ecmaVersion": 11,
     "sourceType": "module"
   },
   "rules": {
     "no-console": "off",
-    "import/extensions": "ignorePackages"
+    "import/extensions": "ignorePackages",
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "no-use-before-define": "off",
+    "@typescript-eslint/no-use-before-define": ["error"]
   }
 }

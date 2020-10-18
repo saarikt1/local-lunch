@@ -14,7 +14,7 @@ if (process.env.NODE_ENV === "development") {
     host: DB_HOST,
     database: DB_DATABASE,
     password: DB_PASSWORD,
-    port: DB_PORT,
+    port: Number(DB_PORT),
   });
 } else {
   pool = new Pool({
