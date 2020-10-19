@@ -12,17 +12,17 @@ describe("Front page", () => {
 
   it('should have a header "Lunch Near Me"', async () => {
     const header = await page.$eval("#page-header", (e) => e.innerHTML);
-    await expect(header).toBe("Lunch Near Me");
+    expect(header).toBe("Lunch Near Me");
   });
 
   it("should show a map", async () => {
     const map = await page.$("#map");
-    await expect(map).toBeTruthy;
+    expect(map).toBeTruthy;
   });
 
   it("should show restaurant suggestions section", async () => {
     const restaurantSuggestions = await page.$("#restaurant-suggestions");
-    await expect(restaurantSuggestions).toBeTruthy;
+    expect(restaurantSuggestions).toBeTruthy;
   });
 });
 
@@ -40,9 +40,7 @@ describe("Notification", () => {
       (e) => e.innerHTML
     );
 
-    await expect(notificationText).toBe(
-      "No restaurants found near your location."
-    );
+    expect(notificationText).toBe("No restaurants found near your location.");
   });
 
   it("should be shown if location is inaccurate", async () => {
@@ -59,7 +57,7 @@ describe("Notification", () => {
       (e) => e.innerHTML
     );
 
-    await expect(notificationText).toBe(
+    expect(notificationText).toBe(
       "Couldn't get an accurate location. Maybe try with a different browser."
     );
   });
