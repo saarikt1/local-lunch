@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-import express from "express";
+import express, { ErrorRequestHandler } from "express";
 import cors from "cors";
 import router from "./routes/routes.js";
 import path from "path";
@@ -34,7 +34,7 @@ server.use((_req, _res, next) => {
   next(createError(404));
 });
 
-server.use((error, _req, res, _next) => {
+const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
   console.log("Error status: ", error.status);
   console.log("Message: ", error.message);
 
@@ -45,7 +45,9 @@ server.use((error, _req, res, _next) => {
     message: error.message,
     stack: error.stack,
   });
-});
+};
+
+server.use(errorHandler);
 
 server.listen(PORT, () => {
   console.log(

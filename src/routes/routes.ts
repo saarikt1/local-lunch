@@ -13,7 +13,7 @@ router.post("/restaurants", restaurantService.createRestaurant);
 
 if (process.env.NODE_ENV === "production") {
   // Fixes issues with express routing clashing with React routing in production.
-  router.get("/*", (req, res) => {
+  router.get("/*", (_req, res) => {
     res.sendFile(path.join(__dirname, "../../build", "index.html"));
   });
 }
