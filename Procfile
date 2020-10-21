@@ -1,1 +1,1 @@
-web: NODE_ENV=production node --experimental-modules --es-module-specifier-resolution=node --loader ts-node/esm src/server.ts
+web: NODE_ENV=production node src/server.js
