@@ -49,8 +49,6 @@ const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
 
 server.use(errorHandler);
 
-server.listen(PORT, () => {
-  console.log(
-    `Listening on port ${PORT} in ${process.env.NODE_ENV} environment`
-  );
+server.listen(4000, () => {
+  console.log(`Listening on port 4000 in ${process.env.NODE_ENV} environment`);
 });
