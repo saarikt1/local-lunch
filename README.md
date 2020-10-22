@@ -42,11 +42,11 @@ Clone the repo
 
     $ git clone https://github.com/saarikt1/local-lunch.git
 
-Install dependencies and run the server locally in development mode
+Install dependencies and run the server locally
 
     $ cd local-lunch
     $ npm install
-    $ npm run dev
+    $ npm start
 
 Run the client locally on localhost:3000
 
