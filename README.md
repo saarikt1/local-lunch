@@ -38,6 +38,24 @@ The technologies are chosen based on their popularity and on my interest in lear
 
 ## Build and run
 
+Clone the repo
+
+    $ git clone https://github.com/saarikt1/local-lunch.git
+
+Install dependencies and run the server locally in development mode
+
+    $ cd local-lunch
+    $ npm install
+    $ npm run dev
+
+Run the client locally on localhost:3000
+
+    $ cd client
+    $ npm install
+    $ npm start
+
+To get the map tiles to work, you need an [access token to Mapbox](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). The access token is used in the API call in the component RestaurantMap.
+
 ## Full Stack -web development project at the University of Helsinki
 
 This project is done for a course at the [University of Helsinki](https://www.helsinki.fi/en) as an individual web development exercise. The course gives a lot of freedom to implement a web application using a React & NodeJS stack taught in [Full Stack Open MOOC](https://fullstackopen.com/en/). The amount of course credits depends on the hours used for the project. In my case I've fulfilled the 175+ hours needed for the maximum of 10 ECTS credits.
