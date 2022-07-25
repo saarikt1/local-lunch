@@ -55,9 +55,3 @@ Run the client locally on localhost:3000
     $ npm start
 
 To get the map tiles to work, you need an [access token to Mapbox](https://docs.mapbox.com/help/how-mapbox-works/access-tokens/). The access token is used in the API call in the component RestaurantMap.
-
-## Full Stack -web development project at the University of Helsinki
-
-This project is done for a course at the [University of Helsinki](https://www.helsinki.fi/en) as an individual web development exercise. The course gives a lot of freedom to implement a web application using a React & NodeJS stack taught in [Full Stack Open MOOC](https://fullstackopen.com/en/). The amount of course credits depends on the hours used for the project. In my case I've fulfilled the 175+ hours needed for the maximum of 10 ECTS credits.
-
-My timekeeping: [download pdf](https://docs.google.com/spreadsheets/d/e/2PACX-1vRb-PwVgv3Fks8DDKxFA7A6wksru8mZOmHYCb9VlgfmoGrDDn-Iu6czRuVpahWLuzhMdG076ZUxYSUD/pub?gid=0&single=true&output=pdf)
