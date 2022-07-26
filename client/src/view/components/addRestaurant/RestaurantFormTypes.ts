@@ -1,21 +1,21 @@
 export interface SearchResult {
-  place_id: number;
+  place_id: number
   address: {
-    amenity: string;
-    road: string;
-    house_number: string;
-    postcode: number;
-    city: string;
-    town: string;
-    country: string;
-  };
-  lat: string;
-  lng: string;
+    amenity: string
+    road: string
+    house_number: string
+    postcode: number
+    city: string
+    town: string
+    country: string
+  }
+  lat: string
+  lng: string
   extratags: {
-    website: string;
-  };
+    website: string
+  }
 }
 
 export interface FormData {
-  (name: string, subtitle: string, website: string, latlon: string): void;
+  (name: string, subtitle: string, website: string, latlon: string): void
 }
