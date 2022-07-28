@@ -5,3 +5,4 @@
 backup*
 *.code-workspace
 tags
+/build
