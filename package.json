@@ -17,7 +17,8 @@
     "deploy": "git push heroku master",
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail",
-    "build": "tsc"
+    "build": "tsc",
+    "migrate": "./node_modules/.bin/node-pg-migrate --envPath=./.env"
   },
   "author": "Tommi Saarikangas",
   "license": "ISC",
@@ -29,6 +30,7 @@
     "express-promise-router": "^4.1.1",
     "http-errors": "^2.0.0",
     "morgan": "^1.10.0",
+    "node-pg-migrate": "^6.2.2",
     "pg": "^8.7.3"
   },
   "devDependencies": {
