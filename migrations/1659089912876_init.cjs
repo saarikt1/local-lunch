@@ -5,7 +5,6 @@ exports.up = (pgm) => {
     CREATE TABLE IF NOT EXISTS restaurants (
       id SERIAL PRIMARY KEY,
       name text NOT NULL, 
-      subtitle text,
       website text,
       latlon point
     );

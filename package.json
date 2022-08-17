@@ -18,7 +18,7 @@
     "deploy:full": "npm run build:ui && git add . && git commit -m uibuild && git push && npm run deploy",
     "logs:prod": "heroku logs --tail",
     "build": "tsc",
-    "migrate": "./node_modules/.bin/node-pg-migrate --envPath=./.env"
+    "migrate:up": "./node_modules/.bin/node-pg-migrate up --envPath=./.env"
   },
   "author": "Tommi Saarikangas",
   "license": "ISC",
