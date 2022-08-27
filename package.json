@@ -1,0 +1,21 @@
+{
+  "name": "lunch-near-me",
+  "version": "1.0.0",
+  "description": "Monorepo for Lunch Near Me",
+  "private": "true",
+  "license": "ISC",
+  "author": {
+    "name": "Tommi Saarikangas"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/saarikt1/local-lunch.git"
+  },
+  "bugs": {
+    "url": "https://github.com/saarikt1/local-lunch/issues"
+  },
+  "homepage": "https://github.com/saarikt1/local-lunch#readme",
+  "workspaces": [
+    "apps/*"
+  ]
+}
