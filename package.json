@@ -17,5 +17,12 @@
   "homepage": "https://github.com/saarikt1/local-lunch#readme",
   "workspaces": [
     "apps/*"
-  ]
+  ],
+  "scripts": {
+    "prettier": "prettier --check '**/*.{ts, tsx, md}'",
+    "prettier:format": "prettier --write '**/*.{ts, tsx, md}'"
+  },
+  "devDependencies": {
+    "prettier": "2.7.1"
+  }
 }
