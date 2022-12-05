@@ -1,7 +1,17 @@
-/node_modules
-/dist
-.DS_Store
-.env
-backup*
-*.code-workspace
-tags
+# NextJS
+.NextJS
+
+# Node.js
+node_modules
+
+# Build output
+dist
+
+# Turborepo
+.Turborepo
+
+# Typescript
+*.tsbuildinfo
+
+# Log files
+*.log
